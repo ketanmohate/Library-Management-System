@@ -12,44 +12,15 @@ body {
   color: #333;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  padding: 15px 30px;
-  color: white;
-}
-
-.navbar .logo {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.navbar ul {
-  display: flex;
-  list-style: none;
-}
-
-.navbar ul li {
-  margin-left: 20px;
-}
-
-.navbar ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
 /* Hero Section */
 .hero {
   text-align: center;
   padding: 60px 20px;
   background-color: #e0e0e0;
-  /* background-image: url("/images/L4.jpg"); */
-    background-size: 100% 100%;
-  background-repeat: no-repeat;
+  /* background-image: url("/images/L4.jpg");   */
+  background-size: 100% 100%;
+  background-repeat: no-repeat; 
+  color: #0B1D51;
 }
 
 .hero h1 {
