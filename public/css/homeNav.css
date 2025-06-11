@@ -27,6 +27,11 @@ body {
   font-weight: bold;
 }
 
+.navbar .logo a{
+  text-decoration: none;
+  color: white;
+}
+
 .navbar ul {
   display: flex;
   list-style: none;
