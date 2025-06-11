@@ -1,3 +1,10 @@
-console.log("hello");
+let express = require("express");
 
-console.log("Ketan");
+let app = express();
+
+app.use(express.static('public'));
+// app.use("/", routes);
+
+app.set('view engine', 'ejs');
+
+module.exports = app;
