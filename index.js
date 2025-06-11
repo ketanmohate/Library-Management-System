@@ -1,6 +1,7 @@
-let app=require("./src/app");
+let app = require("./src/app");
 
-let PORT=4000;
+let PORT = 4000;
+
 app.listen(PORT,()=>{
-    console.log("server Started");
+    console.log("Server Started On:- " + PORT);
 })
