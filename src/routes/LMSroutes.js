@@ -6,6 +6,7 @@ let router = routers.Router();
 router.get('/',homectrl.home);
 
 router.get("/logins",homectrl.login);
+router.get("/about",homectrl.about);
 
 router.get("/dashbord",homectrl.dashbord);
 module.exports = router;
