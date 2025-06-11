@@ -3,21 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Library Management System</title>
+    <title>Home</title>
     <link rel="stylesheet" href="css/home.css" />
   </head>
   <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-      <div class="logo">📚 The Knowledge Hub </div>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">View Books</a></li>
-        <li><a href="#">Login</a></li>
-      </ul>
-    </nav>
 
+    <%- include ('homeNav.ejs')%>
     <!-- Hero Section -->
     <section class="hero">
       <h1>Welcome to The Knowledge Hub</h1>
@@ -26,7 +17,7 @@
         Whether you're diving into history, exploring new technologies, 
         or getting lost in a novel, the library fuels curiosity and growth.
       </p>
-      <a href="#">Explore Now</a>
+      <a href="/logins">Explore Now</a>
     </section>
 
     <!-- Features Section -->
