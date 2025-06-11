@@ -1,4 +1,9 @@
-console.log("hello");
-console.log("Good");
+let express = require("express");
+let bodyparser = require("body-parser");
+let session = require("express-session");
 
-console.log("Abhi");
+let app = express();
+
+app.set('view engin','ejs');
+
+module.exports=app;
