@@ -5,3 +5,6 @@ exports.home = ((req, res)=>{
 exports.login = ((req, res)=>{
     res.render("Login.ejs");
 })
+exports.dashbord=((req, res)=>{
+    res.render("dashbord.ejs");
+})

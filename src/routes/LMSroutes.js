@@ -7,4 +7,5 @@ router.get('/',homectrl.home);
 
 router.get("/logins",homectrl.login);
 
+router.get("/dashbord",homectrl.dashbord);
 module.exports = router;
