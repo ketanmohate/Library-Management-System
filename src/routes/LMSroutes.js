@@ -5,4 +5,6 @@ let router = routers.Router();
 
 router.get('/',homectrl.home);
 
+router.get("/logins",homectrl.login);
+
 module.exports = router;

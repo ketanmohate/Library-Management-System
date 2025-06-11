@@ -26,6 +26,8 @@ app.use(express.static('public'));
 
 app.use("/", routers);
 
+
+
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());
