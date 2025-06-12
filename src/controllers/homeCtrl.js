@@ -17,7 +17,7 @@ exports.viewAllBooks = async (req, res) => {
     try {
         const books = await LMSmodels.getAllBooks();
         console.log(books);
-        res.render("viewBooks.ejs", { books });  // Passing books to EJS view
+        res.render("viewBooks.ejs", { books });  
     } catch (err) {
         console.error("Error fetching profile data:", err);
         res.render("error");

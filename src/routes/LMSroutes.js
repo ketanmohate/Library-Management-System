@@ -11,8 +11,6 @@ router.post("/userLogin",homectrl.userLogin);
 
 router.get("/viewAllBooks",homectrl.viewAllBooks);
 
-
-
 router.get("/books", async (req, res) => {
   const search = req.query.search || "";
   const books = await LMSmodels.getFilteredBooks(search);
