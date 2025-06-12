@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/viewBooks.css" />
+</head>
+
+<body>
+  <%- include('homeNav') %>
+
+  <h1>📚 Welcome to The Knowledge Hub</h1>
+
+  <!-- Books -->
+  <div id="bookContainer" class="book-container">
+    <% books.forEach((book) => { %>
+      <div class="book-card book-item">
+        <img src="/images/L3.jpg" alt="Book Image" />
+
+        <div class="book-details">
+          <div class="book-title"><%= book.title %></div>
+          <div class="book-description">
+            <strong>Author:</strong> <%= book.author %><br />
+            <strong>Publisher:</strong> <%= book.publisher %><br />
+            <strong>Category:</strong> <%= book.category %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button id="prevBtn" disabled>Previous</button>
+    <button id="nextBtn">Next</button>
+  </div>
+
+  <script src="/js/viewBooks.js"></script>
+</body>
+
+</html>
