@@ -17,6 +17,10 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
+// const adminRoutes = require("./routes/adminRoutes");
+// app.use("/", adminRoutes);
+
+
 app.use(session({
     secret : "abc123",
     resave : false,
