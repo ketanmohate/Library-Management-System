@@ -5,9 +5,13 @@ let cookieParser = require("cookie-parser");
 
 let routers = require("./routes/LMSroutes");
 
-// let conn = require("./config/db.js");
+let conn = require("./config/db.js");
 
 let app = express();
+
+
+app.use("/", routers);
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -23,8 +27,6 @@ app.use(session({
     saveUninitialized : false
 }))
 
-
-app.use("/", routers);
 
 
 

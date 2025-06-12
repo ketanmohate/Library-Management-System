@@ -15,8 +15,39 @@ exports.getAllBooks = () => {
             }
         );
     });
-};
+}
  
+exports.viewAllstudents = ()=>{
+  return new Promise((res,rej)=>{
+
+    conn.query("select name ,email, password, role ,created_at from users ",(err,result)=>{
+      if(err){
+        rej(err);
+      }
+      else{
+        res(result);
+      }
+    });
+  });
+}
+
+exports.searchAllStudent = (searchValue) => {
+    return new Promise((res, rej) => {
+        let value = '%' + searchValue + '%';
+        conn.query(
+            `SELECT * FROM users WHERE name LIKE ? OR email LIKE ?`,
+            [value, value],
+            (err, result) => {
+                if (err) {
+                    rej(err);
+                } else {
+                    res(result);
+                }
+            }
+        );
+    });
+};
+
 
 exports.getFilteredBooks = (search = "") => {
   return new Promise((res, rej) => {

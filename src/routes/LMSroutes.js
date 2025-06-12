@@ -17,6 +17,10 @@ router.get("/books", async (req, res) => {
   res.render("about.ejs", { books });
 });
 
-
 router.get("/dashbord",homectrl.dashbord);
+
+router.get("/viewstud",homectrl.Viewstudent);
+
+router.get("/searchStudent",homectrl.searchStud);
+
 module.exports = router;

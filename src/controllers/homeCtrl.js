@@ -12,10 +12,38 @@ exports.about = ((req, res) => {
     res.render("about.ejs");
 })
 
-<<<<<<< HEAD
-exports.dashbord = ((req, res)=>{
+exports.dashbord=((req, res) =>{
     res.render("adminDashboard.ejs");
-=======
+})
+
+exports.Viewstudent=async (req,res)=>{
+   
+    try{
+        const stud = await LMSmodels.viewAllstudents();
+        console.log(stud);
+         res.render("viewStudent.ejs",{stud});
+    }
+    catch(err){
+        console.log(err);
+        res.render("error");
+    }
+}
+
+exports.searchStud = async (req, res) => {
+    try {
+        const searchValue = req.query.sd;
+        console.log("Received search value:", searchValue); // ✅ ADD THIS
+
+        const stud = await LMSmodels.searchAllStudent(searchValue);
+        console.log("Search result:", stud); // ✅ ADD THIS
+
+        res.json(stud);  // Send JSON for AJAX, don't render EJS here
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+};
+
 
 exports.viewAllBooks = async (req, res) => {
     try {
@@ -45,6 +73,4 @@ exports.userLogin = ((req, res) => {
     else {
         res.render("error");
     }
-
->>>>>>> ae47eb297a3e87e6cb8f5c14df3021473859d7a8
-})
+});
