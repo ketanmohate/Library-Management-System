@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/viewBooks.css">
+
+</head>
+
+<body>
+
+    <%- include('homeNav') %>
+        <br>
+        <h1>📚 Welcome to The Knowledge Hub</h1>
+
+        <!-- Search -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by title, author, or category..." />
+            <button type="button" onclick="filterBooks()">Search</button>
+        </div>
+
+        <!-- Books -->
+        <div id="bookContainer" class="book-container">
+            <% books.forEach((book, index)=> { %>
+                <div class="book-card book-item" data-index="<%= index %>" data-title="<%= book.title.toLowerCase() %>"
+                    data-author="<%= book.author.toLowerCase() %>" data-category="<%= book.category.toLowerCase() %>">
+                    <!-- <img src="<%= book.image || 'https://via.placeholder.com/280x200?text=No+Image' %>" -->
+                     <img src="/images/L3.jpg" alt="">
+                        <!-- alt="Book Image" /> -->
+                    <div class="book-details">
+                        <div class="book-title">
+                            <%= book.title %>
+                        </div>
+                        <div class="book-description">
+                            <strong>Author:</strong>
+                            <%= book.author %><br>
+                                <strong>Publisher:</strong>
+                                <%= book.publisher %><br>
+                                    <strong>Category:</strong>
+                                    <%= book.category %>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button id="prevBtn" disabled>Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+        <br>    
+
+        <script>
+            const itemsPerPage = 20;
+            let currentPage = 1;
+            let filteredCards = Array.from(document.querySelectorAll('.book-item'));
+
+            function showPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+
+                filteredCards.forEach((card, index) => {
+                    card.style.display = (index >= start && index < end) ? 'block' : 'none';
+                });
+
+                document.getElementById('prevBtn').disabled = page === 1;
+                document.getElementById('nextBtn').disabled = end >= filteredCards.length;
+            }
+
+            function filterBooks() {
+                const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+                const allCards = Array.from(document.querySelectorAll('.book-item'));
+
+                if (keyword === "") {
+                    filteredCards = allCards;
+                } else {
+                    filteredCards = allCards.filter(card => {
+                        const title = card.dataset.title;
+                        const author = card.dataset.author;
+                        const category = card.dataset.category;
+                        return title.includes(keyword) || author.includes(keyword) || category.includes(keyword);
+                    });
+                }
+
+                currentPage = 1;
+                showPage(currentPage);
+            }
+
+            // Search on typing (optional real-time)
+            document.getElementById('searchInput').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    filterBooks();
+                }
+            });
+
+            // Pagination buttons
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if ((currentPage * itemsPerPage) < filteredCards.length) {
+                    currentPage++;
+                    showPage(currentPage);
+                }
+            });
+
+            // Load initial page
+            showPage(currentPage);
+        </script>
+
+</body>
+
+</html>
