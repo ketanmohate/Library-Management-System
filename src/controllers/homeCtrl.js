@@ -9,3 +9,7 @@ exports.login = ((req, res)=>{
 exports.about = ((req, res)=>{
     res.render("about.ejs");
 })
+
+exports.dashbord = ((req, res)=>{
+    res.render("adminDashboard.ejs");
+})
