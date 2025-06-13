@@ -9,42 +9,42 @@ exports.getAllBooks = () => {
                     rej(err);
                 } else {
                     console.log(result);
-                    res(result); 
+                    res(result);
                 }
             }
         );
     });
 }
- 
-// exports.addStudent = (name, email, password) => {
-//   return new Promise((res, rej) => {
-//     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
-//     conn.query(sql, [name, email, password], (err, result) => {
-//       if (err) {
-//         rej(err);
-//       } else {
-//         res(result);
-//       }
-//     });
-//   });
-// };
 
-exports.addStudent = (req, res) => {
-    let { name, email, password } = req.body;
-
-    LMSmodels.addStudent(name, email, password)
-        .then((r) => {
-            res.render("addStudent.ejs", { msg: "Student added successfully" });
-        })
-        .catch((err) => {
-            console.error(err);
-            if (err.code === 'ER_DUP_ENTRY') {
-                res.render("addStudent.ejs", { msg: "Email already exists!" });
+exports.addStudent = (name, email, password) => {
+    return new Promise((res, rej) => {
+        const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
+        conn.query(sql, [name, email, password], (err, result) => {
+            if (err) {
+                rej(err);
             } else {
-                res.render("addStudent.ejs", { msg: "An unexpected error occurred!" });
+                res(result);
             }
-        });
+        })
+    })
 };
+
+// exports.addStudent = (req, res) => {
+//     let { name, email, password } = req.body;
+
+//     LMSmodels.addStudent(name, email, password)
+//         .then((r) => {
+//             res.render("addStudent.ejs", { msg: "Student added successfully" });
+//         })
+//         .catch((err) => {
+//             console.error(err);
+//             if (err.code === 'ER_DUP_ENTRY') {
+//                 res.render("addStudent.ejs", { msg: "Email already exists!" });
+//             } else {
+//                 res.render("addStudent.ejs", { msg: "An unexpected error occurred!" });
+//             }
+//         });
+// };
 
 
 exports.viewAllstudents = () => {
@@ -86,8 +86,8 @@ exports.getStudentDelete = (id) => {
                 if (err1) {
                     return reject(err1);
                 }
-                else{
-                  resolve(result1);
+                else {
+                    resolve(result1);
                 }
             });
         });
@@ -110,32 +110,32 @@ exports.getStudentDelete = (id) => {
 
 
 exports.getFilteredBooks = (search = "") => {
-  return new Promise((res, rej) => {
-    let sql = "SELECT * FROM books";
-    if (search) {
-      sql += " WHERE title LIKE ? OR author LIKE ? OR category LIKE ?";
-      search = `%${search}%`;
-    }
+    return new Promise((res, rej) => {
+        let sql = "SELECT * FROM books";
+        if (search) {
+            sql += " WHERE title LIKE ? OR author LIKE ? OR category LIKE ?";
+            search = `%${search}%`;
+        }
 
-    conn.query(sql, search ? [search, search, search] : [], (err, result) => {
-      if (err) rej(err);
-      else res(result);
+        conn.query(sql, search ? [search, search, search] : [], (err, result) => {
+            if (err) rej(err);
+            else res(result);
+        });
     });
-  });
 };
 
 
 
-exports.getaddcategories= (str) =>{
-  return new Promise((resolve, reject) =>{
-    
-    conn.query("insert into categories values ('0',?)",[str],(err, result) =>{
-      if(err){
-        reject(err);
-      }
-      else{
-        resolve(result);
-      }
-    })
-  });
+exports.getaddcategories = (str) => {
+    return new Promise((resolve, reject) => {
+
+        conn.query("insert into categories values ('0',?)", [str], (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        })
+    });
 };
