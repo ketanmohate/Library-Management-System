@@ -30,3 +30,12 @@ body {
   background-color: #d1e7dd;
   color: #000;
 }
+
+.center-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; 
+    font-size: 24px;
+    color: black; 
+}

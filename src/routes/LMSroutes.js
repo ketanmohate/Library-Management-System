@@ -15,13 +15,16 @@ router.get("/addSudentPage",homectrl.addSudentPage);
 
 router.post("/addStudent",homectrl.addStudent);
 
-// router.get("/books", async (req, res) => {
-//   const search = req.query.search || "";
-//   const books = await LMSmodels.getFilteredBooks(search);
-//   res.render("about.ejs", { books });
-// });
+router.get("/books", async (req, res) => {
+  const search = req.query.search || "";
+  const books = await LMSmodels.getFilteredBooks(search);
+  res.render("about.ejs", { books });
+});
 
 router.get("/dashbord",homectrl.dashbord);
+
+
+router.get("/addSudentPage",homectrl.addSudentPage);
 
 router.get("/viewstud",homectrl.Viewstudent);
 

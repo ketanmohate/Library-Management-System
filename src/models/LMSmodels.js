@@ -1,7 +1,5 @@
 let ctrl = require("../controllers/homeCtrl");
 let conn = require("../config/db");
-const { array } = require("i/lib/util");
-
 exports.getAllBooks = () => {
     return new Promise((res, rej) => {
         conn.query(
@@ -10,7 +8,7 @@ exports.getAllBooks = () => {
                 if (err) {
                     rej(err);
                 } else {
-                    // console.log(result);
+                    console.log(result);
                     res(result); 
                 }
             }
@@ -18,6 +16,37 @@ exports.getAllBooks = () => {
     });
 }
  
+// exports.addStudent = (name, email, password) => {
+//   return new Promise((res, rej) => {
+//     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
+//     conn.query(sql, [name, email, password], (err, result) => {
+//       if (err) {
+//         rej(err);
+//       } else {
+//         res(result);
+//       }
+//     });
+//   });
+// };
+
+exports.addStudent = (req, res) => {
+    let { name, email, password } = req.body;
+
+    LMSmodels.addStudent(name, email, password)
+        .then((r) => {
+            res.render("addStudent.ejs", { msg: "Student added successfully" });
+        })
+        .catch((err) => {
+            console.error(err);
+            if (err.code === 'ER_DUP_ENTRY') {
+                res.render("addStudent.ejs", { msg: "Email already exists!" });
+            } else {
+                res.render("addStudent.ejs", { msg: "An unexpected error occurred!" });
+            }
+        });
+};
+
+
 exports.viewAllstudents = () => {
     return new Promise((res, rej) => {
         conn.query("SELECT id, name, email, password, role, created_at FROM users", (err, result) => {
@@ -64,34 +93,49 @@ exports.getStudentDelete = (id) => {
         });
     });
 };
- 
-exports.addStudent = (name, email, password) => {
-  return new Promise((res, rej) => {
-    const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
-    conn.query(sql, [name, email, password], (err, result) => {
-      if (err) {
-        rej(err);
-      } else {
-        res(result);
-      }
-    });
-  });
-};
 
 
 // exports.getFilteredBooks = (search = "") => {
 //   return new Promise((res, rej) => {
-//     let sql = "SELECT * FROM books";
-//     if (search) {
-//       sql += " WHERE title LIKE ? OR author LIKE ? OR category LIKE ?";
-//       search = `%${search}%`;
-//     }
-
-//     conn.query(sql, search ? [search, search, search] : [], (err, result) => {
-//       if (err) rej(err);
-//       else res(result);
+//     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
+//     conn.query(sql, [name, email, password], (err, result) => {
+//       if (err) {
+//         rej(err);
+//       } else {
+//         res(result);
+//       }
 //     });
 //   });
 // };
 
 
+exports.getFilteredBooks = (search = "") => {
+  return new Promise((res, rej) => {
+    let sql = "SELECT * FROM books";
+    if (search) {
+      sql += " WHERE title LIKE ? OR author LIKE ? OR category LIKE ?";
+      search = `%${search}%`;
+    }
+
+    conn.query(sql, search ? [search, search, search] : [], (err, result) => {
+      if (err) rej(err);
+      else res(result);
+    });
+  });
+};
+
+
+
+exports.getaddcategories= (str) =>{
+  return new Promise((resolve, reject) =>{
+    
+    conn.query("insert into categories values ('0',?)",[str],(err, result) =>{
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result);
+      }
+    })
+  });
+};

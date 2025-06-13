@@ -13,12 +13,44 @@ exports.about = ((req, res) => {
 })
 
 exports.dashbord=((req, res) =>{
-    res.render("adminDashboard.ejs");
+    res.render("adminDashboard.ejs",{msg:""});
 })
 
 exports.categories = ((req, res) =>{
     res.render("addCategories.ejs");
 })
+
+exports.addSudentPage = (req, res) => {
+    // console.log("Hello");
+    res.render("addStudentForm.ejs",{msg:""});
+};
+
+
+exports.addStudent = ((req, res)=>{
+    let {
+        student_name,
+        student_email,
+        student_password,
+        confirm_password,
+    } = req.body;
+    console.log(student_name);
+    console.log(student_email);
+    console.log(student_password);
+    console.log(confirm_password);
+
+    let name = student_name.trim();
+    let email = student_email.trim();
+    let password = student_password.trim();
+    let confirm_pass = confirm_password.trim();
+
+    if(student_password === confirm_password){
+        LMSmodels.addStudent(name, email, password);
+        res.render("adminDashboard.ejs",{msg:"Student Data Added Successfully"});
+    }else{
+        res.render("addStudentForm.ejs",{msg:"Invalid data entry"});
+    }
+
+});
 
 exports.Viewstudent=async (req,res)=>{
    
@@ -41,7 +73,7 @@ exports.addcategories = (req, res) => {
         console.log(name);
 
         const result = LMSmodels.getaddcategories(name);
-        res.render("addCategories.ejs");
+        res.render("adminDashboard.ejs",{msg:"Categorie Data Added Successfully"});
         console.log(result);
     } catch (err) {
         console.log(err);
@@ -74,7 +106,7 @@ exports.deleteStud = (req, res) => {
         res.render("viewStudent.ejs", { stud: r });
     }).catch((err) => {
         console.error(err);
-        res.render("viewStudent.ejs");
+        res.render("viewStudent.ejs",{stud:[]});
     });
 }
 
@@ -102,9 +134,9 @@ exports.userLogin = ((req, res) => {
     // console.log(password);
 
     if (username === "admin" && password === "admin@123") {
-        res.render("adminDashboard.ejs");
+        res.render("adminDashboard.ejs",{msg:"Select a section from the sidebar to manage Students, Categories, or Books."});
     }
     else {
-        res.render("error.ejs");
+        res.render("error.ejs",{msg:""});
     }
 });

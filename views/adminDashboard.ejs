@@ -37,7 +37,7 @@
           <div class="accordion-body p-0">
             <ul class="list-group list-group-flush">
               <li><a href="/addSudentPage" class="list-group-item">Add Student</a></li>
-              <li><a href="#" class="list-group-item">View Student</a></li>
+              <li><a href="/viewstud" class="list-group-item">View Student</a></li>
             </ul>
           </div>
         </div>
@@ -53,7 +53,7 @@
         <div id="categoryMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
           <div class="accordion-body p-0">
             <ul class="list-group list-group-flush">
-              <li><a href="#" class="list-group-item">Add Category</a></li>
+              <li><a href="/categorie" class="list-group-item">Add Category</a></li>
               <li><a href="#" class="list-group-item">View Category</a></li>
             </ul>
           </div>
@@ -83,7 +83,10 @@
   <!-- Main Content -->
   <div class="p-4" style="flex: 1;">
     <h2>Welcome to Admin Dashboard</h2>
-    <p>Select a section from the sidebar to manage Students, Categories, or Books.</p>
+    
+    <div class="center-message">
+    <span class="spanmsg"><%= msg %></span>
+  </div>
   </div>
 </div>
 
