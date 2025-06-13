@@ -1,0 +1,32 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 280px;
+  height: calc(100vh - 56px); /* Adjust for navbar height */
+  overflow-y: auto;
+}
+
+.accordion-button {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #e9ecef;
+}
+
+.list-group-item {
+  border: none;
+  padding: 10px 20px;
+  color: #212529;
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #d1e7dd;
+  color: #000;
+}
