@@ -10,8 +10,11 @@ let conn = require("./config/db.js");
 let app = express();
 
 
-app.use("/", routers);
 
+app.use(express.urlencoded({ extended: true }));
+
+
+app.use(express.json());
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -21,6 +24,8 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
+
+app.use("/", routers);
 app.use(session({
     secret : "abc123",
     resave : false,

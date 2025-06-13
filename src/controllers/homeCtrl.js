@@ -16,6 +16,10 @@ exports.dashbord=((req, res) =>{
     res.render("adminDashboard.ejs");
 })
 
+exports.categories = ((req, res) =>{
+    res.render("addCategories.ejs");
+})
+
 exports.Viewstudent=async (req,res)=>{
    
     try{
@@ -28,6 +32,23 @@ exports.Viewstudent=async (req,res)=>{
         res.render("error");
     }
 }
+
+exports.addcategories = (req, res) => {
+    try {
+        console.log(req.body); // Add this line to debug
+
+        const name = req.body.name.trim();
+        console.log(name);
+
+        const result = LMSmodels.getaddcategories(name);
+        res.render("addCategories.ejs");
+        console.log(result);
+    } catch (err) {
+        console.log(err);
+        res.render("error.ejs");
+    }
+};
+
 
 exports.searchStud = async (req, res) => {
     try {
@@ -43,6 +64,19 @@ exports.searchStud = async (req, res) => {
         res.status(500).json({ error: "Something went wrong" });
     }
 };
+
+
+exports.deleteStud = (req, res) => {
+    let id = parseInt(req.query.id.trim());
+
+    const result = LMSmodels.getStudentDelete(id);
+    result.then((r) => {
+        res.render("viewStudent.ejs", { stud: r });
+    }).catch((err) => {
+        console.error(err);
+        res.render("viewStudent.ejs");
+    });
+}
 
 
 exports.viewAllBooks = async (req, res) => {
@@ -71,6 +105,6 @@ exports.userLogin = ((req, res) => {
         res.render("adminDashboard.ejs");
     }
     else {
-        res.render("error");
+        res.render("error.ejs");
     }
 });

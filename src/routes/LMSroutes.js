@@ -23,4 +23,11 @@ router.get("/viewstud",homectrl.Viewstudent);
 
 router.get("/searchStudent",homectrl.searchStud);
 
+router.get("/categorie",homectrl.categories);
+
+// router.post("/addcategorie",homectrl.addcategories);
+router.post('/addcategorie', homectrl.addcategories);
+
+
+router.get("/deleteStudent",homectrl.deleteStud);
 module.exports = router;

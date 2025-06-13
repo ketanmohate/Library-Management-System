@@ -17,18 +17,16 @@ exports.getAllBooks = () => {
     });
 }
  
-exports.viewAllstudents = ()=>{
-  return new Promise((res,rej)=>{
-
-    conn.query("select name ,email, password, role ,created_at from users ",(err,result)=>{
-      if(err){
-        rej(err);
-      }
-      else{
-        res(result);
-      }
+exports.viewAllstudents = () => {
+    return new Promise((res, rej) => {
+        conn.query("SELECT id, name, email, password, role, created_at FROM users", (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        });
     });
-  });
 }
 
 exports.searchAllStudent = (searchValue) => {
@@ -48,6 +46,24 @@ exports.searchAllStudent = (searchValue) => {
     });
 };
 
+exports.getStudentDelete = (id) => {
+    return new Promise((resolve, reject) => {
+        conn.query("DELETE FROM users WHERE id = ?", [id], (err, result) => {
+            if (err) {
+                return reject(err);
+            }
+            conn.query("SELECT * FROM users", (err1, result1) => {
+                if (err1) {
+                    return reject(err1);
+                }
+                else{
+                  resolve(result1);
+                }
+            });
+        });
+    });
+};
+
 
 exports.getFilteredBooks = (search = "") => {
   return new Promise((res, rej) => {
@@ -61,5 +77,19 @@ exports.getFilteredBooks = (search = "") => {
       if (err) rej(err);
       else res(result);
     });
+  });
+};
+
+exports.getaddcategories= (str) =>{
+  return new Promise((resolve, reject) =>{
+    
+    conn.query("insert into categories values ('0',?)",[str],(err, result) =>{
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result);
+      }
+    })
   });
 };
