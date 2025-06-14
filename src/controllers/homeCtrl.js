@@ -5,7 +5,7 @@ exports.home = ((req, res) => {
 })
 
 exports.login = ((req, res) => {
-    res.render("Login.ejs");
+    res.render("Login.ejs",{msg:""});
 })
 
 exports.about = ((req, res) => {
@@ -20,11 +20,28 @@ exports.categories = ((req, res) =>{
     res.render("addCategories.ejs");
 })
 
-exports.addSudentPage = (req, res) => {
+exports.addSudentPage = ((req, res) => {
     // console.log("Hello");
     res.render("addStudentForm.ejs",{msg:""});
-};
+})
 
+
+exports.userLogin = ((req, res) => {
+    let {
+        username,
+        password
+    } = req.body;
+
+    // console.log(username);
+    // console.log(password);
+
+    if (username === "admin" && password === "admin@123") {
+        res.render("adminDashboard.ejs",{msg:"Select a section from the sidebar to manage Students, Categories, or Books."});
+    }
+    else {
+        res.render("Login.ejs",{msg:"Username or Password is Invalid"});
+    }
+});
 
 exports.addStudent = ((req, res)=>{
     let {
@@ -44,10 +61,15 @@ exports.addStudent = ((req, res)=>{
     let confirm_pass = confirm_password.trim();
 
     if(student_password === confirm_password){
-        LMSmodels.addStudent(name, email, password);
+     let result=   LMSmodels.addStudent(name, email, password);
+        result.then(() =>{
         res.render("adminDashboard.ejs",{msg:"Student Data Added Successfully"});
+        }).catch((err) =>{
+            
+        res.render("adminDashboard.ejs",{msg:"Some problem is there"});
+        })
     }else{
-        res.render("addStudentForm.ejs",{msg:"Invalid data entry"});
+        res.render("addStudentForm.ejs",{msg:"Plz Enter your "});
     }
 
 });
@@ -82,6 +104,27 @@ exports.addcategories = (req, res) => {
 };
 
 
+exports.viewAllBooks = async (req, res) => {
+    try {
+        const books = await LMSmodels.getAllBooks();
+        // console.log(books);
+        res.render("viewBooks.ejs", { books });  
+    } catch (err) {
+        console.error("Error fetching profile data:", err);
+        res.render("error.ejs");
+    }
+};
+
+exports.Viewcategorie = async (req, res) =>{
+    try{
+        const cat = await LMSmodels.getViewcategorie();
+        res.render("viewCategories.ejs",{cat});
+    }catch(err){
+        res.remnder("error.ejs");
+    }
+}
+
+
 exports.searchStud = async (req, res) => {
     try {
         const searchValue = req.query.sd;
@@ -109,34 +152,14 @@ exports.deleteStud = (req, res) => {
         res.render("viewStudent.ejs",{stud:[]});
     });
 }
+exports.deleteCat = (req, res) => {
+    let id = parseInt(req.query.id.trim());
 
+    LMSmodels.getdelCategorie(id).then((c) => {
+    res.render("viewCategories.ejs",{cat : c});
+    }).catch((err) => {
+        console.error(err);
+        res.render("viewCategories.ejs",{cat:[]});
+    });
 
-exports.viewAllBooks = async (req, res) => {
-    try {
-        const books = await LMSmodels.getAllBooks();
-        // console.log(books);
-        res.render("viewBooks.ejs", { books });  
-    } catch (err) {
-        console.error("Error fetching profile data:", err);
-        res.render("error");
-    }
-};
-
-
-
-exports.userLogin = ((req, res) => {
-    let {
-        username,
-        password
-    } = req.body;
-
-    // console.log(username);
-    // console.log(password);
-
-    if (username === "admin" && password === "admin@123") {
-        res.render("adminDashboard.ejs",{msg:"Select a section from the sidebar to manage Students, Categories, or Books."});
-    }
-    else {
-        res.render("error.ejs",{msg:""});
-    }
-});
+}

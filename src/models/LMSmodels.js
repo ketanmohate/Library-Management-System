@@ -16,36 +16,18 @@ exports.getAllBooks = () => {
     });
 }
  
-// exports.addStudent = (name, email, password) => {
-//   return new Promise((res, rej) => {
-//     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
-//     conn.query(sql, [name, email, password], (err, result) => {
-//       if (err) {
-//         rej(err);
-//       } else {
-//         res(result);
-//       }
-//     });
-//   });
-// };
-
-exports.addStudent = (req, res) => {
-    let { name, email, password } = req.body;
-
-    LMSmodels.addStudent(name, email, password)
-        .then((r) => {
-            res.render("addStudent.ejs", { msg: "Student added successfully" });
-        })
-        .catch((err) => {
-            console.error(err);
-            if (err.code === 'ER_DUP_ENTRY') {
-                res.render("addStudent.ejs", { msg: "Email already exists!" });
-            } else {
-                res.render("addStudent.ejs", { msg: "An unexpected error occurred!" });
-            }
-        });
+exports.addStudent = (name, email, password) => {
+  return new Promise((res, rej) => {
+    const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
+    conn.query(sql, [name, email, password], (err, result) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(result);
+      }
+    });
+  });
 };
-
 
 exports.viewAllstudents = () => {
     return new Promise((res, rej) => {
@@ -59,6 +41,17 @@ exports.viewAllstudents = () => {
     });
 }
 
+exports.getViewcategorie = () =>{
+  return new Promise((res, rej) => {
+    conn.query("select name from categories",(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    })
+  })
+}
 exports.searchAllStudent = (searchValue) => {
     return new Promise((res, rej) => {
         let value = '%' + searchValue + '%';
@@ -129,7 +122,7 @@ exports.getFilteredBooks = (search = "") => {
 exports.getaddcategories= (str) =>{
   return new Promise((resolve, reject) =>{
     
-    conn.query("insert into categories values ('0',?)",[str],(err, result) =>{
+    conn.query("insert into categories (name) values (?)",[str],(err, result) =>{
       if(err){
         reject(err);
       }
@@ -137,5 +130,22 @@ exports.getaddcategories= (str) =>{
         resolve(result);
       }
     })
+  });
+};
+
+exports.getdelCategorie = (id) => {
+  return new Promise((resolve, reject) => {
+    conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
+      if(err){
+       return reject(err);
+      }
+      conn.query("select * from categories",(err2, result2) => {
+      if(err2){
+       return  reject(err2);
+      } else {
+        resolve(result2);
+      }
+    });
+    });
   });
 };

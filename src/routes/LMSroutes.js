@@ -6,6 +6,7 @@ let router = routers.Router();
 router.get('/',homectrl.home);
 
 router.get("/logins",homectrl.login);
+
 router.get("/about",homectrl.about);
 router.post("/userLogin",homectrl.userLogin);
 
@@ -32,9 +33,11 @@ router.get("/searchStudent",homectrl.searchStud);
 
 router.get("/categorie",homectrl.categories);
 
-// router.post("/addcategorie",homectrl.addcategories);
 router.post('/addcategorie', homectrl.addcategories);
 
+router.get('/viewcategorie',homectrl.Viewcategorie)
 
 router.get("/deleteStudent",homectrl.deleteStud);
+
+router.get("/deleteCategores",homectrl.deleteCat);
 module.exports = router;
