@@ -29,27 +29,10 @@ exports.addStudent = (name, email, password) => {
     })
 };
 
-// exports.addStudent = (req, res) => {
-//     let { name, email, password } = req.body;
-
-//     LMSmodels.addStudent(name, email, password)
-//         .then((r) => {
-//             res.render("addStudent.ejs", { msg: "Student added successfully" });
-//         })
-//         .catch((err) => {
-//             console.error(err);
-//             if (err.code === 'ER_DUP_ENTRY') {
-//                 res.render("addStudent.ejs", { msg: "Email already exists!" });
-//             } else {
-//                 res.render("addStudent.ejs", { msg: "An unexpected error occurred!" });
-//             }
-//         });
-// };
-
 
 exports.viewAllstudents = () => {
     return new Promise((res, rej) => {
-        conn.query("SELECT id, name, email, password, role, created_at FROM users", (err, result) => {
+        conn.query("SELECT id, name, email, password, created_at FROM users", (err, result) => {
             if (err) {
                 rej(err);
             } else {
@@ -59,6 +42,17 @@ exports.viewAllstudents = () => {
     });
 }
 
+exports.getViewcategorie = () =>{
+  return new Promise((res, rej) => {
+    conn.query("select name from categories",(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    })
+  })
+}
 exports.searchAllStudent = (searchValue) => {
     return new Promise((res, rej) => {
         let value = '%' + searchValue + '%';
@@ -94,42 +88,65 @@ exports.getStudentDelete = (id) => {
     });
 };
 
+exports.getbeforeupdateStud = (id) => {
+      return new Promise((resolve, reject) => {
+        conn.query("select id, name,email, password from users where id = ?",[id],(err, result) => {
+          if(err){
+            reject(err);
+          } else{
+            resolve(result);
+          }
+        });
+      });
+}
+
+exports.getafterupdateStud = (name , email , password, id) => {
+  return new Promise((res, rej) => {
+        
+        conn.query("update users set name=?,email=? , password=? where id=? ", [ name , email , password, id], (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        })
+    })
+}
+exports.getFilteredBooks = (search = "") => {
+  return new Promise((res, rej) => {
+    const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
+    conn.query(sql, [name, email, password], (err, result) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(result);
+      }
+    });
+  });
+};
+
 
 // exports.getFilteredBooks = (search = "") => {
-//   return new Promise((res, rej) => {
-//     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
-//     conn.query(sql, [name, email, password], (err, result) => {
-//       if (err) {
-//         rej(err);
-//       } else {
-//         res(result);
-//       }
+//     return new Promise((res, rej) => {
+//         let sql = "SELECT * FROM books";
+//         if (search) {
+//             sql += " WHERE title LIKE ? OR author LIKE ? OR category LIKE ?";
+//             search = `%${search}%`;
+//         }
+
+//         conn.query(sql, search ? [search, search, search] : [], (err, result) => {
+//             if (err) rej(err);
+//             else res(result);
+//         });
 //     });
-//   });
 // };
-
-
-exports.getFilteredBooks = (search = "") => {
-    return new Promise((res, rej) => {
-        let sql = "SELECT * FROM books";
-        if (search) {
-            sql += " WHERE title LIKE ? OR author LIKE ? OR category LIKE ?";
-            search = `%${search}%`;
-        }
-
-        conn.query(sql, search ? [search, search, search] : [], (err, result) => {
-            if (err) rej(err);
-            else res(result);
-        });
-    });
-};
 
 
 
 exports.getaddcategories = (str) => {
     return new Promise((resolve, reject) => {
 
-        conn.query("insert into categories values ('0',?)", [str], (err, result) => {
+        conn.query("insert into categories (name)values (?)", [str], (err, result) => {
             if (err) {
                 reject(err);
             }
@@ -139,3 +156,33 @@ exports.getaddcategories = (str) => {
         })
     });
 };
+
+exports.getdelCategorie = (id) => {
+  return new Promise((resolve, reject) => {
+    conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
+      });
+      conn.query("select * from categories",(err1, result1) => {
+      if(err1){
+       return  reject(err1);
+      } else {
+        resolve(result1);
+      }
+  
+    });
+  });
+  
+}
+
+
+
+exports.getbeforeupdateCat =  (id) =>{
+  return new Promise((res, rej) => {
+    conn.query("select id, name from categories where id = ?",[id],(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    })
+  })
+}

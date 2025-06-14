@@ -1,4 +1,4 @@
-const itemsPerPage = 5;  // You said 5 students per page
+const itemsPerPage = 5;  
 let currentPage = 1;
 
 const allRows = Array.from(document.querySelectorAll("#tableBody tr"));
@@ -26,11 +26,10 @@ document.getElementById("prevBtn").addEventListener("click", () => {
 });
 
 document.getElementById("nextBtn").addEventListener("click", () => {
-    if (currentPage < totalPages) {
+    if (currentPage * itemsPerPage < allRows.length) {
         currentPage++;
         showPage(currentPage);
     }
 });
 
-// Initial Display
 showPage(currentPage);

@@ -21,10 +21,10 @@ exports.categories = ((req, res) => {
     res.render("addCategories.ejs");
 })
 
-exports.addSudentPage = (req, res) => {
+exports.addSudentPage = ((req, res) => {
     // console.log("Hello");
     res.render("addStudentForm.ejs", { msg: "" });
-};
+});
 
 exports.userLogin = ((req, res) => {
     let {
@@ -120,6 +120,27 @@ exports.addcategories = (req, res) => {
 };
 
 
+exports.viewAllBooks = async (req, res) => {
+    try {
+        const books = await LMSmodels.getAllBooks();
+        // console.log(books);
+        res.render("viewBooks.ejs", { books });  
+    } catch (err) {
+        console.error("Error fetching profile data:", err);
+        res.render("error.ejs");
+    }
+};
+
+exports.Viewcategorie = async (req, res) =>{
+    try{
+        const cat = await LMSmodels.getViewcategorie();
+        res.render("viewCategories.ejs",{cat});
+    }catch(err){
+        res.render("error.ejs");
+    }
+}
+
+
 exports.searchStud = async (req, res) => {
     try {
         const searchValue = req.query.sd;
@@ -138,7 +159,7 @@ exports.searchStud = async (req, res) => {
 
 exports.deleteStud = (req, res) => {
     let id = parseInt(req.query.id.trim());
-
+    
     const result = LMSmodels.getStudentDelete(id);
     result.then((r) => {
         res.render("viewStudent.ejs", { stud: r });
@@ -148,6 +169,62 @@ exports.deleteStud = (req, res) => {
     });
 }
 
+exports.beforeupdateStud = async (req, res) => {
+    let id = parseInt(req.query.id.trim());
+    console.log("update "+id);
+     try {
+        const stud  = await LMSmodels.getbeforeupdateStud(id);
+        console.log(stud);
+        res.render("updateStudent.ejs", { stud ,msg:""});
+    }
+    catch (err) {
+        console.log(err);
+        res.render("error");
+    }
+}
+
+exports.afterupdateStud = (req, res) => {
+    let {
+        student_id,
+        student_name,
+        student_email,
+        student_password,
+        confirm_password,
+    } = req.body;
+
+    console.log(student_name);
+    console.log(student_email);
+    console.log(student_password);
+    console.log(confirm_password);
+
+    let id =student_id;
+    let name = student_name.trim();
+    let email = student_email.trim();
+    let password = student_password.trim();
+    let confirm_pass = confirm_password.trim();
+    if (student_password === confirm_password) {
+        let result = LMSmodels.getafterupdateStud(name, email, password,id);
+        result
+            .then(() => {
+                res.render("adminDashboard.ejs", { msg: "Student Data updated Successfully" });
+            })
+            .catch((err) => {
+                // console.error(err);
+                res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
+            });
+    } else {
+        res.render("updateStudent.ejs", { 
+            stud: [{
+                id: id,
+                name: name,
+                email: email,
+                password: password
+            }], 
+            msg: "Please ensure Password and Confirm Password are the same." 
+        });
+        // res.render("updateStudent.ejs", {stud, msg: "Plz Enter Your Password And Confirm Password should be Same" });
+    }
+}
 
 exports.viewAllBooks = async (req, res) => {
     try {
@@ -160,5 +237,35 @@ exports.viewAllBooks = async (req, res) => {
     }
 };
 
+exports.deleteCat = (req, res) => {
+   let id = parseInt(req.query.id.trim());
+    console.log(id);
+    let result=  LMSmodels.getdelCategorie(id);
+    result.then((c) => {
+        res.render("viewCategories.ejs", { cat: c });
+    }).catch((err) => {
+        
+        res.render("viewCategories.ejs", { cat: [] });
+    });
+}
+// exports.deleteStud = (req, res) => {
+//     let id = parseInt(req.query.id.trim());
+    
+//     const result = LMSmodels.getStudentDelete(id);
+//     result.then((r) => {
+//         res.render("viewStudent.ejs", { stud: r });
+//     }).catch((err) => {
+//         console.error(err);
+//         res.render("viewStudent.ejs", { stud: [] });
+//     });
+// }
 
-
+exports.beforeupdateCat = async (req, res) =>{
+    let id = parseInt(req.query.id.trim());
+    try{
+        const cat = await LMSmodels.getbeforeupdateCat(id);
+        res.render("updateCategories.ejs",{cat});
+    }catch(err){
+        res.render("error.ejs");
+    }
+}
