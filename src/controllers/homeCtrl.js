@@ -23,7 +23,7 @@ exports.categories = ((req, res) => {
 exports.addSudentPage = ((req, res) => {
     // console.log("Hello");
     res.render("addStudentForm.ejs", { msg: "" });
-};
+});
 
 exports.userLogin = ((req, res) => {
     let {
@@ -135,7 +135,7 @@ exports.Viewcategorie = async (req, res) =>{
         const cat = await LMSmodels.getViewcategorie();
         res.render("viewCategories.ejs",{cat});
     }catch(err){
-        res.remnder("error.ejs");
+        res.render("error.ejs");
     }
 }
 
@@ -158,7 +158,7 @@ exports.searchStud = async (req, res) => {
 
 exports.deleteStud = (req, res) => {
     let id = parseInt(req.query.id.trim());
-
+    
     const result = LMSmodels.getStudentDelete(id);
     result.then((r) => {
         res.render("viewStudent.ejs", { stud: r });
@@ -180,5 +180,15 @@ exports.viewAllBooks = async (req, res) => {
     }
 };
 
+exports.deleteCat = (req, res) => {
+   let id = parseInt(req.query.id.trim());
+    console.log(id);
+    let result=  LMSmodels.getdelCategorie(id);
+    result.then((c) => {
+        res.render("viewCategories.ejs", { cat: c });
+    }).catch((err) => {
+        
+        res.render("viewCategories.ejs", { cat: [] });
+    });
 
-
+};
