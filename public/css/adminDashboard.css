@@ -5,7 +5,7 @@
 }
 
 .Fcontiner {
-    height: 80vh;
+    /* height: 80vh; */
     /* border: solid black; */
     display: grid;
     grid-template-columns: auto 1fr;
@@ -13,10 +13,33 @@
 
 .fSidebar {
     /* border: solid black; */
-    background-color: yellow;
 }
 
 .fMainContent{
     /* border: solid black; */
-    background-color:violet;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #01141c, #1d4a5a);
+}
+
+.welcome-container {
+  margin-top: 10vh;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-container h1 {
+  font-size: 2rem;
+  color: #86aab6;
+}
+
+.subheading {
+  color: #898282;
+  margin-bottom: 2rem;
 }
