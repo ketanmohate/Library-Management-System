@@ -1,5 +1,21 @@
 let ctrl = require("../controllers/homeCtrl");
 let conn = require("../config/db");
+
+exports.getaddBooks = (title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at) => {
+    return new Promise((res, rej) => {
+      const bookDetail = "INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      conn.query(bookDetail,[title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at], (err, result) => {
+        if(err){
+          rej(err);
+        }
+        else{
+          res(result);
+        }
+      });
+
+    });
+}
+
 exports.getAllBooks = () => {
     return new Promise((res, rej) => {
         conn.query(
@@ -44,7 +60,7 @@ exports.viewAllstudents = () => {
 
 exports.getViewcategorie = () =>{
   return new Promise((res, rej) => {
-    conn.query("select name from categories",(err, result) => {
+    conn.query("select id, name from categories",(err, result) => {
       if(err){
         rej(err);
       } else {
@@ -160,29 +176,46 @@ exports.getaddcategories = (str) => {
 exports.getdelCategorie = (id) => {
   return new Promise((resolve, reject) => {
     conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
-      });
-      conn.query("select * from categories",(err1, result1) => {
-      if(err1){
-       return  reject(err1);
+      
+      conn.query("select * from categories",(err, result) => {
+      if(err){
+       return  reject(err);
       } else {
-        resolve(result1);
+        resolve(result);
       }
-  
+        });
     });
   });
   
 }
 
 
+// exports.getStudentDelete = (id) => {
+//     return new Promise((resolve, reject) => {
+//         conn.query("DELETE FROM users WHERE id = ?", [id], (err, result) => {
+//             if (err) {
+//                 return reject(err);
+//             }
+//             conn.query("SELECT * FROM users", (err1, result1) => {
+//                 if (err1) {
+//                     return reject(err1);
+//                 }
+//                 else {
+//                     resolve(result1);
+//                 }
+//             });
+//         });
+//     });
+// };
 
 exports.getbeforeupdateCat =  (id) =>{
   return new Promise((res, rej) => {
-    conn.query("select id, name from categories where id = ?",[id],(err, result) => {
+    conn.query("select * from categories where id = ?",[id],(err, result) => {
       if(err){
         rej(err);
       } else {
         res(result);
       }
-    })
-  })
+    });
+  });
 }
