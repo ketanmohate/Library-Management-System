@@ -48,9 +48,9 @@
                                     <%=item.name%>
                                 </td>
 
-                                <td>Update</td>
+                                <td><a href="/beforeUpdateCat?id =<%= item.id%>" class="btn btn-primary">UPDATE</a></td>
                                 <td>
-                                    <a href="/deleteCategores?id=<%=item.id %>" class="btn btn-danger"
+                                    <a href="/deleteCategores?id=<%= item.id %>" class="btn btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this category?')">
                                         DELETE
                                     </a>

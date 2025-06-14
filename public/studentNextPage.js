@@ -26,7 +26,7 @@ document.getElementById("prevBtn").addEventListener("click", () => {
 });
 
 document.getElementById("nextBtn").addEventListener("click", () => {
-    if (currentPage < totalPages) {
+    if (currentPage * itemsPerPage < allRows.length) {
         currentPage++;
         showPage(currentPage);
     }

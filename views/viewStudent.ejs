@@ -69,7 +69,7 @@
                             <td>
                                 <%=item.created_at%>
                             </td>
-                            <td><a href="/?id=<%= item.id %>"></a>UPDATE</a></td>
+                            <td><a href="/beforeUpdateStud?id=<%= item.id %>" class="btn btn-danger">UPDATE</a></td>
                             <td>
                                 <a href="/deleteStudent?id=<%= item.id %>" class="btn btn-danger"
                                     onclick="return confirm('Are you sure you want to delete this student?')">

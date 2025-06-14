@@ -88,7 +88,30 @@ exports.getStudentDelete = (id) => {
     });
 };
 
+exports.getbeforeupdateStud = (id) => {
+      return new Promise((resolve, reject) => {
+        conn.query("select id, name,email, password from users where id = ?",[id],(err, result) => {
+          if(err){
+            reject(err);
+          } else{
+            resolve(result);
+          }
+        });
+      });
+}
 
+exports.getafterupdateStud = (name , email , password, id) => {
+  return new Promise((res, rej) => {
+        
+        conn.query("update users set name=?,email=? , password=? where id=? ", [ name , email , password, id], (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        })
+    })
+}
 exports.getFilteredBooks = (search = "") => {
   return new Promise((res, rej) => {
     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
@@ -137,14 +160,29 @@ exports.getaddcategories = (str) => {
 exports.getdelCategorie = (id) => {
   return new Promise((resolve, reject) => {
     conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
-    
-      conn.query("select * from categories",(err2, result2) => {
-      if(err2){
-       return  reject(err2);
+      });
+      conn.query("select * from categories",(err1, result1) => {
+      if(err1){
+       return  reject(err1);
       } else {
-        resolve(result2);
+        resolve(result1);
       }
-    });
+  
     });
   });
-};
+  
+}
+
+
+
+exports.getbeforeupdateCat =  (id) =>{
+  return new Promise((res, rej) => {
+    conn.query("select id, name from categories where id = ?",[id],(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    })
+  })
+}
