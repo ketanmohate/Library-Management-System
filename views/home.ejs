@@ -1,48 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link rel="stylesheet" href="css/home.css" />
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Knowledge Hub - Library</title>
+  <link rel="stylesheet" href="/css/home.css" />
+</head>
+<body>
 
-    <%- include ('homeNav.ejs')%>
+  <!-- Navbar -->
+  <header>
+    <div class="navbar">
+      <div class="logo">📚 The Knowledge Hub</div>
+      <div class="toggle" onclick="toggleMenu()">☰</div>
+      <nav id="nav-menu">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
     <!-- Hero Section -->
-    <section class="hero">
-      <h1>Welcome to The Knowledge Hub</h1>
-      <p>
-        A library is more than just books - it's a portal to discovery, ideas, and lifelong learning. 
-        Whether you're diving into history, exploring new technologies, 
-        or getting lost in a novel, the library fuels curiosity and growth.
-      </p>
-      <a href="/logins">Explore Now</a>
-    </section>
+    <div class="hero">
+      <h1><span id="typewriter"></span></h1>
+      <p>Your Gateway to Endless Learning and Discovery</p>
+      <button class="btn"><a href="/Logins">Explore Books</a></button>
+    </div>
+  </header>
 
-    <!-- Features Section -->
-    <!-- <section class="features">
-      <div class="feature">
-        <h3>📖 Browse Books</h3>
-        <p>
-          Search and explore our vast collection of books across genres and
-          categories.
-        </p>
-      </div>
-      <div class="feature">
-        <h3>👤 Manage Members</h3>
-      
-        <p>Track issued books, member profiles, and due dates with ease.</p>
-      </div>
-      <div class="feature">
-        <h3>🔐 Admin Panel</h3>
-        <p>Admin access to manage books, users, and system reports securely.</p>
-      </div>
-    </section> -->
+  <!-- About Section -->
+  <section class="about" id="about">
+    <h2>About Our Library</h2>
+    <p>
+      The Knowledge Hub is a modern library with physical and digital access to books and learning resources.
+    </p>
+  </section>
 
-    <!-- Footer -->
-    <!-- <footer class="footer">
-      © 2025 The Knowledge Hub. All rights reserved.
-    </footer> -->
-  </body>
+  <!-- Services Section -->
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-boxes">
+      <div class="box">
+        <h3>📘 Book Lending</h3>
+        <p>Borrow books easily from our collection.</p>
+      </div>
+      <div class="box">
+        <h3>💻 E-Resources</h3>
+        <p>Access thousands of e-books, PDFs, and learning tools.</p>
+      </div>
+      <div class="box">
+        <h3>👨‍🏫 Study Rooms</h3>
+        <p>Quiet and collaborative spaces for focused study.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 The Knowledge Hub | Designed by Ketan</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="bookModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Explore Our Book Collection</h3>
+      <p>Thousands of books waiting for you. Visit our library catalog or contact our librarian!</p>
+    </div>
+  </div>
+
+  <script src="/js/home.js"></script>
+</body>
 </html>

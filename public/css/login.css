@@ -1,106 +1,97 @@
+/* Reset */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  padding: 0%;
-  margin: 0%;
 }
 
 body {
-  /* color: white; */
-  /* background-color: rgb(82, 78, 78); */
-    background-image: url("/images/university-6699377.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: linear-gradient(to right, #141e30, #243b55);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.container{
-    /* background-color: rgb(82, 78, 78); */
-    /* border: solid black; */
-    display: grid;
-    grid-template-columns: auto;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-    width: 50%;
-    margin: 10px auto;
-    min-height: 80vh;
+/* Login Box */
+.login-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  width: 320px;
+  color: white;
+  text-align: center;
 }
 
-.container .heading{
-    /* border:solid white; */
-    text-align: center;
-    color: #7965C1;
-    padding: 10px;
-    /* font-size: large; */
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+.login-container h2 {
+  margin-bottom: 25px;
+  font-size: 2em;
 }
 
-.container form{
-     background-color:rgba(255, 255, 255, 0.619);
-    /* border: solid wheat; */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.349);
-    padding: 20px;
+.input-group {
+  position: relative;
+  text-align: left;
+  margin-bottom: 25px;
 }
 
-.container form input{
-    height: 35px;
-    width: 350px;
-    margin: 10px 0px 10px 0px;
-    /* background-color: rgba(201, 199, 199, 0.842); */
-    /* border: none; */
-    border: solid 1px black;
-    outline: none;
-    border-radius: 5px;
-    padding: 5px 5px 5px 15px;
-    /* font-size: larger; */
-    /* font-family:Verdana, Geneva, Tahoma, sans-serif */
+.input-group label {
+  display: block;
+  font-size: 0.95em;
+  margin-bottom: 6px;
 }
 
-.container form input:hover{
-    border: solid blue;
+.input-group input {
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1em;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 37px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+/* Button */
+button {
+  width: 100%;
+  background: #00b4db;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #0083b0;
+}
+
+/* Note */
+.note {
+  margin-top: 20px;
+  font-size: 0.9em;
+}
+
+.note a {
+  color: #00b4db;
+  text-decoration: none;
 }
 
 
-.container form {
-    color: black;
-}
-
-.container form .btn{
-    height: 30px;
-    width: 200px;   
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color:#007bff;
-    border: none;
-    border-radius: 15px;
-    color: aliceblue;
-    font-size: large;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-.container form .btn:hover{
-    background-color: bisque;
-    color: black;
-    cursor: pointer;
-}
-
-.container form .signUp{
-    padding-top: 10px;
-    text-align: center;
-}
-
-.container form .signUp a{
-    color: #7965C1;
-    text-decoration: none;
-}
-
-.container form .spanmsg{
-    padding-top: 5px;
-    font-size: small;
-    color: red;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}

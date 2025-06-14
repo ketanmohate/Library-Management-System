@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nav</title>
-    <link rel="stylesheet" href="/css/homeNav.css">
-</head>
-<body>
-    <!-- Navigation Bar -->
-<nav class="navbar">
-  <div class="logo"><a href="/">📚 The Knowledge Hub</a></div>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/viewAllBooks">View Books</a></li>
-    <li><a href="/logins">Login</a></li>
-  </ul>
-</nav>
-
-</body>
-</html>
+<!-- Navbar.ejs -->
+<header>
+  <div class="navbar">
+    <div class="logo">📚 The Knowledge Hub</div>
+    <div class="toggle" onclick="toggleMenu()">☰</div>
+    <nav id="nav-menu">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
