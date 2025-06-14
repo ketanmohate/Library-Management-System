@@ -32,7 +32,7 @@ exports.addStudent = (name, email, password) => {
 
 exports.viewAllstudents = () => {
     return new Promise((res, rej) => {
-        conn.query("SELECT id, name, email, password, role, created_at FROM users", (err, result) => {
+        conn.query("SELECT id, name, email, password, created_at FROM users", (err, result) => {
             if (err) {
                 rej(err);
             } else {

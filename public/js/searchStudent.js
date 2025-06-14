@@ -31,10 +31,6 @@ let searchStudents = (str) => {
                 row.appendChild(column);
 
                 column = document.createElement("td");
-                column.innerHTML = "" + item.role;
-                row.appendChild(column);
-
-                column = document.createElement("td");
                 column.innerHTML = "" + item.created_at;
                 row.appendChild(column);
 
