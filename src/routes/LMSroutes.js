@@ -6,7 +6,9 @@ let router = routers.Router();
 router.get('/',homectrl.home);
 
 router.get("/logins",homectrl.login);
+
 router.get("/about",homectrl.about);
+
 router.post("/userLogin",homectrl.userLogin);
 
 router.get("/viewAllBooks",homectrl.viewAllBooks);

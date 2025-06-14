@@ -30,9 +30,6 @@ app.use(session({
     saveUninitialized : false
 }))
 
-
-
-
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());

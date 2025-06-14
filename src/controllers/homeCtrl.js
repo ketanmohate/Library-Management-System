@@ -5,7 +5,7 @@ exports.home = ((req, res) => {
 })
 
 exports.login = ((req, res) => {
-    res.render("Login.ejs");
+    res.render("Login.ejs",{msg : ""});
 })
 
 exports.about = ((req, res) => {
@@ -24,6 +24,24 @@ exports.addSudentPage = (req, res) => {
     // console.log("Hello");
     res.render("addStudentForm.ejs", { msg: "" });
 };
+
+exports.userLogin = ((req, res) => {
+    let {
+        username,
+        password
+    } = req.body;
+
+    // console.log(username);
+    // console.log(password);
+
+    if (username === "admin" && password === "admin@123") {
+        res.render("adminDashboard.ejs", { msg: "Select a section from the sidebar to manage Students, Categories, or Books." });
+    }
+    else {
+        res.render("Login.ejs", { msg:"Username Or Password is invalid"});
+    }
+});
+
 
 
 exports.addStudent = ((req, res) => {
@@ -143,19 +161,3 @@ exports.viewAllBooks = async (req, res) => {
 
 
 
-exports.userLogin = ((req, res) => {
-    let {
-        username,
-        password
-    } = req.body;
-
-    // console.log(username);
-    // console.log(password);
-
-    if (username === "admin" && password === "admin@123") {
-        res.render("adminDashboard.ejs", { msg: "Select a section from the sidebar to manage Students, Categories, or Books." });
-    }
-    else {
-        res.render("error.ejs", { msg: "" });
-    }
-});
