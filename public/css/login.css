@@ -96,3 +96,11 @@ body {
     text-decoration: none;
 }
 
+.container form .spanmsg{
+    padding-top: 5px;
+    font-size: small;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

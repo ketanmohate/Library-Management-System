@@ -1,5 +1,5 @@
 
-const itemsPerPage = 10;
+const itemsPerPage = 12;
 let currentPage = 1;
 const allCards = Array.from(document.querySelectorAll(".book-item"));
 

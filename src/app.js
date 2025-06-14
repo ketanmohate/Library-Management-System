@@ -9,8 +9,6 @@ let conn = require("./config/db.js");
 
 let app = express();
 
-
-
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -31,9 +29,6 @@ app.use(session({
     resave : false,
     saveUninitialized : false
 }))
-
-
-
 
 app.set('view engine', 'ejs');
 
