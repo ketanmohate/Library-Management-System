@@ -116,7 +116,7 @@ exports.addcategories = async (req, res) => {
 exports.Viewcategorie = async (req, res) =>{
     try{
         const cat = await LMSmodels.getViewcategorie();
-        res.render("viewCategories.ejs,addBooks.ejs",{cat});
+        res.render("viewCategories",{cat});
     }catch(err){
         res.render("error.ejs");
     }
@@ -274,3 +274,26 @@ exports.beforeupdateCat = async (req, res) =>{
         res.render("adminDashboard.ejs");
     }
 }
+
+exports.afterupdateCat = (req, res) => {
+    let id = req.body.id.trim();
+    let name= req.body.name.trim();
+
+    let result = LMSmodels.getafterupdateCat(name,id);
+     result.then(() => {
+                res.render("adminDashboard.ejs", { msg: "Category Data updated Successfully" });
+            })
+            .catch((err) => {
+                // console.error(err);
+                res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
+            });
+
+}
+
+//  .then(() => {
+//                 res.render("adminDashboard.ejs", { msg: "Student Data updated Successfully" });
+//             })
+//             .catch((err) => {
+//                 // console.error(err);
+//                 res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
+//             });

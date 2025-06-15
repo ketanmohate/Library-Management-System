@@ -190,26 +190,9 @@ exports.getdelCategorie = (id) => {
 }
 
 
-// exports.getStudentDelete = (id) => {
-//     return new Promise((resolve, reject) => {
-//         conn.query("DELETE FROM users WHERE id = ?", [id], (err, result) => {
-//             if (err) {
-//                 return reject(err);
-//             }
-//             conn.query("SELECT * FROM users", (err1, result1) => {
-//                 if (err1) {
-//                     return reject(err1);
-//                 }
-//                 else {
-//                     resolve(result1);
-//                 }
-//             });
-//         });
-//     });
-// };
-
 exports.getbeforeupdateCat =  (id) =>{
-  return new Promise((res, rej) => {
+ return new Promise((res, rej) => {
+ 
     conn.query("select * from categories where id = ?",[id],(err, result) => {
       if(err){
         rej(err);
@@ -218,4 +201,17 @@ exports.getbeforeupdateCat =  (id) =>{
       }
     });
   });
+}
+
+exports.getafterupdateCat = (name,id) =>{
+   return new Promise((res, rej) => {
+ 
+        conn.query("update categories set name=? where id=? ", [ name , id], (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        });
+      });
 }

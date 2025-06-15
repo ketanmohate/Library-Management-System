@@ -1,6 +1,6 @@
 let routers = require("express");
 let homectrl = require("../controllers/homeCtrl");
-
+let modules = require("../models/LMSmodels");
 let router = routers.Router();
 
 router.get('/',homectrl.home);
@@ -44,7 +44,7 @@ router.get("/beforeUpdateCat",homectrl.beforeupdateCat);
 
 router.get("/deleteCategores",homectrl.deleteCat);
 
-// router.post("/afterUpdateStud",homectrl.afterupdateStud);
+router.post("/afterUpdateCat",homectrl.afterupdateCat);
 
 
 // for books
