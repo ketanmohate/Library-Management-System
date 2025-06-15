@@ -289,6 +289,52 @@ exports.afterupdateCat = (req, res) => {
             });
 
 }
+
+exports.beforeupdateBook = async(req, res) => {
+    let id = (req.query.id || "").trim();
+    try{
+        let books = await LMSmodels.getbeforeupdateBook(id);
+        res.render("updateBooks.ejs",{books});
+    } catch(err){
+        res.render("adminDashboard.ejs");
+    }
+}
+
+exports.afterupdateBook = (req, res) => {
+    let {
+        id,
+    title
+    ,author
+    ,publisher
+    ,isbn
+    ,category
+    ,total_copies
+    ,available_copies
+    ,status
+    ,image
+    } = req.body;
+
+    let book_id = id.trim();
+    let book_title = title.trim();
+    let book_author = author.trim();
+    let book_publisher = publisher.trim();
+    let book_isbn = isbn.trim();
+    let book_category = category.trim();
+    let book_total_copies = total_copies.trim();
+    let book_available_copies = available_copies.trim();
+    let book_status = status.trim();
+    let book_image = image.trim();
+    // let book_created_at = created_at.trim();
+
+    let result = LMSmodels.getafterupdateBook(book_title, book_author, book_publisher, book_isbn, book_category,book_total_copies, book_available_copies, book_status, book_image,book_id);
+    result.then(() => {
+        res.render("adminDashboard.ejs",{msg:"Book data updated successfuly"});
+    }) .catch((err) => {
+                
+                res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
+            });
+}
+
 exports.deleteBook= (req, res) => {
     let id = req.query.id.trim();
 

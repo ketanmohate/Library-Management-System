@@ -37,9 +37,9 @@ router.post('/addcategorie', homectrl.addcategories);
 
 router.get("/viewcategorie",homectrl.Viewcategorie);
 
-router.get("/beforeUpdateCat",homectrl.beforeupdateCat);
-
 router.get("/deleteCategores",homectrl.deleteCat);
+
+router.get("/beforeUpdateCat",homectrl.beforeupdateCat);
 
 router.post("/afterUpdateCat",homectrl.afterupdateCat);
 
@@ -58,4 +58,8 @@ router.get("/books", async (req, res) => {
 });
 
 router.get("/deletebook",homectrl.deleteBook);
+
+router.get("/beforeUpdateBook",homectrl.beforeupdateBook);
+
+router.post("/afterUpdateBook",homectrl.afterupdateBook);
 module.exports = router;

@@ -47,6 +47,48 @@ exports.getDeleteBook= (id) => {
         });
     });
 }
+
+exports.getbeforeupdateBook = (id) => {
+  return new Promise((resolve, reject) => {
+    conn.query("Select * from books where id = ?",[id],(err,result) => {
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result);
+      }
+    });
+  });
+}
+
+exports.getafterupdateBook = (book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_image,book_id) => {
+  return new Promise((resolve, reject) => {
+
+    conn.query("UPDATE books SET title=?, author=?, publisher=?, isbn = ?, category=?, total_copies=?, available_copies=?, status=?, image=? WHERE id=?",
+      [book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_image, book_id],
+      (err , result) => {
+        if(err){
+          reject(err);
+        }
+        else{
+          resolve(result);
+        }
+      });
+  });
+
+//   exports.getafterupdateStud = (name , email , password, id) => {
+//   return new Promise((res, rej) => {
+        
+//         conn.query("update users set name=?,email=? , password=? where id=? ", [ name , email , password, id], (err, result) => {
+//             if (err) {
+//                 rej(err);
+//             } else {
+//                 res(result);
+//             }
+//         })
+//     })
+// }
+}
 exports.addStudent = (name, email, password) => {
     return new Promise((res, rej) => {
         const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
