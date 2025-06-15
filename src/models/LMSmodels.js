@@ -3,8 +3,8 @@ let conn = require("../config/db");
 
 exports.getaddBooks = (title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at) => {
     return new Promise((res, rej) => {
-      const bookDetail = "INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      conn.query(bookDetail,[title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at], (err, result) => {
+      const bookDetail = "INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      conn.query(bookDetail,[title, author, publisher, isbn, category, total_copies, available_copies, status, image], (err, result) => {
         if(err){
           rej(err);
         }

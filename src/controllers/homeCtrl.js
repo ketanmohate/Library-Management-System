@@ -116,7 +116,7 @@ exports.addcategories = async (req, res) => {
 exports.Viewcategorie = async (req, res) =>{
     try{
         const cat = await LMSmodels.getViewcategorie();
-        res.render("viewCategories.ejs",{cat});
+        res.render("viewCategories.ejs,addBooks.ejs",{cat});
     }catch(err){
         res.render("error.ejs");
     }
@@ -133,7 +133,6 @@ exports.addBooks = ((req, res) => {
     ,available_copies
     ,status
     ,image
-    ,created_at
     } = req.body;
 
     let book_title = title.trim();
@@ -145,9 +144,9 @@ exports.addBooks = ((req, res) => {
     let book_available_copies = available_copies.trim();
     let book_status = status.trim();
     let book_image = image.trim();
-    let book_created_at = created_at.trim();
+    // let book_created_at = created_at.trim();
 
-    let result = LMSmodels.getaddBooks(book_title,book_author, book_publisher, book_isbn, book_category,book_total_copies, book_available_copies, book_status, book_image, book_created_at);
+    let result = LMSmodels.getaddBooks(book_title,book_author, book_publisher, book_isbn, book_category,book_total_copies, book_available_copies, book_status, book_image);
     result.then(() => {
         res.render("adminDashboard.ejs",{msg:"Book is added successfuly"});
     }) .catch((err) => {
