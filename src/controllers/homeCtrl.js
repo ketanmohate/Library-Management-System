@@ -93,7 +93,7 @@ exports.Viewstudent = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.render("error");
+        res.render("error.ejs");
     }
 }
 
@@ -159,7 +159,7 @@ exports.viewAllBooks = async (req, res) => {
     try {
         const books = await LMSmodels.getAllBooks();
         // console.log(books);
-        res.render("viewBooks.ejs", { books });  
+        res.render("viewBooks.ejs", { books: books});  
     } catch (err) {
         console.error("Error fetching profile data:", err);
         res.render("error.ejs");
@@ -289,11 +289,16 @@ exports.afterupdateCat = (req, res) => {
             });
 
 }
+exports.deleteBook= (req, res) => {
+    let id = req.query.id.trim();
 
-//  .then(() => {
-//                 res.render("adminDashboard.ejs", { msg: "Student Data updated Successfully" });
-//             })
-//             .catch((err) => {
-//                 // console.error(err);
-//                 res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
-//             });
+    const result = LMSmodels.getDeleteBook(id);
+    result.then((c) => {
+       
+        res.render("viewBooks.ejs",{books: c});
+    }).catch((err) => {
+        
+       res.redirect("/viewBooks");
+
+    });
+}

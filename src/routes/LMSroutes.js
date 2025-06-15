@@ -11,9 +11,6 @@ router.get("/about",homectrl.about);
 
 router.post("/userLogin",homectrl.userLogin);
 
-
-router.get("/addSudentPage",homectrl.addSudentPage);
-
 router.post("/addStudent",homectrl.addStudent);
 
 
@@ -38,7 +35,7 @@ router.get("/categorie",homectrl.categories);
 
 router.post('/addcategorie', homectrl.addcategories);
 
-router.get('/viewcategorie',homectrl.Viewcategorie);
+router.get("/viewcategorie",homectrl.Viewcategorie);
 
 router.get("/beforeUpdateCat",homectrl.beforeupdateCat);
 
@@ -60,4 +57,5 @@ router.get("/books", async (req, res) => {
   res.render("about.ejs", { books });
 });
 
+router.get("/deletebook",homectrl.deleteBook);
 module.exports = router;

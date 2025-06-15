@@ -19,7 +19,7 @@ exports.getaddBooks = (title, author, publisher, isbn, category, total_copies, a
 exports.getAllBooks = () => {
     return new Promise((res, rej) => {
         conn.query(
-            "SELECT title, author, publisher, category, total_copies, available_copies, status, image FROM books",
+            "SELECT id, title, author, publisher, category, total_copies, available_copies, status, image FROM books",
             (err, result) => {
                 if (err) {
                     rej(err);
@@ -32,6 +32,21 @@ exports.getAllBooks = () => {
     });
 }
 
+exports.getDeleteBook= (id) => {
+  return new Promise((resolve, reject) => {
+        conn.query("DELETE FROM books WHERE id = ?", [id], (err, result) => {
+           
+             conn.query("SELECT * FROM books", (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    });
+}
 exports.addStudent = (name, email, password) => {
     return new Promise((res, rej) => {
         const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
