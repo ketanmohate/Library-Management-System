@@ -29,7 +29,14 @@ exports.addSudentPage = ((req, res) => {
 });
 
 exports.addBookPage = ((req,res) => {
-    res.render("addBooks.ejs");
+      const result = LMSmodels.getViewcategorie();
+    result.then((r)=>{
+        res.render("addBooks.ejs",{cat:r});
+    }).catch((err)=>{
+        res.render("error.ejs");
+    })
+
+  
 })
 exports.userLogin = ((req, res) => {
     let {
@@ -122,6 +129,7 @@ exports.Viewcategorie = async (req, res) =>{
     }
 }
 
+exports.searchCat = 
 exports.addBooks = ((req, res) => {
     let {
     title
@@ -206,6 +214,7 @@ exports.beforeupdateStud = async (req, res) => {
         console.log(err);
         res.render("error");
     }
+
 }
 
 exports.afterupdateStud = (req, res) => {
@@ -294,7 +303,8 @@ exports.beforeupdateBook = async(req, res) => {
     let id = (req.query.id || "").trim();
     try{
         let books = await LMSmodels.getbeforeupdateBook(id);
-        res.render("updateBooks.ejs",{books});
+        let cat = await LMSmodels.getViewcategorie(id);
+        res.render("updateBooks.ejs",{books,cat});
     } catch(err){
         res.render("adminDashboard.ejs");
     }

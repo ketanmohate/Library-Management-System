@@ -11,7 +11,6 @@ router.get("/about",homectrl.about);
 
 router.post("/userLogin",homectrl.userLogin);
 
-router.post("/addStudent",homectrl.addStudent);
 
 
 
@@ -19,6 +18,8 @@ router.get("/dashbord",homectrl.dashbord);
 
 // for Student
 router.get("/addSudentPage",homectrl.addSudentPage);
+
+router.post("/addStudent",homectrl.addStudent);
 
 router.get("/viewstud",homectrl.Viewstudent);
 
@@ -34,6 +35,8 @@ router.post("/afterUpdateStud",homectrl.afterupdateStud);
 router.get("/categorie",homectrl.categories);
 
 router.post('/addcategorie', homectrl.addcategories);
+
+router.get("/searchCategorie",homectrl.searchCat);
 
 router.get("/viewcategorie",homectrl.Viewcategorie);
 
