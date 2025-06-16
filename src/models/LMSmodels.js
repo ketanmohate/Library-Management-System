@@ -53,6 +53,8 @@ exports.getViewcategorie = () =>{
     })
   })
 }
+
+
 exports.searchAllStudent = (searchValue) => {
     return new Promise((res, rej) => {
         let value = '%' + searchValue + '%';

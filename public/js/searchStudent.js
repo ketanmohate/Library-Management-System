@@ -36,12 +36,12 @@ let searchStudents = (str) => {
 
                 // Update button
                 column = document.createElement("td");
-                column.innerHTML = `<a href="/updateStudent/${item.id}">UPDATE</a>`;
+                column.innerHTML = `<a class = "btn btn-update btn-primary" href="/updateStudent/${item.id}">UPDATE</a>`;
                 row.appendChild(column);
 
                 // Delete button
                 column = document.createElement("td");
-                column.innerHTML = `<button class="del"><a href="/deleteStudent/${item.id}" onclick="return confirm('Are you sure you want to delete this student data?')">DELETE</a></button>`;
+                column.innerHTML = `<a class="btn btn-delete btn-danger" href="/deleteStudent/${item.id}" onclick="return confirm('Are you sure you want to delete this student data?')">DELETE</a>`;
                 row.appendChild(column);
 
                 tableBody.appendChild(row);

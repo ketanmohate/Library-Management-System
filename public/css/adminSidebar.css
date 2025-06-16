@@ -1,9 +1,15 @@
+body{
+  background: linear-gradient(to bottom, #01141c, #1d4a5a);
+}
+
 .sidebar {
   width: 260px;
-  height: 100vh;
+  height:80vh;
   background: linear-gradient(to right, #0f2027, #203a43);
   color: white;
   padding: 20px 15px;
+  /* border: solid red; */
+  margin: 10px;
 }
 
 .sidebar-title {

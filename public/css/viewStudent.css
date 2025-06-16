@@ -1,0 +1,149 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #0f2027, #203a43);
+  color: #e0f0f3;
+}
+
+/* Container Grid */
+.Fcontiner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+}
+
+.fSidebar {
+  /* Custom sidebar styling if needed */
+}
+
+.fMainContent {
+  padding: 10px;
+  /* border: solid red; */
+}
+
+/* Container Box */
+.container {
+  /* border: solid red; */
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+}
+
+/* Search Input */
+.search-box {
+  background-color: #112e3a;
+  color: #e0f7fa;
+  border: 1.5px solid #00e5ff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.search-box::placeholder {
+  color: #81d4fa;
+}
+
+/* Table Styling */
+.custom-table {  
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #e0f7fa;
+  background-color: #0f2f40;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.custom-table thead {
+  background-color: #0d3b4f;
+  color: #00e5ff;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 12px 18px;
+  text-align: left;
+  vertical-align: middle;
+  /* border: 1px solid black;  */
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #123b4d;
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #0f2f40;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #14556b;
+}
+
+
+/* Update Button */
+.btn-update {
+  background-color: #00bcd4;
+  
+  color: #002b36;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.btn-update:hover {
+  background-color: #00e5ff;
+  color: #fff;
+}
+
+/* Delete Button */
+.btn-delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  margin-top: 1.5rem;
+}
+
+.btn-nav {
+  background-color: #00bcd4;
+  color: #002b36;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 8px 16px;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-nav:hover {
+  background-color: #008c9e;
+  color: white;
+}
+
+#pageCount {
+  font-size: 1rem;
+  color: #e0f7fa;
+}
