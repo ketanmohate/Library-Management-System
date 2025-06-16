@@ -153,21 +153,21 @@
                                 <div class="form-group">
                                     <label for="category">Category</label>
                                     <!-- <input type="text" value="" id="category" name="category" -->
-                                        <!-- required placeholder="Enter Category" /> -->
-                                      <select name="category" id="category">
+                                    <!-- required placeholder="Enter Category" /> -->
+                                    <select name="category" id="category">
 
 
-                                        <% if(typeof cat !== 'undefined' && cat.length===0) {%>
+                                        <% if(typeof cat !=='undefined' && cat.length===0) {%>
 
-                                            
 
-                                        <h3>No data Availabe 😥...</h3>
 
-                                        <% } else{
-                                            cat.forEach((item)=> { %>
-                                                    <option value="<%= item.name %>"><%= item.name %></option>
-                                                        <% })
-                                                            }%>
+                                            <h3>No data Availabe 😥...</h3>
+
+                                            <% } else{ cat.forEach((item)=> { %>
+                                                <option value="<%= item.name %>">
+                                                    <%= item.name %>
+                                                </option>
+                                                <% }) }%>
                                     </select>
                                 </div>
 
@@ -183,21 +183,21 @@
                                         name="available_copies" required placeholder="Enter Available Copies" />
                                 </div>
 
-                              
-                                <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" required>
-                                    <option value="available">Available</option>
-                                    <option value="unavailable">Unavailable</option>
-                                </select>
-                            </div>
 
                                 <div class="form-group">
-                                    <label for="image">Image</label>
-                                    
-                                    <input type="fix" value="<%= books[0].image %>" id="image" name="image" required
-                                        placeholder="Enter Image File Name" />
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" required>
+                                        <option value="available">Available</option>
+                                        <option value="unavailable">Unavailable</option>
+                                    </select>
                                 </div>
+
+                                <!-- <div class="form-group">
+                                    <label for="image">Image</label>
+
+                                    <input type="hidden" value="<%= books[0].image %>" id="image" name="image" required
+                                        placeholder="Enter Image File Name" />
+                                </div> -->
 
                             </div>
 

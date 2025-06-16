@@ -61,10 +61,10 @@ exports.getbeforeupdateBook = (id) => {
   });
 }
 
-exports.getafterupdateBook = (book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_image,book_id) => {
+exports.getafterupdateBook = (book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_id) => {
   return new Promise((resolve, reject) => {
 
-    conn.query("UPDATE books SET title=?, author=?, publisher=?, isbn = ?, category=?, total_copies=?, available_copies=?, status=?, image=? WHERE id=?",
+    conn.query("UPDATE books SET title=?, author=?, publisher=?, isbn = ?, category=?, total_copies=?, available_copies=?, status=? WHERE id=?",
       [book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_image, book_id],
       (err , result) => {
         if(err){
@@ -126,6 +126,24 @@ exports.getViewcategorie = () =>{
     })
   })
 }
+
+exports.getsearchCat = (searchValue) => {
+    return new Promise((res, rej) => {
+        let value = '%' + searchValue + '%';
+        conn.query(
+            `SELECT * FROM categories WHERE name LIKE ? `,
+            [value],
+            (err, result) => {
+                if (err) {
+                    rej(err);
+                } else {
+                    res(result);
+                }
+            }
+        );
+    });
+};
+
 exports.searchAllStudent = (searchValue) => {
     return new Promise((res, rej) => {
         let value = '%' + searchValue + '%';
@@ -172,6 +190,7 @@ exports.getbeforeupdateStud = (id) => {
         });
       });
 }
+
 
 exports.getafterupdateStud = (name , email , password, id) => {
   return new Promise((res, rej) => {

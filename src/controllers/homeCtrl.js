@@ -129,7 +129,20 @@ exports.Viewcategorie = async (req, res) =>{
     }
 }
 
-exports.searchCat = 
+exports.searchCat =  async (req, res) => {
+    try {
+        const searchValue = req.query.cd;
+        console.log("Received search value:", searchValue); // ✅ ADD THIS
+
+        const cat = await LMSmodels.getsearchCat(searchValue);
+        console.log("Search result:", cat); // ✅ ADD THIS
+
+        res.json(cat);  // Send JSON for AJAX, don't render EJS here
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+};
 exports.addBooks = ((req, res) => {
     let {
     title
@@ -231,7 +244,7 @@ exports.afterupdateStud = (req, res) => {
     console.log(student_password);
     console.log(confirm_password);
 
-    let id =student_id;
+    let id =student_id.trim();
     let name = student_name.trim();
     let email = student_email.trim();
     let password = student_password.trim();
@@ -321,7 +334,6 @@ exports.afterupdateBook = (req, res) => {
     ,total_copies
     ,available_copies
     ,status
-    ,image
     } = req.body;
 
     let book_id = id.trim();
@@ -333,8 +345,6 @@ exports.afterupdateBook = (req, res) => {
     let book_total_copies = total_copies.trim();
     let book_available_copies = available_copies.trim();
     let book_status = status.trim();
-    let book_image = image.trim();
-    // let book_created_at = created_at.trim();
 
     let result = LMSmodels.getafterupdateBook(book_title, book_author, book_publisher, book_isbn, book_category,book_total_copies, book_available_copies, book_status, book_image,book_id);
     result.then(() => {

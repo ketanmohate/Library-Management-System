@@ -5,7 +5,7 @@ let searchStudents = (str) => {
         if (this.readyState == 4 && this.status == 200) {
 
             let tableBody = document.getElementById("tableBody");
-            
+
             tableBody.innerHTML = "";
 
             let responseData = this.responseText;
@@ -36,7 +36,7 @@ let searchStudents = (str) => {
 
                 // Update button
                 column = document.createElement("td");
-                column.innerHTML = `<a class="btn btn-primary" href="/beforeUpdateStud?id=${item.id}">UPDATE</a>`;
+                column.innerHTML = `<a class="btn btn-primary" href="/beforeUpdateStud?id=${item.id}" onclick="return confirm('Are you sure you want to Update this student data?')">UPDATE</a>`;
                 row.appendChild(column);
 
                 // Delete button

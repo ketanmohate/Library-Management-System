@@ -36,9 +36,10 @@
 
         <!-- Action buttons -->
         <div class="book-actions">
-          <a href="/deletebook?id=<%= book.id %>" class="btn btn-danger btn-sm">DELETE</a>
-          <a href="/beforeUpdateBook?id=<%= book.id %>" class="btn btn-primary btn-sm">UPDATE</a>
-        </div>
+          <a href="/beforeUpdateBook?id=<%= book.id %>" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure you want to Update this Book data?')">UPDATE</a>
+       
+          <a href="/deletebook?id=<%= book.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Book data?')">DELETE</a>
+           </div>
       </div>
     <% }); %>
     

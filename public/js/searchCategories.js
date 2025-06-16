@@ -23,19 +23,19 @@ let searchCategories = (str) => {
 
                 // Update button
                 column = document.createElement("td");
-                column.innerHTML = `<a class="btn btn-primary" href="/beforeUpdateCat?id=${item.id}">UPDATE</a>`;
+                column.innerHTML = `<a class="btn btn-primary" href="/beforeUpdateCat?id=${item.id}" onclick="return confirm('Are you sure you want to Update this Category data?')">UPDATE</a>`;
                 row.appendChild(column);
 
                 // Delete button
                 column = document.createElement("td");
-                column.innerHTML = `<a class="btn btn-danger" href="/deleteCategores?id=${item.id}" onclick="return confirm('Are you sure you want to delete this student data?')">DELETE</a>`;
+                column.innerHTML = `<a class="btn btn-danger" href="/deleteCategores?id=${item.id}" onclick="return confirm('Are you sure you want to delete this Category data?')">DELETE</a>`;
                 row.appendChild(column);
 
                 tableBody.appendChild(row);
             });
 
             // After updating the table, refresh pagination
-            // setupPagination();
+            setupPagination();
         }
     };
 
