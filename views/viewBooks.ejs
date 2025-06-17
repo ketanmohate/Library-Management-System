@@ -7,43 +7,51 @@
   <title>Book Gallery</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/viewBooks.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
   <%- include('homeNav') %>
-    <br>
-    <h1>📚 Welcome to The Knowledge Hub</h1>
+  <br>
+  <h1>📚 Welcome to The Knowledge Hub</h1>
 
-    <!-- Books -->
-    <div id="bookContainer" class="book-container">
-      <% books.forEach((book)=> { %>
-        <div class="book-card book-item">
-          <img src="/images/L3.jpg" alt="Book Image" />
-
-          <div class="book-details">
-            <div class="book-title">
-              <%= book.title %>
-            </div>
-            <div class="book-description">
-              <strong>Author:</strong>
-              <%= book.author %><br />
-                <strong>Publisher:</strong>
-                <%= book.publisher %><br />
-                  <strong>Category:</strong>
-                  <%= book.category %>
-            </div>
+  <!-- Books -->
+   
+  <div id="bookContainer" class="book-container">
+    <% books.forEach((book,index) => { %>
+      <div class="book-card book-item">
+        <img src="/images/<%= book.image %>" alt="Book Image" />
+         <%= (index+1) %>
+        <div class="book-details">
+          <div class="book-title">
+            <%= book.title %>
+          </div>
+          <div class="book-description">
+            <strong>Author:</strong> <%= book.author %><br />
+            <strong>Publisher:</strong> <%= book.publisher %><br />
+            <strong>Category:</strong> <%= book.category %>
           </div>
         </div>
-        <% }); %>
-    </div>
 
-    <!-- Pagination -->
-    <div class="pagination">
-      <button id="prevBtn" disabled>Previous</button>
-      <button id="nextBtn">Next</button>
-    </div>
-    <br>
-    <script src="/js/viewBooks.js"></script>
+        <!-- Action buttons -->
+        <div class="book-actions">
+          <a href="/beforeUpdateBook?id=<%= book.id %>" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure you want to Update this Book data?')">UPDATE</a>
+       
+          <a href="/deletebook?id=<%= book.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Book data?')">DELETE</a>
+           </div>
+      </div>
+    <% }); %>
+    
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button id="prevBtn" disabled>Previous</button>
+    <button id="nextBtn">Next</button>
+  </div>
+  <br>
+  <script src="/js/viewBooks.js"></script>
 </body>
 
 </html>

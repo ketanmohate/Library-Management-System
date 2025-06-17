@@ -1,9 +1,25 @@
 let ctrl = require("../controllers/homeCtrl");
 let conn = require("../config/db");
+
+exports.getaddBooks = (title, author, publisher, isbn, category, total_copies, available_copies, status, image,created_at) => {
+    return new Promise((res, rej) => {
+      const bookDetail = "INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      conn.query(bookDetail,[title, author, publisher, isbn, category, total_copies, available_copies, status, image], (err, result) => {
+        if(err){
+          rej(err);
+        }
+        else{
+          res(result);
+        }
+      });
+
+    });
+}
+
 exports.getAllBooks = () => {
     return new Promise((res, rej) => {
         conn.query(
-            "SELECT title, author, publisher, category, total_copies, available_copies, status, image FROM books",
+            "SELECT id, title, author, publisher, category, total_copies, available_copies, status, image FROM books",
             (err, result) => {
                 if (err) {
                     rej(err);
@@ -16,6 +32,63 @@ exports.getAllBooks = () => {
     });
 }
 
+exports.getDeleteBook= (id) => {
+  return new Promise((resolve, reject) => {
+        conn.query("DELETE FROM books WHERE id = ?", [id], (err, result) => {
+           
+             conn.query("SELECT * FROM books", (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    });
+}
+
+exports.getbeforeupdateBook = (id) => {
+  return new Promise((resolve, reject) => {
+    conn.query("Select * from books where id = ?",[id],(err,result) => {
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result);
+      }
+    });
+  });
+}
+
+exports.getafterupdateBook = (book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_id) => {
+  return new Promise((resolve, reject) => {
+
+    conn.query("UPDATE books SET title=?, author=?, publisher=?, isbn = ?, category=?, total_copies=?, available_copies=?, status=? WHERE id=?",
+      [book_title,book_author, book_publisher, isbn, book_category,book_total_copies, book_available_copies, book_status, book_image, book_id],
+      (err , result) => {
+        if(err){
+          reject(err);
+        }
+        else{
+          resolve(result);
+        }
+      });
+  });
+
+//   exports.getafterupdateStud = (name , email , password, id) => {
+//   return new Promise((res, rej) => {
+        
+//         conn.query("update users set name=?,email=? , password=? where id=? ", [ name , email , password, id], (err, result) => {
+//             if (err) {
+//                 rej(err);
+//             } else {
+//                 res(result);
+//             }
+//         })
+//     })
+// }
+}
 exports.addStudent = (name, email, password) => {
     return new Promise((res, rej) => {
         const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
@@ -44,7 +117,7 @@ exports.viewAllstudents = () => {
 
 exports.getViewcategorie = () =>{
   return new Promise((res, rej) => {
-    conn.query("select name from categories",(err, result) => {
+    conn.query("select id, name from categories",(err, result) => {
       if(err){
         rej(err);
       } else {
@@ -53,6 +126,24 @@ exports.getViewcategorie = () =>{
     })
   })
 }
+
+exports.getsearchCat = (searchValue) => {
+    return new Promise((res, rej) => {
+        let value = '%' + searchValue + '%';
+        conn.query(
+            `SELECT * FROM categories WHERE name LIKE ? `,
+            [value],
+            (err, result) => {
+                if (err) {
+                    rej(err);
+                } else {
+                    res(result);
+                }
+            }
+        );
+    });
+};
+
 exports.searchAllStudent = (searchValue) => {
     return new Promise((res, rej) => {
         let value = '%' + searchValue + '%';
@@ -88,7 +179,31 @@ exports.getStudentDelete = (id) => {
     });
 };
 
+exports.getbeforeupdateStud = (id) => {
+      return new Promise((resolve, reject) => {
+        conn.query("select id, name,email, password from users where id = ?",[id],(err, result) => {
+          if(err){
+            reject(err);
+          } else{
+            resolve(result);
+          }
+        });
+      });
+}
 
+
+exports.getafterupdateStud = (name , email , password, id) => {
+  return new Promise((res, rej) => {
+        
+        conn.query("update users set name=?,email=? , password=? where id=? ", [ name , email , password, id], (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        })
+    })
+}
 exports.getFilteredBooks = (search = "") => {
   return new Promise((res, rej) => {
     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
@@ -137,14 +252,42 @@ exports.getaddcategories = (str) => {
 exports.getdelCategorie = (id) => {
   return new Promise((resolve, reject) => {
     conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
-    
-      conn.query("select * from categories",(err2, result2) => {
-      if(err2){
-       return  reject(err2);
+      
+      conn.query("select * from categories",(err, result) => {
+      if(err){
+       return  reject(err);
       } else {
-        resolve(result2);
+        resolve(result);
       }
-    });
+        });
     });
   });
-};
+  
+}
+
+
+exports.getbeforeupdateCat =  (id) =>{
+ return new Promise((res, rej) => {
+ 
+    conn.query("select * from categories where id = ?",[id],(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    });
+  });
+}
+
+exports.getafterupdateCat = (name,id) =>{
+   return new Promise((res, rej) => {
+ 
+        conn.query("update categories set name=? where id=? ", [ name , id], (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        });
+      });
+}
