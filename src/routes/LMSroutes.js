@@ -1,5 +1,6 @@
 let routers = require("express");
-let homectrl = require("../controllers/homeCtrl");
+let upload = require("../middleware/multer.js")
+let homectrl = require("../controllers/homeCtrl.js");
 
 let router = routers.Router();
 
@@ -49,13 +50,23 @@ router.post("/afterUpdateCat",homectrl.afterUpdateCat);
 
 router.get("/deleteCategores",homectrl.deleteCat);
 
+router.get("/getCategories",homectrl.getCategories);
+
 // End Categorie
 
 
 
 // Start Books
 
-router.get("/viewAllBooks",homectrl.viewAllBooks);
+router.get("/addBookForm",homectrl.addBookForm);
+
+router.post("/addBook", upload.single("image"), homectrl.addBook);
+
+router.get("/viewBooks",homectrl.viewAllBooks);
+
+router.get("/deleteBook", homectrl.deleteBook);
+
+router.get("/beforeUpdateBook",homectrl.beforeUpdateBook);
 
 
 

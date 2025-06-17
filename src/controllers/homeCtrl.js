@@ -1,5 +1,5 @@
 const { Router } = require("express");
-let LMSmodels = require("../models/LMSmodels");
+const LMSmodels = require("../models/LMSmodels.js");
 const router = require("../routes/LMSroutes");
 
 exports.home = ((req, res) => {
@@ -265,9 +265,39 @@ exports.deleteCat = async (req, res) => {
     }
 }
 
+exports.getCategories = async (req, res) => {
+    try {
+        const cat = await LMSmodels.getAllCategories(); // adjust as needed
+        res.json(cat);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to load categories" });
+    }
+}
+
 // end categories Routers
 
 // books routers
+
+exports.addBookForm = async (req, res) => {
+
+    let categories = await LMSmodels.getViewcategorie();
+
+    res.render("addBookForm.ejs", { categories });
+}
+
+exports.addBook = (req, res) => {
+    const { title, author, publisher, isbn, category, total_copies, available_copies, status } = req.body;
+    const image = '/uploads/' + req.file.filename;
+
+    LMSmodels.addBook(title, author, publisher, isbn, category, total_copies, available_copies, status, image)
+        .then(() => {
+            res.render("adminDashboard.ejs");
+        })
+        .catch((err) => {
+            console.error("Add Book Error:", err);
+            res.render("err.ejs");
+        });
+};
 
 exports.viewAllBooks = async (req, res) => {
     try {
@@ -279,6 +309,34 @@ exports.viewAllBooks = async (req, res) => {
         res.render("error");
     }
 };
+
+exports.deleteBook = async (req, res) => {
+    try {
+        let id = req.query.id.trim();
+        console.log(id);
+
+        await LMSmodels.deleteBook(id);
+        res.redirect("/viewBooks");
+
+    } catch (err) {
+        console.error("Delete error:", err);
+        res.render("error.ejs");
+    }
+}
+
+exports.beforeUpdateBook = async (req, res) => {
+    try {
+        let id = req.query.id.trim();
+
+        const book= await LMSmodels.beforeUpdateBook;
+
+        res.render("UpdateBook.ejs", { book });
+
+    } catch (err) {
+        console.error("error:", err);
+        res.render("error.ejs");
+    }
+}
 
 
 // end books routers

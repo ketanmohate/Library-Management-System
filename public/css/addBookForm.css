@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #244452, #203a43);
+}
+
+.Fcontiner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.fSidebar {
+  /* Optional styling for sidebar */
+}
+
+.fMainContent {
+    margin-top: 20px;
+  /* border: solid red; */
+}
+
+.dark-theme {
+  /* background: #112030; */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  color: #00ffff;
+  width: 90%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.form-heading {
+  text-align: center;
+  font-size: 28px;
+  color: #00ffff;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.book-form input[type="text"],
+.book-form input[type="number"],
+.book-form input[type="file"],
+.book-form select {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #00ffff;
+  border-radius: 6px;
+  background: #0b1824;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.book-form input:focus,
+.book-form select:focus {
+  border-color: #33f6ff;
+  box-shadow: 0 0 5px #00ffff;
+}
+
+.btn-submit {
+  padding: 10px 25px;
+  background: #00ffff;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-submit:hover {
+  background: #00c6c6;
+  box-shadow: 0 0 10px #00ffff;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 45%;
+  position: relative;
+}
+
+.input-label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #00ffff;
+  font-weight: bold;
+  padding-left: 2px;
+}
+
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #0b1824;
+  padding: 10px 15px;
+  border: 1px solid #00ffff;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #00ffff;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px;
+}
+
+.custom-file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  background-color: #00c6c6;
+}
+
+.custom-file-upload label {
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+#file-chosen {
+  font-size: 14px;
+  color: #aaa;
+}
