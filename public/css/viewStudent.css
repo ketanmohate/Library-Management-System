@@ -38,19 +38,20 @@ body {
 
 /* Search Input */
 .search-box {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #00e5ff;
+  border-radius: 6px;
   background-color: #112e3a;
-  color: #e0f7fa;
-  border: 1.5px solid #00e5ff;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 16px;
-  outline: none;
-  transition: 0.3s ease;
+  color: #e0f0f3;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .search-box::placeholder {
   color: #81d4fa;
 }
+
 
 /* Table Styling */
 .custom-table {  

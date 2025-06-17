@@ -56,4 +56,8 @@ router.get("/books", async (req, res) => {
   res.render("about.ejs", { books });
 });
 
+router.get('/register-form', (req, res) => {
+  res.render('registerForm'); // renders views/registerForm.ejs
+});
+
 module.exports = router;
