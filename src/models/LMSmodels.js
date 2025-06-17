@@ -1,20 +1,8 @@
 let ctrl = require("../controllers/homeCtrl");
 let conn = require("../config/db");
-exports.getAllBooks = () => {
-    return new Promise((res, rej) => {
-        conn.query(
-            "SELECT title, author, publisher, category, total_copies, available_copies, status, image FROM books",
-            (err, result) => {
-                if (err) {
-                    rej(err);
-                } else {
-                    console.log(result);
-                    res(result);
-                }
-            }
-        );
-    });
-}
+
+
+// Start student Models
 
 exports.addStudent = (name, email, password) => {
     return new Promise((res, rej) => {
@@ -30,6 +18,7 @@ exports.addStudent = (name, email, password) => {
 };
 
 
+
 exports.viewAllstudents = () => {
     return new Promise((res, rej) => {
         conn.query("SELECT id, name, email, password, created_at FROM users", (err, result) => {
@@ -41,19 +30,6 @@ exports.viewAllstudents = () => {
         });
     });
 }
-
-exports.getViewcategorie = () =>{
-  return new Promise((res, rej) => {
-    conn.query("select name from categories",(err, result) => {
-      if(err){
-        rej(err);
-      } else {
-        res(result);
-      }
-    })
-  })
-}
-
 
 exports.searchAllStudent = (searchValue) => {
     return new Promise((res, rej) => {
@@ -114,6 +90,105 @@ exports.getafterupdateStud = (name , email , password, id) => {
         })
     })
 }
+
+// End student Models
+
+
+
+
+// Start Category Models
+
+exports.getViewcategorie = () =>{
+  return new Promise((res, rej) => {
+    conn.query("select id, name from categories",(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    })
+  })
+}
+
+exports.getaddcategories = (str) => {
+    return new Promise((resolve, reject) => {
+
+        conn.query("insert into categories (name)values (?)", [str], (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        })
+    });
+};
+
+
+exports.getdelCategory = (id) => {
+  return new Promise((resolve, reject) => {
+    conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
+      });
+      conn.query("select * from categories",(err1, result1) => {
+      if(err1){
+       return  reject(err1);
+      } else {
+        resolve(result1);
+      }
+  
+    });
+  }); 
+}
+
+
+exports.getbeforeupdateCat =  (id) =>{
+  return new Promise((res, rej) => {
+    conn.query("select id, name from categories where id = ?",[id],(err, result) => {
+      if(err){
+        rej(err);
+      } else {
+        res(result);
+      }
+    })
+  })  
+}
+
+exports.getafterupdateCat = (id, name) => {
+  return new Promise((res, rej) => {
+    conn.query("UPDATE categories SET name = ? WHERE id = ?", [name, id], (err, result) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(result);
+      }
+    });
+  });
+};
+
+// End Category Models
+
+
+
+
+// start Books Models
+
+exports.getAllBooks = () => {
+    return new Promise((res, rej) => {
+        conn.query(
+            "SELECT title, author, publisher, category, total_copies, available_copies, status, image FROM books",
+            (err, result) => {
+                if (err) {
+                    rej(err);
+                } else {
+                    console.log(result);
+                    res(result);
+                }
+            }
+        );
+    });
+}
+
+
 exports.getFilteredBooks = (search = "") => {
   return new Promise((res, rej) => {
     const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'member')";
@@ -126,7 +201,6 @@ exports.getFilteredBooks = (search = "") => {
     });
   });
 };
-
 
 // exports.getFilteredBooks = (search = "") => {
 //     return new Promise((res, rej) => {
@@ -143,48 +217,4 @@ exports.getFilteredBooks = (search = "") => {
 //     });
 // };
 
-
-
-exports.getaddcategories = (str) => {
-    return new Promise((resolve, reject) => {
-
-        conn.query("insert into categories (name)values (?)", [str], (err, result) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(result);
-            }
-        })
-    });
-};
-
-exports.getdelCategorie = (id) => {
-  return new Promise((resolve, reject) => {
-    conn.query("DELETE FROM categories WHERE id = ?",[id],(err,result) => {
-      });
-      conn.query("select * from categories",(err1, result1) => {
-      if(err1){
-       return  reject(err1);
-      } else {
-        resolve(result1);
-      }
-  
-    });
-  });
-  
-}
-
-
-
-exports.getbeforeupdateCat =  (id) =>{
-  return new Promise((res, rej) => {
-    conn.query("select id, name from categories where id = ?",[id],(err, result) => {
-      if(err){
-        rej(err);
-      } else {
-        res(result);
-      }
-    })
-  })
-}
+// End Books Models

@@ -11,17 +11,14 @@ router.get("/about",homectrl.about);
 
 router.post("/userLogin",homectrl.userLogin);
 
-router.get("/viewAllBooks",homectrl.viewAllBooks);
+router.get("/dashbord",homectrl.dashbord);
 
-router.get("/addSudentPage",homectrl.addSudentPage);
+
+
+// Start Student
 
 router.post("/addStudent",homectrl.addStudent);
 
-
-
-router.get("/dashbord",homectrl.dashbord);
-
-// for Student
 router.get("/addSudentPage",homectrl.addSudentPage);
 
 router.get("/viewstud",homectrl.Viewstudent);
@@ -34,30 +31,48 @@ router.get("/beforeUpdateStud",homectrl.beforeupdateStud);
 
 router.post("/afterUpdateStud",homectrl.afterupdateStud);
 
-// for Categorie
+// End studet
+
+
+
+
+// Start Categorie
 router.get("/categorie",homectrl.categories);
 
 router.post('/addcategorie', homectrl.addcategories);
 
-router.get('/viewcategorie',homectrl.Viewcategorie)
+router.get('/viewcategorie',homectrl.Viewcategorie);
+
+router.get("/beforeUpdateCat",homectrl.beforeUpdateCat);
+
+router.post("/afterUpdateCat",homectrl.afterUpdateCat);
 
 router.get("/deleteCategores",homectrl.deleteCat);
 
+// End Categorie
 
-router.get("/beforeUpdateCat",homectrl.beforeupdateCat);
 
-// router.post("/afterUpdateStud",homectrl.afterupdateStud);
+
+// Start Books
+
+router.get("/viewAllBooks",homectrl.viewAllBooks);
+
 
 
 // for books
-router.get("/books", async (req, res) => {
-  const search = req.query.search || "";
-  const books = await LMSmodels.getFilteredBooks(search);
-  res.render("about.ejs", { books });
-});
+// router.get("/books", async (req, res) => {
+//   const search = req.query.search || "";
+//   const books = await LMSmodels.getFilteredBooks(search);
+//   res.render("about.ejs", { books });
+// });
 
-router.get('/register-form', (req, res) => {
-  res.render('registerForm'); // renders views/registerForm.ejs
-});
+// router.get('/register-form', (req, res) => {
+//   res.render('registerForm'); // renders views/registerForm.ejs
+// });
+
+
+// End Books
+
+
 
 module.exports = router;

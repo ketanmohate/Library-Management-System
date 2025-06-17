@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>update Category</title>
     <link rel="stylesheet" href="/css/updateCategories.css">
 </head>
 
@@ -23,13 +23,13 @@
                 <!-- Main Content -->
                 <div class="fMainContent">
                     <div class="form-wrapper">
-                        <h2 class="form-heading">Add Category</h2>
-                        <form action="/addcategorie" method="POST" class="category-form">
+                        <h2 class="form-heading">Update Category</h2>
+                        <form action="/afterUpdateCat" method="POST" class="category-form">
                             <div class="form-group">
-                                <!-- <input type="hidden" name="id" value="<%=cat[0].id %>"> -->
+                                <input type="hidden" name="id" value="<%=cat[0].id %>">
                                 <input type="text" id="name" name="name" value="<%=cat[0].name %>" placeholder="Enter Category Name" required  />
                             </div>
-                            <button class="submit-btn" type="submit">Add Category</button>
+                            <button class="submit-btn" type="submit">Update Category</button>
                         </form>
                     </div>
                 </div>

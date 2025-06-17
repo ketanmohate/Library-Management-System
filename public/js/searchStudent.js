@@ -31,7 +31,8 @@ let searchStudents = (str) => {
                 row.appendChild(column);
 
                 column = document.createElement("td");
-                column.innerHTML = "" + item.created_at;
+                column.innerHTML = new Date(item.created_at).toLocaleString();
+
                 row.appendChild(column);
 
                 // Update button
