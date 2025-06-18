@@ -33,4 +33,16 @@ app.set('view engine', 'ejs');
 app.use("/", LMSroutes);
 app.use("/", issueRoutes); // <-- Add this to use issueRoutes
 
+
+app.get('/booksByCategory', async (req, res) => {
+  const category = req.query.category;
+  try {
+    const books = await Book.find({ category: category }); // or category_name
+    res.json({ books: books });
+  } catch (err) {
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+
 module.exports = app;

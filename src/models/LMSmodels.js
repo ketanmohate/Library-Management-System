@@ -371,6 +371,22 @@ exports.searchBooks = (term) => {
   });
 };
 
+exports.getBooksByCategoryName = (categoryName) => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT b.* FROM books b
+      JOIN categories c ON b.category_id = c.id
+      WHERE LOWER(c.name) = LOWER(?)
+    `;
+    conn.query(sql, [categoryName], (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
+
+
+
 
 
 // exports.getFilteredBooks = (search = "") => {

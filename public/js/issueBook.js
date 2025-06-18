@@ -1,38 +1,99 @@
- // Load books when category is selected
-    document.getElementById('categoryInput').addEventListener('change', function () {
-      const category = this.value;
 
-      fetch(`/booksByCategory?category=${encodeURIComponent(category)}`)
-        .then(response => response.json())
-        .then(data => {
-          const bookDropdown = document.getElementById('bookDropdown');
-          bookDropdown.innerHTML = '<option value="">Select a book</option>';
-          if (data.books && data.books.length > 0) {
-            data.books.forEach(book => {
-              const option = document.createElement('option');
-              option.value = book.title;
-              option.textContent = book.title;
-              bookDropdown.appendChild(option);
-            });
-          } else {
-            const option = document.createElement('option');
-            option.value = '';
-            option.textContent = 'No books available';
-            bookDropdown.appendChild(option);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching books:', error);
+document.addEventListener("DOMContentLoaded", function () {
+  const categoryInput = document.getElementById("categoryInput");
+  const bookDropdown = document.getElementById("bookDropdown");
+
+  categoryInput.addEventListener("input", async function () {
+    const category = this.value;
+    bookDropdown.innerHTML = '<option value="">Loading books...</option>';
+
+    try {
+      const response = await fetch(`/booksByCategory?category=${encodeURIComponent(category)}`);
+      const data = await response.json();
+
+      if (data.books && data.books.length > 0) {
+        bookDropdown.innerHTML = '<option value="">Select a book</option>';
+        data.books.forEach(book => {
+          const option = document.createElement("option");
+          option.value = book.title;
+          option.textContent = book.title;
+          bookDropdown.appendChild(option);
         });
-    });
-
-    // Auto-fill return date as issue date + 7 days
-    document.getElementById('issueDate').addEventListener('change', function () {
-      const issueDate = new Date(this.value);
-      if (!isNaN(issueDate)) {
-        const returnDate = new Date(issueDate);
-        returnDate.setDate(returnDate.getDate() + 7);
-        const formattedReturnDate = returnDate.toISOString().split('T')[0];
-        document.getElementById('returnDate').value = formattedReturnDate;
+      } else {
+        bookDropdown.innerHTML = '<option value="">No books found</option>';
       }
-    });
+    } catch (error) {
+      console.error("Error fetching books:", error);
+      bookDropdown.innerHTML = '<option value="">Error loading books</option>';
+    }
+  });
+});
+
+document.getElementById("issueDate").addEventListener("change", function () {
+  const issueDateInput = this.value;
+  const returnDateInput = document.getElementById("returnDate");
+
+  if (issueDateInput) {
+    const issueDate = new Date(issueDateInput);
+    issueDate.setDate(issueDate.getDate() + 7); // Add 7 days
+
+    // Format date as YYYY-MM-DD for input field
+    const yyyy = issueDate.getFullYear();
+    const mm = String(issueDate.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const dd = String(issueDate.getDate()).padStart(2, '0');
+
+    const formattedReturnDate = `${yyyy}-${mm}-${dd}`;
+    returnDateInput.value = formattedReturnDate;
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const categoryInput = document.getElementById("categoryInput");
+  const bookDropdown = document.getElementById("bookDropdown");
+
+  categoryInput.addEventListener("input", async function () {
+    const category = categoryInput.value;
+
+    // Show loading
+    bookDropdown.innerHTML = '<option value="">Loading books...</option>';
+
+    try {
+      const response = await fetch(`/booksByCategory?category=${encodeURIComponent(category)}`);
+      const data = await response.json();
+
+      if (data.books && data.books.length > 0) {
+        bookDropdown.innerHTML = '<option value="">Select a book</option>';
+        data.books.forEach(book => {
+          const option = document.createElement("option");
+          option.value = book.title;
+          option.textContent = book.title;
+          bookDropdown.appendChild(option);
+        });
+      } else {
+        bookDropdown.innerHTML = '<option value="">No books found</option>';
+      }
+    } catch (error) {
+      console.error("Error fetching books:", error);
+      bookDropdown.innerHTML = '<option value="">Error loading books</option>';
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const issueDateInput = document.getElementById("issueDate");
+  const returnDateInput = document.getElementById("returnDate");
+
+  issueDateInput.addEventListener("change", function () {
+    const issueDate = new Date(this.value);
+    if (isNaN(issueDate)) return;
+
+    const returnDate = new Date(issueDate);
+    returnDate.setDate(issueDate.getDate() + 7);
+
+    // Format to yyyy-mm-dd
+    const year = returnDate.getFullYear();
+    const month = String(returnDate.getMonth() + 1).padStart(2, "0");
+    const day = String(returnDate.getDate()).padStart(2, "0");
+    returnDateInput.value = `${year}-${month}-${day}`;
+  });
+});

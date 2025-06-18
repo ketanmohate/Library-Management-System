@@ -8,9 +8,14 @@ let router = express.Router(); // ✅ FIXED
 // Start Issue_book
 
 // For issuing a book
+// router.get("/issueBookForm", issueCtrl.loadIssueForm);
+
+// router.get("/booksByCategory", issueCtrl.getBooksByCategory);
+
 router.get("/issueBookForm", issueCtrl.loadIssueForm);
 
 router.get("/booksByCategory", issueCtrl.getBooksByCategory);
+
 
 // router.post("/issueBook", issueCtrl.issueBook);
 
