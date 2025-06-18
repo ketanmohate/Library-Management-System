@@ -1,85 +1,66 @@
-<!-- viewStudent.ejs -->
+<!-- views/viewBooks.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Books Students</title>
-
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom Styles -->
   <link rel="stylesheet" href="/css/viewBooks.css" />
-
-  <style>
-    img {
-      height: 60px;
-      width: 60px;
-    }
-  </style>
-  <!-- Scripts -->
-
+  <script src="/js/searchBook.js"></script>
 </head>
-
 <body>
-  <!-- Include Navbar and Sidebar -->
   <%- include('adminNav.ejs') %>
-    <div class="Fcontiner">
-      <div class="fSidebar">
-        <%- include('adminSidebar.ejs') %>
+  <div class="Fcontiner">
+    <div class="fSidebar">
+      <%- include('adminSidebar.ejs') %>
+    </div>
+
+    <div class="fMainContent">
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <input type="text" class="search-box" id="Name" placeholder="🔍 Search Books"
+          onkeyup="searchSBooks(this.value)">
       </div>
 
-      <div class="fMainContent">
-
-        <!-- Search Bar -->
-        <div class="search-bar">
-          <input type="text" class="search-box" id="Name" placeholder="🔍 Search Student"
-            onkeyup="searchSBooks(this.value)">
-        </div>
-
-        <!-- Books -->
-
-        <div id="bookContainer" class="book-container">
-          <% books.forEach((book)=> { %>
-            <div class="book-card book-item">
-              <img src="<%= book.image %>" alt="Book Image" />
-
-              <div class="book-details">
-                <div class="book-title">
-                  <%= book.title %>
-                </div>
-                <div class="book-description">
-                  <strong>Author:</strong>
-                  <%= book.author %><br />
-                    <strong>Publisher:</strong>
-                    <%= book.publisher %><br />
-                      <strong>ISBN:</strong>
-                      <%= book.isbn %><br />
-                        <strong>Category:</strong>
-                        <%= book.category %><br />
-                          <strong>Total Copies:</strong>
-                          <%= book.total_copies %><br />
-                            <strong>Available Copies:</strong>
-                            <%= book.available_copies %><br />
-                              <strong>Status:</strong>
-                              <%= book.status %>
-                </div>
+      <!-- Books -->
+      <div id="bookContainer" class="book-container">
+        <% books.forEach((book) => { %>
+          <div class="book-card book-item">
+            <img src="<%= book.image %>" alt="Book Image" />
+            <div class="book-details">
+              <div class="book-title"><%= book.title %></div>
+              <div class="book-description">
+                <strong>Author:</strong> <%= book.author %><br />
+                <strong>Publisher:</strong> <%= book.publisher %><br />
+                <strong>ISBN:</strong> <%= book.isbn %><br />
+                <strong>Category:</strong> <%= book.category_name %><br />
+                <strong>Total Copies:</strong> <%= book.total_copies %><br />
+                <strong>Available Copies:</strong> <%= book.available_copies %><br />
+                <strong>Status:</strong> <%= book.status %>
               </div>
-              <button><a href="/deleteBook?id=<%=book.id%>">Delete </a></button>
-              <button><a href="/beforeUpdateBook?id=<%=book.id%>">Update</a></button>
             </div>
-            <% }); %>
-        </div>
 
-        <!-- Pagination -->
-        <div class="pagination">
-          <button id="prevBtn" disabled>Previous</button>
-          <button id="nextBtn">Next</button>
-        </div>
+            <form action="/deleteBook" method="POST" onsubmit="return confirm('Are you sure?');">
+              <input type="hidden" name="id" value="<%= book.id %>">
+              <button type="submit">Delete</button>
+            </form>
+
+            <button><a href="/beforeUpdateBook?id=<%= book.id %>">Update</a></button>
+          </div>
+        <% }); %>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <% if (currentPage > 1) { %>
+          <a href="/viewBooks?page=<%= currentPage - 1 %>">⬅️ Previous</a>
+        <% } %>
+        <% if (currentPage < totalPages) { %>
+          <a href="/viewBooks?page=<%= currentPage + 1 %>">Next ➡️</a>
+        <% } %>
       </div>
     </div>
+  </div>
 </body>
-
 </html>

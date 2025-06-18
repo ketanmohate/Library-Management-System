@@ -17,19 +17,16 @@ exports.addStudent = (name, email, password) => {
   })
 };
 
-
-
 exports.viewAllstudents = () => {
-  return new Promise((res, rej) => {
-    conn.query("SELECT id, name, email, password, created_at FROM users", (err, result) => {
-      if (err) {
-        rej(err);
-      } else {
-        res(result);
-      }
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT id, name, email, password, created_at FROM users";
+    conn.query(sql, (err, result) => {
+      if (err) return reject(err);
+      resolve(result); // ✅ result is an array
     });
   });
-}
+};
+
 
 exports.searchAllStudent = (searchValue) => {
   return new Promise((res, rej) => {
@@ -175,18 +172,37 @@ exports.getAllCategories = () => {
 };
 
 
+
+exports.checkCategories = (category) => {
+  return new Promise((res, rej) => {
+    conn.query(
+      "SELECT id FROM categories WHERE name = ?",
+      [category],
+      (err, result) => {
+        if (err) {
+          rej(err);
+        } else {
+          // If category exists, return its ID
+          if (result.length > 0) res(result[0].id);
+          else rej("Category not found");
+        }
+      }
+    );
+  });
+};
+
+
 // End Category Models
 
 
 
 
 // start Books Models
-
-exports.addBook = (title, author, publisher, isbn, category, total_copies, available_copies, status, image) => {
+exports.addBook = (title, author, publisher, isbn, total_copies, available_copies, status, image, category_id) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      "INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [title, author, publisher, isbn, category, total_copies, available_copies, status, image],
+      "INSERT INTO books (title, author, publisher, isbn, total_copies, available_copies, status, image, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, author, publisher, isbn, total_copies, available_copies, status, image, category_id],
       (err, result) => {
         if (err) {
           reject(err);
@@ -215,36 +231,41 @@ exports.getAllBooks = () => {
 }
 
 exports.deleteBook = (id) => {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     conn.query(
       "DELETE FROM books WHERE id = ?",
-      [id], // Correctly pass parameters as the second argument to query()
+      [id],
       (err, result) => {
         if (err) {
-          rej(err);
+          reject(err);
         } else {
-          res(result);
+          resolve(result);
         }
       }
     );
   });
 };
 
-exports.beforeUpdateBook = (id) =>{
-  return new Promise((res, rej)=>{
+
+exports.beforeUpdateBook = (id) => {
+  return new Promise((res, rej) => {
     conn.query(
-      "SELECT * FROM books where id = ?",
-      [id], 
+      `SELECT b.*, c.name AS category_name
+       FROM books b
+       LEFT JOIN categories c ON b.category_id = c.id
+       WHERE b.id = ?`,
+      [id],
       (err, result) => {
-        if (err) {
-          rej(err);
-        } else {
-          res(result);
-        }
+        if (err) rej(err);
+        else res(result);
       }
     );
-  })
-}
+  });
+};
+
+
+
+
 
 
 exports.getFilteredBooks = (search = "") => {
@@ -256,6 +277,96 @@ exports.getFilteredBooks = (search = "") => {
       } else {
         res(result);
       }
+    });
+  });
+};
+
+exports.afterUpdateBook = (
+  title,
+  author,
+  publisher,
+  isbn,
+  category,
+  total_copies,
+  available_copies,
+  status,
+  image,
+  id
+) => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      UPDATE books 
+      SET title = ?, author = ?, publisher = ?, isbn = ?, category_id = ?, 
+          total_copies = ?, available_copies = ?, status = ?, image = ?
+      WHERE id = ?`;
+
+    conn.query(
+      sql,
+      [
+        title,
+        author,
+        publisher,
+        isbn,
+        category, // this should be category_id
+        total_copies,
+        available_copies,
+        status,
+        image,
+        id
+      ],
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+};
+
+
+exports.getBooks = (limit, offset) => {
+  return new Promise((resolve, reject) => {
+    const query = `
+      SELECT b.*, c.name AS category_name
+      FROM books b
+      LEFT JOIN categories c ON b.category_id = c.id
+      LIMIT ? OFFSET ?
+    `;
+
+    conn.query(query, [limit, offset], (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
+
+
+// Count total books
+exports.countBooks = () => {
+  return new Promise((resolve, reject) => {
+    conn.query('SELECT COUNT(*) AS total FROM books', (err, result) => {
+      if (err) reject(err);
+      else resolve(result[0].total);
+    });
+  });
+};
+
+
+exports.searchBooks = (term) => {
+  return new Promise((resolve, reject) => {
+    const searchTerm = `%${term}%`;
+
+    const sql = `
+      SELECT b.*, c.name AS category 
+      FROM books b 
+      LEFT JOIN categories c ON b.category_id = c.id
+      WHERE b.title LIKE ? 
+         OR b.author LIKE ? 
+         OR b.publisher LIKE ? 
+         OR c.name LIKE ?`;
+
+    conn.query(sql, [searchTerm, searchTerm, searchTerm, searchTerm], (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
     });
   });
 };

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Book</title>
+  <title>Update Book</title>
   <link rel="stylesheet" href="/css/addBookForm.css" />
 </head>
 <body>
@@ -16,28 +16,31 @@
 
     <div class="fMainContent">
       <div class="form-wrapper dark-theme">
-        <h2 class="form-heading">📘 Add Books</h2>
+        <h2 class="form-heading">📘 Update Book</h2>
 
-        <form action="/addBook" method="POST" enctype="multipart/form-data" class="book-form">
+        <form action="/afterUpdateBook" method="POST" enctype="multipart/form-data" class="book-form">
+          <input type="hidden" name="id" value="<%= book.id %>">
+          <input type="hidden" name="oldImage" value="<%= book.image %>">
+
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">📘 Title</label>
-              <input type="text" name="title"  value="<%=book[0].title%>" required placeholder="Enter title">
+              <input type="text" name="title" value="<%= book.title %>" required placeholder="Enter title">
             </div>
             <div class="form-group">
               <label class="input-label">✍️ Author</label>
-              <input type="text" name="author" value="<%=book[0].author%>" required placeholder="Enter author">
+              <input type="text" name="author" value="<%= book.author %>" required placeholder="Enter author">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">🏢 Publisher</label>
-              <input type="text" name="publisher" value="<%=book[0].publisher%>" required placeholder="Enter publisher">
+              <input type="text" name="publisher" value="<%= book.publisher %>" required placeholder="Enter publisher">
             </div>
             <div class="form-group">
               <label class="input-label">🔢 ISBN</label>
-              <input type="text" name="isbn" value="<%=book[0].isbn%>" required placeholder="Enter ISBN">
+              <input type="text" name="isbn" value="<%= book.isbn %>" required placeholder="Enter ISBN">
             </div>
           </div>
 
@@ -46,29 +49,27 @@
               <label class="input-label">📂 Category</label>
               <select name="category" required>
                 <option value="">Select Category</option>
-                <% if (categories.length === 0) { %>
-                  <option value="">No data available</option>
-                <% } else { categories.forEach(item => { %>
-                  <option value="<%= item.name %>"><%= item.name %></option>
-                <% }) } %>
+                <% categories.forEach(item => { %>
+                  <option value="<%= item.id %>" <%= item.id === book.category_id ? 'selected' : '' %>><%= item.name %></option>
+                <% }) %>
               </select>
             </div>
             <div class="form-group">
               <label class="input-label">📦 Total Copies</label>
-              <input type="number" name="total_copies" value="<%=book[0].total_copies%>" required placeholder="Total copies">
+              <input type="number" name="total_copies" value="<%= book.total_copies %>" required>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">📚 Available Copies</label>
-              <input type="number" name="available_copies" value="<%=book[0].available_copies%>" required placeholder="Available copies">
+              <input type="number" name="available_copies" value="<%= book.available_copies %>" required>
             </div>
             <div class="form-group">
               <label class="input-label">📌 Status</label>
               <select name="status" required>
-                <option value="available">Available</option>
-                <option value="unavailable">Unavailable</option>
+                <option value="available" <%= book.status === 'available' ? 'selected' : '' %>>Available</option>
+                <option value="unavailable" <%= book.status === 'unavailable' ? 'selected' : '' %>>Unavailable</option>
               </select>
             </div>
           </div>
@@ -76,13 +77,13 @@
           <div class="form-row">
             <div class="custom-file-upload">
               <label for="image">📁 Upload Book Image</label>
-              <input type="file" id="image" name="image" required>
+              <input type="file" id="image" name="image">
               <span id="file-chosen">No file chosen</span>
             </div>
 
             <div class="form-group">
               <label class="input-label" style="opacity:0;">Submit</label>
-              <button type="submit" class="btn-submit">Submit</button>
+              <button type="submit" class="btn-submit">Update Book</button>
             </div>
           </div>
         </form>

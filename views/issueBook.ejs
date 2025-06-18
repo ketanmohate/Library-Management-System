@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Issue Book</title>
+  <link rel="stylesheet" href="/css/issueBook.css" />
+</head>
+<body>
+  <%- include('adminNav.ejs') %>
+
+  <div class="Fcontiner">
+    <div class="fSidebar">
+      <%- include('adminSidebar.ejs') %>
+    </div>
+
+    <div class="fMainContent">
+      <div class="form-wrapper dark-theme">
+        <h2 class="form-heading">📕 Issue Book Form</h2>
+
+        <form action="/issueBook" method="POST" class="book-form">
+          <div class="form-row">
+            <!-- Search User -->
+            <div class="form-group">
+              <label class="input-label">👤 Search User (Name or Email)</label>
+              <input type="text" name="user" required placeholder="Enter name or email" list="userList">
+              <datalist id="userList">
+                <% students.forEach(function(user) { %>
+                  <option value="<%= user.name %>"><%= user.email %></option>
+                <% }); %>
+              </datalist>
+            </div>
+
+            <!-- Search Category -->
+            <div class="form-group">
+              <label class="input-label">🔍 Search Category</label>
+              <input type="text" name="category" id="categoryInput" required placeholder="Enter category" list="categoryList">
+              <datalist id="categoryList">
+                <% categories.forEach(function(cat) { %>
+                  <option value="<%= cat.name %>">
+                <% }); %>
+              </datalist>
+            </div>
+
+            
+          </div>
+
+          <div class="form-row">
+            <!-- Book Name (Dropdown will be filled based on category) -->
+            <div class="form-group">
+              <label class="input-label">📖 Book Name</label>
+              <select name="book_name" id="bookDropdown" required>
+                <option value="">Select a book</option>
+              </select>
+            </div>
+
+            <!-- Issue Date -->
+            <div class="form-group">
+              <label class="input-label">📅 Issue Date</label>
+              <input type="date" name="issue_date" id="issueDate" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Return Date -->
+            <div class="form-group">
+              <label class="input-label">📅 Return Date</label>
+              <input type="date" name="return_date" id="returnDate" required>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+              <label class="input-label">📌 Status</label>
+              <select name="status" required>
+                <option value="">Open this select menu</option>
+                <option value="issued">Issued</option>
+                <option value="returned">Returned</option>
+                <option value="overdue">Overdue</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <label class="input-label" style="opacity:0;">Submit</label>
+              <button type="submit" class="btn-submit">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <script src="/js/issueBook.js"></script>
+</body>
+</html>

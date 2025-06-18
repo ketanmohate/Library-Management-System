@@ -285,58 +285,162 @@ exports.addBookForm = async (req, res) => {
     res.render("addBookForm.ejs", { categories });
 }
 
-exports.addBook = (req, res) => {
+exports.addBook = async (req, res) => {
     const { title, author, publisher, isbn, category, total_copies, available_copies, status } = req.body;
     const image = '/uploads/' + req.file.filename;
 
-    LMSmodels.addBook(title, author, publisher, isbn, category, total_copies, available_copies, status, image)
-        .then(() => {
-            res.render("adminDashboard.ejs");
-        })
-        .catch((err) => {
-            console.error("Add Book Error:", err);
-            res.render("err.ejs");
-        });
-};
-
-exports.viewAllBooks = async (req, res) => {
     try {
-        const books = await LMSmodels.getAllBooks();
-        // console.log(books);
-        res.render("viewBooks.ejs", { books });
+        let catID = await LMSmodels.checkCategories(category);
+        console.log("Category ID:", catID);
+
+        await LMSmodels.addBook(title, author, publisher, isbn, total_copies, available_copies, status, image, catID);
+        res.render("adminDashboard.ejs");
+
     } catch (err) {
-        console.error("Error fetching profile data:", err);
-        res.render("error");
+        console.error("Add Book Error:", err);
+        res.render("err.ejs");
     }
 };
+
+
+
+// exports.viewBooks = async (req, res) => {
+//     try {
+//         const page = parseInt(req.query.page) || 1;
+//         const limit = 12;
+//         const offset = (page - 1) * limit;
+
+//         const [books, total] = await Promise.all([
+//             LMSmodels.getBooks(limit, offset),
+//             LMSmodels.countBooks()
+//         ]);
+
+//         const totalPages = Math.ceil(total / limit);
+
+//         res.render('viewBooks.ejs', {
+//             books,
+//             currentPage: page,
+//             totalPages
+//         });
+
+//     } catch (err) {
+//         console.error("Pagination Error:", err);
+//         res.render("error.ejs");
+//     }
+// };
+
+exports.viewBooks = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 12;
+        const offset = (page - 1) * limit;
+
+        const [books, total, categories] = await Promise.all([
+            LMSmodels.getBooks(limit, offset),
+            LMSmodels.countBooks(),
+            LMSmodels.getAllCategories() // 👈 This must exist
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+
+        res.render('viewBooks.ejs', {
+            books,
+            currentPage: page,
+            totalPages,
+            categories
+        });
+
+    } catch (err) {
+        console.error("Pagination Error:", err);
+        res.render("error.ejs");
+    }
+};
+
 
 exports.deleteBook = async (req, res) => {
-    try {
-        let id = req.query.id.trim();
-        console.log(id);
-
-        await LMSmodels.deleteBook(id);
-        res.redirect("/viewBooks");
-
-    } catch (err) {
-        console.error("Delete error:", err);
-        res.render("error.ejs");
+  try {
+    const id = req.body.id;
+    if (!id || isNaN(id)) {
+      return res.status(400).render("error.ejs", { message: "Invalid book ID" });
     }
-}
+
+    await LMSmodels.deleteBook(parseInt(id));
+    res.redirect("/viewBooks");
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.render("error.ejs", { message: "An error occurred while deleting the book." });
+  }
+};
+
+
 
 exports.beforeUpdateBook = async (req, res) => {
-    try {
-        let id = req.query.id.trim();
+  try {
+    let id = req.query.id.trim();
 
-        const book= await LMSmodels.beforeUpdateBook;
+    const [book] = await LMSmodels.beforeUpdateBook(id);
+    const categories = await LMSmodels.getAllCategories();
 
-        res.render("UpdateBook.ejs", { book });
+    if (!book) throw new Error("Book not found");
 
-    } catch (err) {
-        console.error("error:", err);
-        res.render("error.ejs");
-    }
-}
+    res.render("UpdateBook.ejs", { book, categories });
+  } catch (err) {
+    console.error("Error in beforeUpdateBook:", err);
+    res.render("error.ejs");
+  }
+};
+
+exports.afterUpdateBook = async (req, res) => {
+  try {
+    const {
+      title,
+      author,
+      publisher,
+      isbn,
+      category,
+      total_copies,
+      available_copies,
+      status,
+      id,
+      oldImage
+    } = req.body;
+
+    // 🛠 Handle image upload: use old image if new one not uploaded
+    const image = req.file ? "/uploads/" + req.file.filename : oldImage;
+
+    // 📦 Call DB update method
+    await LMSmodels.afterUpdateBook(
+      title,
+      author,
+      publisher,
+      isbn,
+      category,
+      total_copies,
+      available_copies,
+      status,
+      image,
+      id
+    );
+
+    // ✅ Redirect or render success page
+    res.redirect("/viewBooks"); // Or use res.render("adminDashboard.ejs");
+  } catch (err) {
+    console.error("Update Book Error:", err);
+    res.render("error.ejs");
+  }
+};
+
+
+exports.searchBooks = async (req, res) => {
+  const term = req.query.term || "";
+  try {
+    const result = await LMSmodels.searchBooks(term);
+    res.json(result); // sends result to frontend
+  } catch (err) {
+    console.error("Search Error:", err);
+    res.status(500).json([]); // Return empty array on error
+  }
+};
 
 
 // end books routers
