@@ -100,3 +100,15 @@ exports.searchIssuedBooks = (keyword) => {
     });
   });
 };
+
+exports.updateIssueStatus = (issue_id, newStatus) => {
+  return new Promise((resolve, reject) => {
+    const sql = `UPDATE issue_details SET status = ? WHERE id = ?`;
+    conn.query(sql, [newStatus, issue_id], (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(result);
+    });
+  });
+};

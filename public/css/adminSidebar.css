@@ -4,7 +4,7 @@ body{
 
 .sidebar {
   width: 260px;
-  height:80vh;
+  /* height:80vh; */
   background: linear-gradient(to right, #0f2027, #203a43);
   color: white;
   padding: 20px 15px;

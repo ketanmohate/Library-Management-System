@@ -12,5 +12,9 @@ router.get("/viewIssuedBooks",issueCtrl.viewIssuedBooks);
 
 router.get("/searchIssuedBooks", issueCtrl.searchIssuedBooks);
 
+router.post("/updateIssueStatus", issueCtrl.updateStatus);
+
+
+
 
 module.exports = router;

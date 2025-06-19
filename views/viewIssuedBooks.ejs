@@ -22,7 +22,7 @@
 
                 <!-- Search Bar -->
                 <div class="search-bar">
-                    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search Books">
+                    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search Issued Books">
                 </div>
 
                 <!-- Table -->
@@ -68,7 +68,20 @@
                                     <%= issue.return_date.toISOString().split('T')[0] %>
                                 </td>
                                 <td>
-                                    <%= issue.status %>
+                                    <form action="/updateIssueStatus" method="POST" class="status-update-form">
+                                        <input type="hidden" name="issue_id" value="<%= issue.issue_id %>">
+
+                                        <select name="status">
+                                            <option value="issued" <%=issue.status==="issued" ? "selected" : "" %>
+                                                >Issued</option>
+                                            <option value="returned" <%=issue.status==="returned" ? "selected" : "" %>
+                                                >Returned</option>
+                                            <option value="overdue" <%=issue.status==="overdue" ? "selected" : "" %>
+                                                >Overdue</option>
+                                        </select>
+
+                                        <button type="submit">Update</button>
+                                    </form>
                                 </td>
                             </tr>
                             <% }) %>

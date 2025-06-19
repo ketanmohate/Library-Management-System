@@ -100,3 +100,16 @@ exports.searchIssuedBooks = async (req, res) => {
   const data = await issueModels.searchIssuedBooks(keyword);
   res.json({ results: data });
 };
+
+exports.updateStatus = async (req, res) => {
+  try {
+    const { issue_id, status } = req.body; // from form or AJAX
+
+    await issueModels.updateIssueStatus(issue_id, status);
+
+    res.redirect("/viewIssuedBooks"); // or res.json({ success: true });
+  } catch (err) {
+    console.error("Status update failed:", err);
+    res.status(500).send("Failed to update status");
+  }
+};
