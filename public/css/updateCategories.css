@@ -9,6 +9,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #244452, #203a43);
+  height: 100vh;
 }
 
 .Fcontiner {
@@ -80,7 +81,7 @@ body {
   color: white;
 }
 
-.error{
+.error {
   padding-top: 5px;
   display: flex;
   color: red;
@@ -150,6 +151,33 @@ body {
   display: flex;
   color: red;
   font-size: small;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  padding-top: 5px;
+  display: flex;
+  color: red;
+  font-size: 13px;
+}
+
+.success-msg {
+  color: rgb(0, 255, 0);
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-msg {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

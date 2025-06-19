@@ -146,11 +146,12 @@ body {
 }
 
 /* Error Message */
+
 .error {
   padding-top: 5px;
   display: flex;
   color: red;
-  font-size: 13px;  
+  font-size: 13px;
 }
 
 .success-msg {
@@ -158,6 +159,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .error-msg {
@@ -165,5 +169,8 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 

@@ -176,20 +176,20 @@ exports.afterupdateStud = async (req, res) => {
 };
 
 exports.deleteStud = async (req, res) => {
-  try {
-    const id = parseInt(req.query.id.trim());
+    try {
+        const id = parseInt(req.query.id.trim());
 
-    if (!id || isNaN(id)) {
-      console.log("Invalid ID");
-      return res.redirect("/viewstud");
+        if (!id || isNaN(id)) {
+            console.log("Invalid ID");
+            return res.redirect("/viewstud");
+        }
+
+        await LMSmodels.getStudentDelete(id); // perform delete
+        return res.redirect("/viewstud");     // then reload list
+    } catch (err) {
+        console.error("Error in deleteStud:", err);
+        return res.redirect("/viewstud");
     }
-
-    await LMSmodels.getStudentDelete(id); // perform delete
-    return res.redirect("/viewstud");     // then reload list
-  } catch (err) {
-    console.error("Error in deleteStud:", err);
-    return res.redirect("/viewstud");
-  }
 };
 
 
@@ -212,13 +212,13 @@ exports.addcategories = async (req, res) => {
 
         const result = await LMSmodels.getaddcategories(name);
 
-        res.render("addCategories.ejs", { msg: "Category Added Successfully", status: "success" } );
+        res.render("addCategories.ejs", { msg: "Category Added Successfully", status: "success" });
 
         // console.log(result);
 
     } catch (err) {
         console.log(err);
-         res.render("addCategories.ejs", { msg: "Category could not be added.", status: "error" } );
+        res.render("addCategories.ejs", { msg: "Category could not be added.", status: "error" });
     }
 };
 
@@ -233,11 +233,10 @@ exports.Viewcategorie = async (req, res) => {
 
 
 exports.beforeUpdateCat = async (req, res) => {
-    let id = parseInt(req.query.id.trim());
-    console.log("cat Id ---------->" + id)
+    let id = parseInt(req.query.id.trim()); 
     try {
         const cat = await LMSmodels.getbeforeupdateCat(id);
-        res.render("updateCategories.ejs", { cat });
+        res.render("updateCategories.ejs", { cat, msg: "", status: "" });
     } catch (err) {
         res.render("error.ejs");
     }
@@ -248,14 +247,19 @@ exports.afterUpdateCat = async (req, res) => {
     try {
         const id = req.body.id.trim();
         const name = req.body.name.trim();
+        
         console.log("ID:", id);
         console.log("Name:", name);
 
         await LMSmodels.getafterupdateCat(id, name);
-        res.render("adminDashboard.ejs");
+
+        const cat = await LMSmodels.getbeforeupdateCat(id);
+        res.render("updateCategories.ejs", {cat, msg: "Updated Successfully", status: "success"});
+
     } catch (err) {
         console.error("Update error:", err);
-        res.render("error.ejs");
+        const cat = await LMSmodels.getbeforeupdateCat(id);
+        res.render("updateCategories.ejs", {cat, msg: "Update Failed", status: "error"});
     }
 };
 
@@ -263,14 +267,21 @@ exports.deleteCat = async (req, res) => {
     try {
         let id = req.query.id.trim();
 
+        if (!id || isNaN(id)) {
+            console.log("Invalid ID");
+            return res.redirect("/viewcategorie");
+        }   
+
         await LMSmodels.getdelCategory(id);
-        res.render("adminDashboard.ejs");
+        return res.redirect("/viewcategorie");
 
     } catch (err) {
-        console.error("Delete error:", err);
-        res.render("error.ejs");
+        console.error("Error in deleteStud:", err);
+        return res.redirect("/viewcategorie");
     }
 }
+
+
 
 exports.getCategories = async (req, res) => {
     try {

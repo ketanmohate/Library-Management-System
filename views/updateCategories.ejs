@@ -6,35 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>update Category</title>
     <link rel="stylesheet" href="/css/updateCategories.css">
+    <script src="/js/updateCategories.js"></script>
 </head>
 
 <body>
-        <!-- Navigation Bar -->
-        <%- include('adminNav.ejs') %>
+    <!-- Navigation Bar -->
+    <%- include('adminNav.ejs') %>
 
-            <!-- Main Grid Layout -->
-            <div class="Fcontiner">
+        <!-- Main Grid Layout -->
+        <div class="Fcontiner">
 
-                <!-- Sidebar -->
-                <div class="fSidebar">
-                    <%- include('adminSidebar.ejs') %>
-                </div>
-
-                <!-- Main Content -->
-                <div class="fMainContent">
-                    <div class="form-wrapper">
-                        <h2 class="form-heading">Update Category</h2>
-                        <form action="/afterUpdateCat" method="POST" class="category-form">
-                            <div class="form-group">
-                                <input type="hidden" name="id" value="<%=cat[0].id %>">
-                                <input type="text" id="name" name="name" value="<%=cat[0].name %>" placeholder="Enter Category Name" required  />
-                            </div>
-                            <button class="submit-btn" type="submit">Update Category</button>
-                        </form>
-                    </div>
-                </div>
-
+            <!-- Sidebar -->
+            <div class="fSidebar">
+                <%- include('adminSidebar.ejs') %>
             </div>
+
+            <!-- Main Content -->
+            <div class="fMainContent">
+                <div class="form-wrapper">
+                    <h2 class="form-heading">Update Category</h2>
+                    <form action="/afterUpdateCat" method="POST" class="category-form">
+
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="<%=cat[0].id %>">
+                            <input type="text" id="name" name="name" value="<%=cat[0].name %>"
+                                placeholder="Enter Category Name" required />
+                        </div>
+
+                        <button class="submit-btn" type="submit">Update Category</button>
+
+                        <% if (msg) { %>
+                            <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                                <%= msg %>
+                            </span>
+                            <% } %>
+
+                    </form>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
