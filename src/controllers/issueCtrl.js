@@ -1,15 +1,12 @@
-const LMSmodels = require("../models/LMSmodels.js");
-const issueCtrl = require("../models/issueModels.js");
+const LMS = require("../models/LMSmodels.js");
+const issueModels = require("../models/issueModels.js");
 
 exports.loadIssueForm = async (req, res) => {
   try {
-    const students = await LMSmodels.viewAllstudents();
-    const categories = await LMSmodels.getAllCategories();
+    const students = await LMS.viewAllstudents();
+    const categories = await LMS.getAllCategories();
 
-    console.log("---------------------------")
-    console.log(categories);
-
-    res.render("issueBook.ejs", {
+    res.render("issueBook", {
       students: Array.isArray(students) ? students : [],
       categories: Array.isArray(categories) ? categories : []
     });
@@ -19,25 +16,62 @@ exports.loadIssueForm = async (req, res) => {
   }
 };
 
-// AJAX API to get books by category name
+// Fetch books by category (AJAX)
 exports.getBooksByCategory = async (req, res) => {
   try {
-    const categoryName = req.query.category.trim();
-    console.log("================")
-    console.log(categoryName)
-    if (!categoryName) {
-      return res.status(400).json({ error: "Category name is required" });
+    const categoryName = req.query.category?.trim();
+    if (!categoryName) return res.status(400).json({ error: "Category name is required" });
+
+    const books = await LMS.getBooksByCategoryName(categoryName);
+    res.json({ books });
+  } catch (err) {
+    console.error("Error fetching books:", err);
+    res.status(500).json({ error: "Internal error" });
+  }
+};
+
+// Handle book issue form submission
+
+exports.issueBook = async (req, res) => {
+  try {
+    const { user, book_id, issue_date, return_date, status } = req.body;
+
+    // Extract email from "Name (email)" format
+    const match = user.match(/\(([^)]+)\)/);
+    const email = match ? match[1].trim() : null;
+
+    if (!email) return res.status(400).send("Invalid user format");
+
+    // console.log("user email -------> " + email);
+
+    // Get user ID
+    const userResult = await issueModels.findUserByNameOrEmail(email);
+
+    let issued_by = userResult.id;
+
+    console.log("Book ID -------> " + book_id);
+    console.log("issued_by (user id) ------->" + issued_by);
+    console.log("issue_date ------->" + issue_date);
+    console.log("return_date------->" + return_date);
+    console.log("status------->" + status);
+
+    if (!userResult || userResult.length === 0) {
+      return res.status(400).send("User not found");
     }
 
-    const books = await LMSmodels.getBooksByCategoryName(categoryName);
-    console.log("********************************")
-    console.log(books[0].title);
-    console.log("********************************")
+    // Insert issue record
+    await issueModels.insertIssueDetails({
+      book_id,
+      issued_by,
+      issue_date,
+      return_date,
+      status
+    });
 
-    res.json({ books });
-    
-  } catch (error) {
-    console.error("Error fetching books by category:", error);
-    res.status(500).json({ error: "Internal server error" });
+    // res.redirect("/viewIssuedBooks");
+    res.render("adminDashboard"); 
+  } catch (err) {
+    console.error("Issue book failed:", err);
+    res.render("error");
   }
 };
