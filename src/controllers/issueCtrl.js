@@ -69,9 +69,28 @@ exports.issueBook = async (req, res) => {
     });
 
     // res.redirect("/viewIssuedBooks");
-    res.render("adminDashboard"); 
+    res.render("adminDashboard");
   } catch (err) {
     console.error("Issue book failed:", err);
+    res.render("error");
+  }
+};
+
+
+exports.viewIssuedBooks = async (req, res) => {
+  try {
+    // Wait for the query result
+    const issuedBooks = await issueModels.viewIssuedBooks();
+
+    // console.log("=====================================");
+    // console.log(issuedBooks);
+    // console.log("=====================================");
+
+    // Pass as a named object so it can be accessed as "issuedBooks" in EJS
+    res.render("viewIssuedBooks", { issuedBooks });
+
+  } catch (err) {
+    console.error("Failed to load issued books:", err);
     res.render("error");
   }
 };

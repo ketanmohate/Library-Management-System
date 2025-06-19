@@ -1,0 +1,74 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #0f2027, #203a43);
+  color: #e0f0f3;
+}
+
+/* Grid Layout */
+.Fcontiner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.fSidebar {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Main Content */
+.fMainContent {
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #00c8ff;
+}
+
+
+.issued-books-table{  
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #e0f7fa;
+  background-color: #0f2f40;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.issued-books-table thead {
+  background-color: #0d3b4f;
+  color: #00e5ff;
+}
+
+.issued-books-table th,
+.issued-books-table td {
+  padding: 12px 18px;
+  text-align: left;
+  vertical-align: middle;
+  /* border: 1px solid black;  */
+}
+
+.issued-books-table tbody tr:nth-child(even) {
+  background-color: #123b4d;
+}
+
+.issued-books-table tbody tr:nth-child(odd) {
+  background-color: #0f2f40;
+}
+
+.issued-books-table tbody tr:hover {
+  background-color: #14556b;
+}
+
