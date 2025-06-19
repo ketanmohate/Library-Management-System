@@ -80,11 +80,23 @@ body {
   color: white;
 }
 
-.error{
+.error {
   padding-top: 5px;
   display: flex;
   color: red;
-  font-size: small;
-  justify-content: center;
-  align-items: center;
+  font-size: 13px;  
+}
+
+.success-msg {
+  color: rgb(0, 255, 0);
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+}
+
+.error-msg {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
 }

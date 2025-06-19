@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const LMSmodels = require("../models/LMSmodels.js");
 const router = require("../routes/LMSroutes");
+const { render } = require("ejs");
 
 exports.home = ((req, res) => {
     res.render("home.ejs");
@@ -21,10 +22,10 @@ exports.userLogin = ((req, res) => {
         password
     } = req.body;
 
-    // console.log(username);
-    // console.log(password);
+    let usernameT = username.trim();
+    let passwordT = password.trim();
 
-    if (username === "admin" && password === "admin@123") {
+    if (usernameT === "admin" && passwordT === "admin@123") {
         res.render("adminDashboard.ejs", { msg: "Select a section from the sidebar to manage Students, Categories, or Books." });
     }
     else {
@@ -47,7 +48,7 @@ exports.addSudentPage = ((req, res) => {
     res.render("addStudentForm.ejs", { msg: "" });
 });
 
-exports.addStudent = ((req, res) => {
+exports.addStudent = async (req, res) => {
     let {
         student_name,
         student_email,
@@ -64,39 +65,23 @@ exports.addStudent = ((req, res) => {
     let email = student_email.trim();
     let password = student_password.trim();
     let confirm_pass = confirm_password.trim();
+    try {
 
-    // if (student_password === confirm_password) {
-    //     let result = LMSmodels.addStudent(name, email, password);
-    //     result.then(
-    //         res.render("adminDashboard.ejs", { msg: "Student Data Added Successfully" })
-    //     ).catch(
-    //         res.render("adminDashboard.ejs", { msg: "Some Proble is there" })
-    //     )
-    // } else {
-    //     res.render("addStudentForm.ejs", { msg: "Invalid data entry" });
-    // }
+        let result = await LMSmodels.addStudent(name, email, password);
+        res.render("addStudentForm.ejs", { msg: "Registration Successfully", status: "success" });
 
-    if (student_password === confirm_password) {
-        let result = LMSmodels.addStudent(name, email, password);
-        result
-            .then(() => {
-                res.render("adminDashboard.ejs", { msg: "Student Data Added Successfully" });
-            })
-            .catch((err) => {
-                // console.error(err);
-                res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
-            });
-    } else {
-        res.render("addStudentForm.ejs", { msg: "Plz Enter Your Password And Confirm Password should be Same" });
+    } catch (err) {
+        console.log(err);
+        res.render("addStudentForm.ejs", { msg: "Registration Failed! User Already Registered", status: "error" });
     }
 
-});
+};
 
 exports.Viewstudent = async (req, res) => {
 
     try {
         const stud = await LMSmodels.viewAllstudents();
-        console.log(stud);
+        // console.log(stud);
         res.render("viewStudent.ejs", { stud });
     }
     catch (err) {
@@ -126,17 +111,16 @@ exports.beforeupdateStud = async (req, res) => {
     try {
         const stud = await LMSmodels.getbeforeupdateStud(id);
         console.log(stud);
-        res.render("updateStudent.ejs", { stud, msg: "" });
+        res.render("updateStudent.ejs", { stud, msg: "", status: "" });
     }
     catch (err) {
         console.log(err);
-        res.render("error");
+        res.render("updateStudent.ejs", { stud, msg: "", status: "" });
     }
 }
 
-
-exports.afterupdateStud = (req, res) => {
-    let {
+exports.afterupdateStud = async (req, res) => {
+    const {
         student_id,
         student_name,
         student_email,
@@ -144,51 +128,72 @@ exports.afterupdateStud = (req, res) => {
         confirm_password,
     } = req.body;
 
-    console.log(student_name);
-    console.log(student_email);
-    console.log(student_password);
-    console.log(confirm_password);
+    const id = student_id;
+    const name = student_name.trim();
+    const email = student_email.trim();
+    const password = student_password.trim();
+    const confirm_pass = confirm_password.trim();
 
-    let id = student_id;
-    let name = student_name.trim();
-    let email = student_email.trim();
-    let password = student_password.trim();
-    let confirm_pass = confirm_password.trim();
-    if (student_password === confirm_password) {
-        let result = LMSmodels.getafterupdateStud(name, email, password, id);
-        result
-            .then(() => {
-                res.render("adminDashboard.ejs", { msg: "Student Data updated Successfully" });
-            })
-            .catch((err) => {
-                // console.error(err);
-                res.render("adminDashboard.ejs", { msg: "Some Problem is there" });
+    let msg = "";
+    let status = "";
+
+    try {
+        // Optional: check if passwords match (add this if not handled on frontend)
+        if (password !== confirm_pass) {
+            const stud = await LMSmodels.getbeforeupdateStud(id);
+            return res.render("updateStudent.ejs", {
+                stud,
+                msg: "Passwords do not match.",
+                status: "error"
             });
-    } else {
+        }
+
+        await LMSmodels.getafterupdateStud(name, email, password, id);
+
+        // ✅ Get updated data to show
+        const stud = await LMSmodels.getbeforeupdateStud(id);
+
         res.render("updateStudent.ejs", {
-            stud: [{
-                id: id,
-                name: name,
-                email: email,
-                password: password
-            }],
-            msg: "Please ensure Password and Confirm Password are the same."
+            stud,
+            msg: "Updated Successfully",
+            status: "success"
         });
-        // res.render("updateStudent.ejs", {stud, msg: "Plz Enter Your Password And Confirm Password should be Same" });
+    } catch (err) {
+        console.log("Update Error:", err);
+
+        try {
+            const stud = await LMSmodels.getbeforeupdateStud(id);
+            res.render("updateStudent.ejs", {
+                stud,
+                msg: "Update Failed",
+                status: "error"
+            });
+        } catch (nestedErr) {
+            console.log("Nested Error:", nestedErr);
+            res.render("error.ejs"); // fallback page
+        }
     }
-}
+};
 
-exports.deleteStud = (req, res) => {
-    let id = parseInt(req.query.id.trim());
+exports.deleteStud = async (req, res) => {
+  try {
+    const id = parseInt(req.query.id.trim());
 
-    const result = LMSmodels.getStudentDelete(id);
-    result.then((r) => {
-        res.render("viewStudent.ejs", { stud: r });
-    }).catch((err) => {
-        console.error(err);
-        res.render("viewStudent.ejs", { stud: [] });
-    });
-}
+    if (!id || isNaN(id)) {
+      console.log("Invalid ID");
+      return res.redirect("/viewstud");
+    }
+
+    await LMSmodels.getStudentDelete(id); // perform delete
+    return res.redirect("/viewstud");     // then reload list
+  } catch (err) {
+    console.error("Error in deleteStud:", err);
+    return res.redirect("/viewstud");
+  }
+};
+
+
+
 
 // end student routers
 
@@ -196,22 +201,24 @@ exports.deleteStud = (req, res) => {
 // categories Routers
 
 exports.categories = ((req, res) => {
-    res.render("addCategories.ejs");
+    res.render("addCategories.ejs", { msg: null, status: null });
 })
 
-exports.addcategories = (req, res) => {
+exports.addcategories = async (req, res) => {
     try {
-        console.log(req.body); // Add this line to debug
-
         const name = req.body.name.trim();
+
         console.log(name);
 
-        const result = LMSmodels.getaddcategories(name);
-        res.render("adminDashboard.ejs", { msg: "Categorie Data Added Successfully" });
-        console.log(result);
+        const result = await LMSmodels.getaddcategories(name);
+
+        res.render("addCategories.ejs", { msg: "Category Added Successfully", status: "success" } );
+
+        // console.log(result);
+
     } catch (err) {
         console.log(err);
-        res.render("error.ejs");
+         res.render("addCategories.ejs", { msg: "Category could not be added.", status: "error" } );
     }
 };
 
@@ -358,88 +365,88 @@ exports.viewBooks = async (req, res) => {
 
 
 exports.deleteBook = async (req, res) => {
-  try {
-    const id = req.body.id;
-    if (!id || isNaN(id)) {
-      return res.status(400).render("error.ejs", { message: "Invalid book ID" });
-    }
+    try {
+        const id = req.body.id;
+        if (!id || isNaN(id)) {
+            return res.status(400).render("error.ejs", { message: "Invalid book ID" });
+        }
 
-    await LMSmodels.deleteBook(parseInt(id));
-    res.redirect("/viewBooks");
-  } catch (err) {
-    console.error("Delete error:", err);
-    res.render("error.ejs", { message: "An error occurred while deleting the book." });
-  }
+        await LMSmodels.deleteBook(parseInt(id));
+        res.redirect("/viewBooks");
+    } catch (err) {
+        console.error("Delete error:", err);
+        res.render("error.ejs", { message: "An error occurred while deleting the book." });
+    }
 };
 
 
 
 exports.beforeUpdateBook = async (req, res) => {
-  try {
-    let id = req.query.id.trim();
+    try {
+        let id = req.query.id.trim();
 
-    const [book] = await LMSmodels.beforeUpdateBook(id);
-    const categories = await LMSmodels.getAllCategories();
+        const [book] = await LMSmodels.beforeUpdateBook(id);
+        const categories = await LMSmodels.getAllCategories();
 
-    if (!book) throw new Error("Book not found");
+        if (!book) throw new Error("Book not found");
 
-    res.render("UpdateBook.ejs", { book, categories });
-  } catch (err) {
-    console.error("Error in beforeUpdateBook:", err);
-    res.render("error.ejs");
-  }
+        res.render("UpdateBook.ejs", { book, categories });
+    } catch (err) {
+        console.error("Error in beforeUpdateBook:", err);
+        res.render("error.ejs");
+    }
 };
 
 exports.afterUpdateBook = async (req, res) => {
-  try {
-    const {
-      title,
-      author,
-      publisher,
-      isbn,
-      category,
-      total_copies,
-      available_copies,
-      status,
-      id,
-      oldImage
-    } = req.body;
+    try {
+        const {
+            title,
+            author,
+            publisher,
+            isbn,
+            category,
+            total_copies,
+            available_copies,
+            status,
+            id,
+            oldImage
+        } = req.body;
 
-    // 🛠 Handle image upload: use old image if new one not uploaded
-    const image = req.file ? "/uploads/" + req.file.filename : oldImage;
+        // 🛠 Handle image upload: use old image if new one not uploaded
+        const image = req.file ? "/uploads/" + req.file.filename : oldImage;
 
-    // 📦 Call DB update method
-    await LMSmodels.afterUpdateBook(
-      title,
-      author,
-      publisher,
-      isbn,
-      category,
-      total_copies,
-      available_copies,
-      status,
-      image,
-      id
-    );
+        // 📦 Call DB update method
+        await LMSmodels.afterUpdateBook(
+            title,
+            author,
+            publisher,
+            isbn,
+            category,
+            total_copies,
+            available_copies,
+            status,
+            image,
+            id
+        );
 
-    // ✅ Redirect or render success page
-    res.redirect("/viewBooks"); // Or use res.render("adminDashboard.ejs");
-  } catch (err) {
-    console.error("Update Book Error:", err);
-    res.render("error.ejs");
-  }
+        // ✅ Redirect or render success page
+        res.redirect("/viewBooks"); // Or use res.render("adminDashboard.ejs");
+    } catch (err) {
+        console.error("Update Book Error:", err);
+        res.render("error.ejs");
+    }
 };
 
 
 exports.searchBooks = async (req, res) => {
-  const term = req.query.term || "";
-  try {
-    const result = await LMSmodels.searchBooks(term);
-    res.json(result); // sends result to frontend
-  } catch (err) {
-    console.error("Search Error:", err);
-    res.status(500).json([]); // Return empty array on error
-  }
+    const term = req.query.term || "";
+    try {
+        const result = await LMSmodels.searchBooks(term);
+        res.json(result); // sends result to frontend
+    } catch (err) {
+        console.error("Search Error:", err);
+        res.status(500).json([]); // Return empty array on error
+    }
 };
 
 

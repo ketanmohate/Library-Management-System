@@ -27,7 +27,7 @@ router.get("/viewstud",homectrl.Viewstudent);
 
 router.get("/searchStudent",homectrl.searchStud);
 
-router.get("/deleteStudent",homectrl.deleteStud);
+router.get("/deleteStudent", homectrl.deleteStud);
 
 router.get("/beforeUpdateStud",homectrl.beforeupdateStud);
 

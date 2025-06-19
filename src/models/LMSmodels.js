@@ -47,7 +47,7 @@ exports.searchAllStudent = (searchValue) => {
 
 exports.getStudentDelete = (id) => {
   return new Promise((resolve, reject) => {
-    conn.query("DELETE FROM users WHERE id = ?", [id], (err, result) => {
+    conn.query("DELETE FROM users WHERE id = ?;", [id], (err, result) => {
       if (err) {
         return reject(err);
       }
@@ -87,6 +87,19 @@ exports.getafterupdateStud = (name, email, password, id) => {
     })
   })
 }
+
+exports.deleteStudentById = (id) => {
+  return new Promise((resolve, reject) => {
+    const sql = "DELETE FROM users WHERE id = ?";
+    conn.query(sql, [id], (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(result); // return only delete result
+    });
+  });
+};
+
 
 // End student Models
 

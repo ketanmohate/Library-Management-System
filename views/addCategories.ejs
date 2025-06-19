@@ -6,34 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Category</title>
   <link rel="stylesheet" href="/css/addCategories.css">
+  <script src="/js/addCategories.js"></script>
 </head>
 
 <body>
   <!-- Navigation Bar -->
   <%- include('adminNav.ejs') %>
 
-  <!-- Main Grid Layout -->
-  <div class="Fcontiner">
+    <!-- Main Grid Layout -->
+    <div class="Fcontiner">
 
-    <!-- Sidebar -->
-    <div class="fSidebar">
-      <%- include('adminSidebar.ejs') %>
-    </div>
-
-    <!-- Main Content -->
-    <div class="fMainContent">
-      <div class="form-wrapper">
-        <h2 class="form-heading">Add Category</h2>
-        <form action="/addcategorie" method="POST" class="category-form">
-          <div class="form-group">
-            <input type="text" id="name" name="name" placeholder="Enter Category Name" required />
-          </div>
-          <button class="submit-btn" type="submit">Add Category</button>
-        </form>
+      <!-- Sidebar -->
+      <div class="fSidebar">
+        <%- include('adminSidebar.ejs') %>
       </div>
-    </div>
 
-  </div>
+      <!-- Main Content -->
+      <div class="fMainContent">
+        <div class="form-wrapper">
+
+          <h2 class="form-heading">Add Category</h2>
+
+          <form action="/addcategorie" method="POST" class="category-form">
+
+            <div class="form-group">
+              <label for="email">Add Category</label>
+              <input type="text" id="name" name="name" placeholder="Enter Category Name" required />
+            </div>
+
+            <button class="submit-btn" type="submit">Add Category</button>
+
+            <% if (msg) { %>
+              <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                <%= msg %>
+              </span>
+              <% } %>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
 </body>
 
 </html>

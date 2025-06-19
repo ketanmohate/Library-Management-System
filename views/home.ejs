@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Knowledge Hub - Library</title>
+  <title>The Knowledge Hub</title>
   <link rel="stylesheet" href="/css/home.css" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
+
 <body>
 
   <!-- Navbar -->
@@ -15,10 +22,10 @@
       <div class="toggle" onclick="toggleMenu()">☰</div>
       <nav id="nav-menu">
         <ul>
-          <li><a href="#">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -35,7 +42,8 @@
   <section class="about" id="about">
     <h2>About Our Library</h2>
     <p>
-      The Knowledge Hub is a modern library with physical and digital access to books and learning resources.
+      <!-- The Knowledge Hub is a modern library with physical and digital access to books and learning resources. -->
+      The Knowledge Hub is a modern library with physical access to books and learning resources.
     </p>
   </section>
 
@@ -44,16 +52,39 @@
     <h2>Our Services</h2>
     <div class="service-boxes">
       <div class="box">
-        <h3>📘 Book Lending</h3>
-        <p>Borrow books easily from our collection.</p>
+        <h3>📘 Reference Services</h3>
+        <p>Get assistance from librarians for finding information and using library resources.</p>
       </div>
       <div class="box">
-        <h3>💻 E-Resources</h3>
-        <p>Access thousands of e-books, PDFs, and learning tools.</p>
+        <h3>📚 Physical Books</h3>
+        <p>Explore our vast collection of printed books across all genres and subjects.</p>
+
       </div>
       <div class="box">
         <h3>👨‍🏫 Study Rooms</h3>
         <p>Quiet and collaborative spaces for focused study.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <h2>Contact Us</h2>
+    <!-- <p>If you have any questions, suggestions, or need assistance, feel free to reach out to us.</p> -->
+
+    <div class="contact-container">
+      <!-- <form action="/sendContact" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+      </form> -->
+
+      <div class="contact-info">
+        <p><strong>Email:</strong> knowledgehub7995@gmail.com</p>
+        <p><strong>Phone:</strong> +91 79720 49998</p>
+        <p><strong>Phone:</strong> +91 95033 09165</p>
+        <p><strong>Address:</strong> 123 Library Street, Pune, India</p>
       </div>
     </div>
   </section>
@@ -63,7 +94,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 The Knowledge Hub | Designed by Ketan</p>
+    <p>&copy; 2025 The Knowledge Hub</p>
   </footer>
 
   <!-- Modal -->
@@ -77,4 +108,5 @@
 
   <script src="/js/home.js"></script>
 </body>
+
 </html>
