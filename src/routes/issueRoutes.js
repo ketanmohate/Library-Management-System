@@ -10,4 +10,7 @@ router.post("/issueBook", issueCtrl.issueBook);
 
 router.get("/viewIssuedBooks",issueCtrl.viewIssuedBooks);
 
+router.get("/searchIssuedBooks", issueCtrl.searchIssuedBooks);
+
+
 module.exports = router;

@@ -94,3 +94,9 @@ exports.viewIssuedBooks = async (req, res) => {
     res.render("error");
   }
 };
+
+exports.searchIssuedBooks = async (req, res) => {
+  const keyword = req.query.keyword;
+  const data = await issueModels.searchIssuedBooks(keyword);
+  res.json({ results: data });
+};
