@@ -113,3 +113,25 @@ exports.updateStatus = async (req, res) => {
     res.status(500).send("Failed to update status");
   }
 };
+
+
+exports.returnBookPage = async (req, res) => {
+  const books = await issueModels.getIssuedBooks(); // status='issued'
+  res.render("returnBook", { issuedBooks: books });
+};
+
+exports.markBookReturned = async (req, res) => {
+  const { issue_id } = req.body;
+  await issueModels.updateIssueStatus(issue_id, "returned");
+  res.redirect("/returnBookPage");
+};
+
+exports.viewReturnedBooks = async (req, res) => {
+  try {
+    const returnedBooks = await issueModels.getReturnedBooks();
+    res.render("viewReturnedBooks", { returnedBooks });
+  } catch (err) {
+    console.error("Failed to load returned books:", err);
+    res.render("error");
+  }
+};

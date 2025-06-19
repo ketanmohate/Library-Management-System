@@ -14,7 +14,11 @@ router.get("/searchIssuedBooks", issueCtrl.searchIssuedBooks);
 
 router.post("/updateIssueStatus", issueCtrl.updateStatus);
 
+router.get("/returnBookPage", issueCtrl.returnBookPage);
 
+router.post("/markReturned", issueCtrl.markBookReturned);
+
+router.get("/viewReturnedBooks", issueCtrl.viewReturnedBooks);
 
 
 module.exports = router;
