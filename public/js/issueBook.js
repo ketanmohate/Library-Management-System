@@ -1,16 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".book-form");
+  const globalMsg = document.getElementById("globalMsg");
+
+  // Auto return date code (keep as-is)
   const issueDateInput = document.getElementById("issueDate");
   const returnDateInput = document.getElementById("returnDate");
-  const categoryInput = document.getElementById("categoryInput");
-  const bookDropdown = document.getElementById("bookDropdown");
 
-  // Auto-calculate return date when issue date changes
   issueDateInput.addEventListener("change", function () {
     const issueDate = new Date(this.value);
     if (isNaN(issueDate)) return;
 
     const returnDate = new Date(issueDate);
-    returnDate.setDate(issueDate.getDate() + 7); // 7 days after issue
+    returnDate.setDate(issueDate.getDate() + 7);
 
     const year = returnDate.getFullYear();
     const month = String(returnDate.getMonth() + 1).padStart(2, "0");
@@ -18,10 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
     returnDateInput.value = `${year}-${month}-${day}`;
   });
 
-  // Populate books based on selected category
+  // Book fetching by category (keep as-is)
+  const categoryInput = document.getElementById("categoryInput");
+  const bookDropdown = document.getElementById("bookDropdown");
+
   categoryInput.addEventListener("change", async function () {
     const selectedCategory = categoryInput.value;
-
     bookDropdown.innerHTML = '<option value="">Loading books...</option>';
 
     if (!selectedCategory) {
@@ -50,23 +53,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Remove global message on any input or button interaction
-  const globalMsg = document.getElementById("globalMsg");
-  if (globalMsg) {
-    const inputs = document.querySelectorAll("input, select, textarea");
-    inputs.forEach(input => {
-      input.addEventListener("input", () => {
-        globalMsg.textContent = "";
-        globalMsg.classList.remove("success-msg", "error-msg");
-      });
+  // ✅ Remove success/error message on input or interaction
+  if (globalMsg && form) {
+    form.addEventListener("focusin", () => {
+      globalMsg.textContent = "";
+      globalMsg.classList.remove("success-msg", "error-msg");
     });
 
-    const buttons = document.querySelectorAll("button");
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        globalMsg.textContent = "";
-        globalMsg.classList.remove("success-msg", "error-msg");
-      });
+    form.addEventListener("submit", () => {
+      globalMsg.textContent = "";
+      globalMsg.classList.remove("success-msg", "error-msg");
     });
   }
 });
