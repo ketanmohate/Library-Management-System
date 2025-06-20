@@ -89,6 +89,8 @@ router.get("/userViewBooks",studLoginCtrl.userViewBooks);
 
 router.get("/showStudIssuedBook",studLoginCtrl.showStudIssuedBook);
 
+router.get("/userHistory",studLoginCtrl.userHistory);
+
 // End User Student
 
 

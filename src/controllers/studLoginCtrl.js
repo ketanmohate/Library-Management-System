@@ -10,7 +10,7 @@ exports.userProfile = async (req, res) => {
     try {
         // ✅ Check session before accessing email
         if (!req.session.user || !req.session.user.email) {
-            return res.redirect("/login");
+            return res.redirect("");
         }
 
         const email = req.session.user.email;
@@ -32,21 +32,68 @@ exports.userProfile = async (req, res) => {
 
 
 exports.userViewBooks = async (req, res) => {
-    try{
+    try {
         let books = await studLoginModels.getAllBooksUser();
-        res.render("userViewBook.ejs",{books});
-    }catch(err){
+        res.render("userViewBook.ejs", { books });
+    } catch (err) {
 
     }
 }
 
-exports.showStudIssuedBook = async (req, res)=>{
-    try{
-
-        // let books = await studLoginModels.showStudIssuedBook();
-
-
-    }catch{
-
+exports.showStudIssuedBook = async (req, res) => {
+  try {
+    if (!req.session.user || !req.session.user.email) {
+      return res.redirect("/login"); // give valid redirect
     }
+
+    const email = req.session.user.email;
+
+    const userId = await studLoginModels.getUserId(email);
+
+    if (!userId) {
+      return res.render("userIssuedBooks.ejs", {
+        issuedData: [],
+        msg: "User not found",
+      });
+    }
+
+    const issuedBooks = await studLoginModels.showStudIssuedBook(userId);
+
+    res.render("userIssuedBooks.ejs", { issuedBooks, msg: null });
+  } catch (err) {
+    console.error("Error:", err);
+    res.render("userIssuedBooks.ejs", {
+      issuedData: [],
+      msg: "Something went wrong",
+    });
+  }
+};
+
+exports.userHistory = async(req, res)=>{
+      try {
+    if (!req.session.user || !req.session.user.email) {
+      return res.redirect("/login"); // give valid redirect
+    }
+
+    const email = req.session.user.email;
+
+    const userId = await studLoginModels.getUserId(email);
+
+    if (!userId) {
+      return res.render("userIssuedBooks.ejs", {
+        issuedData: [],
+        msg: "User not found",
+      });
+    }
+
+    const issuedBooks = await studLoginModels.userHistory(userId);
+
+    res.render("userIssuedBooks.ejs", { issuedBooks, msg: null });
+  } catch (err) {
+    console.error("Error:", err);
+    res.render("userIssuedBooks.ejs", {
+      issuedData: [],
+      msg: "Something went wrong",
+    });
+  }
 }
