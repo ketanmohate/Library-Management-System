@@ -20,14 +20,15 @@ body {
 
 /* Sidebar */
 .fSidebar {
-  background-color: rgba(255, 255, 255, 0.03);
+  /* background-color: rgba(255, 255, 255, 0.03); */
   /* padding: 15px; */
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  /* border-right: 1px solid rgba(255, 255, 255, 0.05); */
 }
 
 /* Main Content */
 .fMainContent {
   padding: 5px;
+  
 }
 
 .page-title {
@@ -63,6 +64,7 @@ body {
   /* background-color: #0f2f40; */
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
 }
 
 .issued-books-table thead {

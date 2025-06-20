@@ -7,6 +7,7 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #244452, #203a43);
 }
@@ -54,6 +55,9 @@ body {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .book-form input[type="text"],
@@ -155,7 +159,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 select {
   color: white;
-  background-color: #2c2c2c; /* Optional: dark background */
+  background-color: #2c2c2c;
+  /* Optional: dark background */
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 5px;

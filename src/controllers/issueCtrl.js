@@ -117,7 +117,7 @@ exports.updateStatus = async (req, res) => {
 
 exports.returnBookPage = async (req, res) => {
   const books = await issueModels.getIssuedBooks(); // status='issued'
-  res.render("returnBook", { issuedBooks: books });
+  res.render("returnBook.ejs", { issuedBooks: books });
 };
 
 exports.markBookReturned = async (req, res) => {
