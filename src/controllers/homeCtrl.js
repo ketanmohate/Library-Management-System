@@ -1,8 +1,7 @@
 const { Router } = require("express");
 const LMSmodels = require("../models/LMSmodels.js");
 const router = require("../routes/LMSroutes");
-const { render } = require("ejs");
-
+const studLoginModels = require("../models/studLoginModels.js");
 exports.home = ((req, res) => {
     res.render("home.ejs");
 })
@@ -16,22 +15,106 @@ exports.about = ((req, res) => {
 
 })
 
-exports.userLogin = ((req, res) => {
-    let {
-        username,
-        password
-    } = req.body;
+// exports.userLogin = async (req, res) => {
+//     const { username, password } = req.body;
+//     const usernameT = username.trim();
+//     const passwordT = password.trim();
 
-    let usernameT = username.trim();
-    let passwordT = password.trim();
+//     // Admin login
+//     if (usernameT === "admin" && passwordT === "admin@123") {
+//         return res.render("adminDashboard.ejs", {
+//             msg: "Select a section from the sidebar to manage Students, Categories, or Books."
+//         });
+//     }
 
+//     try {
+//         const user = await studLoginModels.getStudLogin(usernameT, passwordT);
+
+//         if (user.length > 0) {
+//             return res.render("userDashboard.ejs", { msg: `Welcome, ${user[0].email}` });
+//         } else {
+//             return res.render("Login.ejs", { msg: "Username or password is invalid" });
+//         }
+//     } catch (err) {
+//         console.error("Login error:", err);
+//         return res.render("Login.ejs", { msg: "An error occurred during login" });
+//     }
+// };
+
+// exports.userLogin = async (req, res) => {
+//     const { username, password } = req.body;
+//     const usernameT = username.trim();
+//     const passwordT = password.trim();
+
+//     // Admin login
+//     if (usernameT === "admin" && passwordT === "admin@123") {
+//         req.session.user = { username: "admin", role: "admin" }; // Admin session
+//         return res.render("adminDashboard.ejs", {
+//             msg: "Select a section from the sidebar to manage Students, Categories, or Books."
+//         });
+//     }
+
+//     try {
+//         const user = await studLoginModels.getStudLogin(usernameT, passwordT);
+
+//         if (user.length > 0) {
+//             req.session.user = {
+//                 id: user[0].id,
+//                 email: user[0].email,
+//                 role: "student"
+//             };
+
+//             console.log("Session:", req.session.user);
+
+//             return res.render("userDashboard.ejs", { msg: `Welcome, ${user[0].email}` });
+//         } else {
+//             return res.render("Login.ejs", { msg: "Username or password is invalid" });
+//         }
+//     } catch (err) {
+//         console.error("Login error:", err);
+//         return res.render("Login.ejs", { msg: "An error occurred during login" });
+//     }
+// };
+
+
+exports.userLogin = async (req, res) => {
+    const { username, password } = req.body;
+    const usernameT = username.trim();
+    const passwordT = password.trim();
+
+    // Admin login
     if (usernameT === "admin" && passwordT === "admin@123") {
-        res.render("adminDashboard.ejs", { msg: "Select a section from the sidebar to manage Students, Categories, or Books." });
+        req.session.user = { username: "admin", role: "admin" };
+        return res.render("adminDashboard.ejs", {
+            msg: "Select a section from the sidebar to manage Students, Categories, or Books."
+        });
     }
-    else {
-        res.render("Login.ejs", { msg: "Username Or Password is invalid" });
+
+    try {
+        const user = await studLoginModels.getStudLogin(usernameT, passwordT);
+
+        if (user.length > 0) {
+            // ✅ Create session with email
+            req.session.user = {
+                email: user[0].email,
+                role: "student"
+            };
+
+            console.log("Session Created:", req.session.user); // debug
+
+            return res.render("userDashboard.ejs", { msg: `Welcome, ${user[0].email}` });
+        } else {
+            return res.render("Login.ejs", { msg: "Username or password is invalid" });
+        }
+
+    } catch (err) {
+        console.error("Login error:", err);
+        return res.render("Login.ejs", { msg: "An error occurred during login" });
     }
-});
+};
+
+
+
 
 exports.dashbord = ((req, res) => {
     res.render("adminDashboard.ejs", { msg: "" });
@@ -233,7 +316,7 @@ exports.Viewcategorie = async (req, res) => {
 
 
 exports.beforeUpdateCat = async (req, res) => {
-    let id = parseInt(req.query.id.trim()); 
+    let id = parseInt(req.query.id.trim());
     try {
         const cat = await LMSmodels.getbeforeupdateCat(id);
         res.render("updateCategories.ejs", { cat, msg: "", status: "" });
@@ -247,19 +330,19 @@ exports.afterUpdateCat = async (req, res) => {
     try {
         const id = req.body.id.trim();
         const name = req.body.name.trim();
-        
+
         console.log("ID:", id);
         console.log("Name:", name);
 
         await LMSmodels.getafterupdateCat(id, name);
 
         const cat = await LMSmodels.getbeforeupdateCat(id);
-        res.render("updateCategories.ejs", {cat, msg: "Updated Successfully", status: "success"});
+        res.render("updateCategories.ejs", { cat, msg: "Updated Successfully", status: "success" });
 
     } catch (err) {
         console.error("Update error:", err);
         const cat = await LMSmodels.getbeforeupdateCat(id);
-        res.render("updateCategories.ejs", {cat, msg: "Update Failed", status: "error"});
+        res.render("updateCategories.ejs", { cat, msg: "Update Failed", status: "error" });
     }
 };
 
@@ -270,7 +353,7 @@ exports.deleteCat = async (req, res) => {
         if (!id || isNaN(id)) {
             console.log("Invalid ID");
             return res.redirect("/viewcategorie");
-        }   
+        }
 
         await LMSmodels.getdelCategory(id);
         return res.redirect("/viewcategorie");
@@ -280,8 +363,6 @@ exports.deleteCat = async (req, res) => {
         return res.redirect("/viewcategorie");
     }
 }
-
-
 
 exports.getCategories = async (req, res) => {
     try {
@@ -300,7 +381,7 @@ exports.addBookForm = async (req, res) => {
 
     let categories = await LMSmodels.getViewcategorie();
 
-    res.render("addBookForm.ejs", { categories });
+    res.render("addBookForm.ejs", { categories, msg: "", status: "" });
 }
 
 exports.addBook = async (req, res) => {
@@ -312,45 +393,24 @@ exports.addBook = async (req, res) => {
         console.log("Category ID:", catID);
 
         await LMSmodels.addBook(title, author, publisher, isbn, total_copies, available_copies, status, image, catID);
-        res.render("adminDashboard.ejs");
+
+        let categories = await LMSmodels.getViewcategorie();
+
+        res.render("addBookForm.ejs", { categories, msg: "Book added successfully", status: "success" });
 
     } catch (err) {
+
+        let categories = await LMSmodels.getViewcategorie();
         console.error("Add Book Error:", err);
-        res.render("err.ejs");
+        res.render("addBookForm.ejs", { categories, msg: "Failed! Book was not added.", status: "error" });
     }
 };
 
 
-
-// exports.viewBooks = async (req, res) => {
-//     try {
-//         const page = parseInt(req.query.page) || 1;
-//         const limit = 12;
-//         const offset = (page - 1) * limit;
-
-//         const [books, total] = await Promise.all([
-//             LMSmodels.getBooks(limit, offset),
-//             LMSmodels.countBooks()
-//         ]);
-
-//         const totalPages = Math.ceil(total / limit);
-
-//         res.render('viewBooks.ejs', {
-//             books,
-//             currentPage: page,
-//             totalPages
-//         });
-
-//     } catch (err) {
-//         console.error("Pagination Error:", err);
-//         res.render("error.ejs");
-//     }
-// };
-
 exports.viewBooks = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = 12;
+        const limit = 8;
         const offset = (page - 1) * limit;
 
         const [books, total, categories] = await Promise.all([
@@ -375,14 +435,34 @@ exports.viewBooks = async (req, res) => {
 };
 
 
+// exports.deleteBook = async (req, res) => {
+//     try {
+//         const id = req.body.id;
+//         if (!id || isNaN(id)) {
+//             return res.status(400).render("error.ejs", { message: "Invalid book ID" });
+//         }
+
+//         console.log("========================================")
+//         console.log(id);
+//         console.log("========================================")
+
+//         await LMSmodels.deleteBook(id);
+//         res.redirect("/viewBooks");
+//     } catch (err) {
+//         console.error("Delete error:", err);
+//         res.render("error.ejs", { message: "An error occurred while deleting the book." });
+//     }
+// };
+
 exports.deleteBook = async (req, res) => {
     try {
         const id = req.body.id;
+
         if (!id || isNaN(id)) {
             return res.status(400).render("error.ejs", { message: "Invalid book ID" });
         }
 
-        await LMSmodels.deleteBook(parseInt(id));
+        await LMSmodels.deleteBook(id);
         res.redirect("/viewBooks");
     } catch (err) {
         console.error("Delete error:", err);
@@ -401,7 +481,7 @@ exports.beforeUpdateBook = async (req, res) => {
 
         if (!book) throw new Error("Book not found");
 
-        res.render("UpdateBook.ejs", { book, categories });
+        res.render("UpdateBook.ejs", { book, categories, msg: "", status: "" });
     } catch (err) {
         console.error("Error in beforeUpdateBook:", err);
         res.render("error.ejs");
@@ -409,22 +489,22 @@ exports.beforeUpdateBook = async (req, res) => {
 };
 
 exports.afterUpdateBook = async (req, res) => {
-    try {
-        const {
-            title,
-            author,
-            publisher,
-            isbn,
-            category,
-            total_copies,
-            available_copies,
-            status,
-            id,
-            oldImage
-        } = req.body;
+    const {
+        title,
+        author,
+        publisher,
+        isbn,
+        category,
+        total_copies,
+        available_copies,
+        status,
+        id,
+        oldImage
+    } = req.body;
 
-        // 🛠 Handle image upload: use old image if new one not uploaded
-        const image = req.file ? "/uploads/" + req.file.filename : oldImage;
+    // 🛠 Handle image upload: use old image if new one not uploaded
+    const image = req.file ? "/uploads/" + req.file.filename : oldImage;
+    try {
 
         // 📦 Call DB update method
         await LMSmodels.afterUpdateBook(
@@ -440,11 +520,17 @@ exports.afterUpdateBook = async (req, res) => {
             id
         );
 
-        // ✅ Redirect or render success page
-        res.redirect("/viewBooks"); // Or use res.render("adminDashboard.ejs");
+        const [book] = await LMSmodels.beforeUpdateBook(id);
+        const categories = await LMSmodels.getAllCategories();
+
+        res.render("UpdateBook.ejs", { book, categories, msg: "Updated Successfully", status: "success" });
+
     } catch (err) {
         console.error("Update Book Error:", err);
-        res.render("error.ejs");
+        const [book] = await LMSmodels.beforeUpdateBook(id);
+        const categories = await LMSmodels.getAllCategories();
+
+        res.render("UpdateBook.ejs", { book, categories, msg: "Update Failed", status: "error" });
     }
 };
 

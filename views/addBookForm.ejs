@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Book</title>
   <link rel="stylesheet" href="/css/addBookForm.css" />
+  <script src="/js/addBookForm.js" defer></script>
 </head>
+
 <body>
   <%- include('adminNav.ejs') %>
 
@@ -18,86 +21,93 @@
       <div class="form-wrapper dark-theme">
         <h2 class="form-heading">📘 Add Books</h2>
 
-        <form action="/addBook" method="POST" enctype="multipart/form-data" class="book-form">
+        <form action="/addBook" method="POST" enctype="multipart/form-data" class="book-form" autocomplete="off">
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">📘 Title</label>
-              <input type="text" name="title" required placeholder="Enter title">
+              <input type="text" name="title" id="title" placeholder="Enter title" required/>
+              <span id="titleError" class="error-msg"></span>
             </div>
             <div class="form-group">
               <label class="input-label">✍️ Author</label>
-              <input type="text" name="author" required placeholder="Enter author">
+              <input type="text" name="author" id="author" placeholder="Enter author" required/>
+              <span id="authorError" class="error-msg"></span>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">🏢 Publisher</label>
-              <input type="text" name="publisher" required placeholder="Enter publisher">
+              <input type="text" name="publisher" id="publisher" placeholder="Enter publisher" required/>
+              <span id="publisherError" class="error-msg"></span>
             </div>
             <div class="form-group">
               <label class="input-label">🔢 ISBN</label>
-              <input type="text" name="isbn" required placeholder="Enter ISBN">
+              <input type="number" name="isbn" id="isbn" placeholder="Enter ISBN" required/>
+              <span id="isbnError" class="error-msg"></span>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">📂 Category</label>
-              <select name="category" required>
+              <select name="category" id="category" required>
                 <option value="">Select Category</option>
-                <% if (categories.length === 0) { %>
+                <% if (categories.length===0) { %>
                   <option value="">No data available</option>
-                <% } else { categories.forEach(item => { %>
+                <% } else { categories.forEach(item=> { %>
                   <option value="<%= item.name %>"><%= item.name %></option>
                 <% }) } %>
               </select>
+              <span id="categoryError" class="error-msg"></span>
             </div>
             <div class="form-group">
               <label class="input-label">📦 Total Copies</label>
-              <input type="number" name="total_copies" required placeholder="Total copies">
+              <input type="number" name="total_copies" id="total_copies" placeholder="Total copies" required/>
+              <span id="total_copiesError" class="error-msg"></span>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="input-label">📚 Available Copies</label>
-              <input type="number" name="available_copies" required placeholder="Available copies">
+              <input type="number" name="available_copies" id="available_copies" placeholder="Available copies" required/>
+              <span id="available_copiesError" class="error-msg"></span>
             </div>
             <div class="form-group">
               <label class="input-label">📌 Status</label>
-              <select name="status" required>
+              <select name="status" id="status" required>
+                <option value="">Select Status</option>
                 <option value="available">Available</option>
                 <option value="unavailable">Unavailable</option>
               </select>
+              <span id="statusError" class="error-msg"></span>
             </div>
           </div>
 
           <div class="form-row">
             <div class="custom-file-upload">
               <label for="image">📁 Upload Book Image</label>
-              <input type="file" id="image" name="image" required>
+              <input type="file" id="image" name="image" required/>
+              <span id="imageError" class="error-msg"></span>
               <span id="file-chosen">No file chosen</span>
             </div>
 
             <div class="form-group">
-              <label class="input-label" style="opacity:0;">Submit</label>
+              <label class="input-label" style="opacity: 0;">Submit</label>
               <button type="submit" class="btn-submit">Submit</button>
             </div>
           </div>
+
+          <% if (msg) { %>
+            <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+              <%= msg %>
+            </span>
+          <% } %>
         </form>
       </div>
     </div>
   </div>
-
-  <script>
-    window.onload = function () {
-      const fileInput = document.getElementById('image');
-      const fileChosen = document.getElementById('file-chosen');
-      fileInput.addEventListener('change', function () {
-        fileChosen.textContent = this.files[0]?.name || 'No file chosen';
-      });
-    };
-  </script>
+  <br>
 </body>
 </html>

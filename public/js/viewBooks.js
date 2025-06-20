@@ -1,32 +1,100 @@
+let searchResults = [];
+let currentSearchPage = 1;
+const itemsPerPage = 8;
 
-const itemsPerPage = 12;
-let currentPage = 1;
-const allCards = Array.from(document.querySelectorAll(".book-item"));
+function renderSearchPage(page) {
+  const container = document.getElementById("bookContainer");
+  container.innerHTML = "";
 
-function showPage(page) {
-    const start = (page - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const currentItems = searchResults.slice(start, end);
 
-    allCards.forEach((card, index) => {
-        card.style.display = index >= start && index < end ? "block" : "none";
-    });
+  if (currentItems.length === 0) {
+    container.innerHTML = "<p style='color:white;'>No matching books found.</p>";
+    return;
+  }
 
-    document.getElementById("prevBtn").disabled = page === 1;
-    document.getElementById("nextBtn").disabled = end >= allCards.length;
+  currentItems.forEach(book => {
+    const bookCard = document.createElement("div");
+    bookCard.className = "book-card book-item";
+    bookCard.innerHTML = `
+      <img src="${book.image}" alt="Book Image" />
+      <div class="book-details">
+        <div class="book-title">${book.title}</div>
+        <div class="book-description">
+          <strong>Author:</strong> ${book.author}<br />
+          <strong>Publisher:</strong> ${book.publisher}<br />
+          <strong>ISBN:</strong> ${book.isbn}<br />
+          <strong>Category:</strong> ${book.category}<br />
+          <strong>Total Copies:</strong> ${book.total_copies}<br />
+          <strong>Available Copies:</strong> ${book.available_copies}<br />
+          <strong>Status:</strong> ${book.status}
+        </div>
+      </div>
+      <div class="book-buttons">
+        <a href="/beforeUpdateBook?id=${book.id}" class="btn-update">✏️ Update</a>
+        <form action="/deleteBook" method="POST" onsubmit="return confirm('Are you sure?');" style="width: 100%;">
+          <input type="hidden" name="id" value="${book.id}">
+          <button type="submit" class="btn-delete">🗑️ Delete</button>
+        </form>
+      </div>
+    `;
+    container.appendChild(bookCard);
+  });
+
+  renderSearchPagination();
 }
 
-document.getElementById("prevBtn").addEventListener("click", () => {
-    if (currentPage > 1) {
-        currentPage--;
-        showPage(currentPage);
-    }
-});
+function renderSearchPagination() {
+  const pagination = document.querySelector(".pagination");
+  pagination.innerHTML = "";
 
-document.getElementById("nextBtn").addEventListener("click", () => {
-    if (currentPage * itemsPerPage < allCards.length) {
-        currentPage++;
-        showPage(currentPage);
-    }
-});
+  const totalPages = Math.ceil(searchResults.length / itemsPerPage);
 
-showPage(currentPage);
+  if (totalPages <= 1) return;
+
+  if (currentSearchPage > 1) {
+    const prevBtn = document.createElement("a");
+    prevBtn.textContent = "⬅️ Previous";
+    prevBtn.href = "#";
+    prevBtn.onclick = (e) => {
+      e.preventDefault();
+      currentSearchPage--;
+      renderSearchPage(currentSearchPage);
+    };
+    pagination.appendChild(prevBtn);
+  }
+
+  if (currentSearchPage < totalPages) {
+    const nextBtn = document.createElement("a");
+    nextBtn.textContent = "Next ➡️";
+    nextBtn.href = "#";
+    nextBtn.onclick = (e) => {
+      e.preventDefault();
+      currentSearchPage++;
+      renderSearchPage(currentSearchPage);
+    };
+    pagination.appendChild(nextBtn);
+  }
+
+  pagination.style.display = "flex";
+}
+
+function searchSBooks(query) {
+  if (query.trim() === "") {
+    window.location.href = "/viewBooks";
+    return;
+  }
+
+  fetch(`/searchBooks?term=${encodeURIComponent(query)}`)
+    .then(response => response.json())
+    .then(data => {
+      searchResults = data;
+      currentSearchPage = 1;
+      renderSearchPage(currentSearchPage);
+    })
+    .catch(err => {
+      console.error("Search error:", err);
+    });
+}

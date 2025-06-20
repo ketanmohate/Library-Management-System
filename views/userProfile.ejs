@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/userProfile.css">
+</head>
+
+<body>
+
+    <%-include('userNavbar.ejs') %>
+
+        <div class="Fcontiner">
+
+            <div class="fSidebar">
+                <%-include('userSidebar.ejs') %>
+            </div>
+            <div class="fMainContent">'
+
+                <div class="profile-container">
+                    <div class="profile-card">
+                        <img src="/images/user.png" alt="Profile Image" class="profile-img" />
+                        <h2 class="profile-name">
+                            <%= user.name %>
+                        </h2>
+                        <p class="profile-email">
+                            <%= user.email %>
+                        </p>
+                    </div>
+                    <% if (msg) { %>
+                        <p style="color: red; text-align: center;">
+                            <%= msg %>
+                        </p>
+                        <% } %>
+
+                </div>
+
+            </div>
+        </div>
+</body>
+
+</html>

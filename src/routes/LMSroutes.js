@@ -2,6 +2,9 @@ let routers = require("express");
 let upload = require("../middleware/multer.js")
 let homectrl = require("../controllers/homeCtrl.js");
 const issueCtrl = require("../controllers/issueCtrl.js");
+// const { getStudLogin } = require("../models/studLoginModels.js");
+
+const studLoginCtrl = require("../controllers/studLoginCtrl.js");
 
 let router = routers.Router();
 
@@ -65,17 +68,28 @@ router.post("/addBook", upload.single("image"), homectrl.addBook);
 
 router.get("/viewBooks",homectrl.viewBooks);
 
-// router.get("/deleteBook", homectrl.deleteBook);
-
 router.post("/deleteBook", homectrl.deleteBook);
 
 router.get("/beforeUpdateBook",homectrl.beforeUpdateBook);
 
 router.post("/afterUpdateBook", upload.single("image"), homectrl.afterUpdateBook);
 
-router.get("/searchBooks",homectrl.searchBooks)
+router.get("/searchBooks",homectrl.searchBooks);
 
 // End Books
+
+
+// Start User Student
+
+router.get("/userDashboard",studLoginCtrl.userDashboard);
+
+router.get("/userProfile",studLoginCtrl.userProfile);
+
+router.get("/userViewBooks",studLoginCtrl.userViewBooks);
+
+router.get("/showStudIssuedBook",studLoginCtrl.showStudIssuedBook);
+
+// End User Student
 
 
 
