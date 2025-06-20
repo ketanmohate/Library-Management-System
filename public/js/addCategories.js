@@ -1,43 +1,37 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const inputField = document.getElementById("name");
+inputIds.forEach((id) => {
+  const inputField = document.getElementById(id);
+  if (!inputField) return;
 
-  // Create and attach error span if not already present
-  let errorSpan = document.getElementById("nameError");
+  let errorSpan = document.getElementById(id + "Error");
   if (!errorSpan) {
     errorSpan = document.createElement("span");
-    errorSpan.id = "nameError";
+    errorSpan.id = id + "Error";
     errorSpan.classList.add("error-msg");
     errorSpan.style.color = "red";
     inputField.parentNode.appendChild(errorSpan);
   }
 
-  // Select the global server message span (from EJS)
-  const globalMsg = document.querySelector(".success-msg, .error-msg:not([id])");
-
-  // Validation on input
   inputField.addEventListener("input", () => {
-    const value = inputField.value.trim();
+    errorSpan.textContent = "";
 
-    // Clear flash msg from server
+    const globalMsg = document.querySelector("form .success-msg, form .error-msg");
     if (globalMsg) {
       globalMsg.textContent = "";
       globalMsg.classList.remove("success-msg", "error-msg");
-    }
-
-    // Validate input (alphabets and spaces only)
-    if (!/^[A-Za-z\s]+$/.test(value)) {
-      errorSpan.textContent = "Only alphabets are allowed.";
-    } else {
-      errorSpan.textContent = "";
     }
   });
 
-  // Clear messages on focus
   inputField.addEventListener("focus", () => {
     errorSpan.textContent = "";
+
+    const globalMsg = document.querySelector("form .success-msg, form .error-msg");
     if (globalMsg) {
       globalMsg.textContent = "";
       globalMsg.classList.remove("success-msg", "error-msg");
+    }
+
+    if (id === "user" && inputField.value === "Enter username") {
+      inputField.value = "";
     }
   });
 });

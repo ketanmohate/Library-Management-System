@@ -1,6 +1,21 @@
 const LMS = require("../models/LMSmodels.js");
 const issueModels = require("../models/issueModels.js");
 
+// exports.loadIssueForm = async (req, res) => {
+//   try {
+//     const students = await LMS.viewAllstudents();
+//     const categories = await LMS.getAllCategories();
+
+//     res.render("issueBook", {
+//       students: Array.isArray(students) ? students : [],
+//       categories: Array.isArray(categories) ? categories : []
+//     },{ msg: "", status: "" });
+//   } catch (err) {
+//     console.error("Load Issue Form Error:", err);
+//     res.render("error");
+//   }
+// };
+
 exports.loadIssueForm = async (req, res) => {
   try {
     const students = await LMS.viewAllstudents();
@@ -8,13 +23,16 @@ exports.loadIssueForm = async (req, res) => {
 
     res.render("issueBook", {
       students: Array.isArray(students) ? students : [],
-      categories: Array.isArray(categories) ? categories : []
+      categories: Array.isArray(categories) ? categories : [],
+      msg: "",
+      status: ""
     });
   } catch (err) {
     console.error("Load Issue Form Error:", err);
     res.render("error");
   }
 };
+
 
 // Fetch books by category (AJAX)
 exports.getBooksByCategory = async (req, res) => {
@@ -32,50 +50,147 @@ exports.getBooksByCategory = async (req, res) => {
 
 // Handle book issue form submission
 
+// exports.issueBook = async (req, res) => {
+//   try {
+//     const { user, book_id, issue_date, return_date, status } = req.body;
+
+//     // Extract email from "Name (email)" format
+//     const match = user.match(/\(([^)]+)\)/);
+//     const email = match ? match[1].trim() : null;
+
+//     if (!email) return res.status(400).send("Invalid user format");
+
+//     // console.log("user email -------> " + email);
+
+//     // Get user ID
+//     const userResult = await issueModels.findUserByNameOrEmail(email);
+
+//     let issued_by = userResult.id;
+
+//     console.log("Book ID -------> " + book_id);
+//     console.log("issued_by (user id) ------->" + issued_by);
+//     console.log("issue_date ------->" + issue_date);
+//     console.log("return_date------->" + return_date);
+//     console.log("status------->" + status);
+
+//     if (!userResult || userResult.length === 0) {
+//       return res.status(400).send("User not found");
+//     }
+
+//     // Insert issue record
+//     await issueModels.insertIssueDetails({
+//       book_id,
+//       issued_by,
+//       issue_date,
+//       return_date,
+//       status
+//     });
+
+//     res.render("issueBook.ejs", {});
+//   } catch (err) {
+//     console.error("Issue book failed:", err);
+//     res.render("issueBook.ejs", {});
+//   }
+// };
+
+
+// exports.issueBook = async (req, res) => {
+//   try {
+//     const { user, book_id, issue_date, return_date, status } = req.body;
+
+//     // Extract email from "Name (email)" format
+//     const match = user.match(/\(([^)]+)\)/);
+//     const email = match ? match[1].trim() : null;
+
+//     if (!email) return res.status(400).send("Invalid user format");
+
+//     // Get user details by email
+//     const userResult = await issueModels.findUserByNameOrEmail(email);
+//     if (!userResult || userResult.length === 0) {
+//       return res.status(400).send("User not found");
+//     }
+
+//     const issued_by = userResult.id;
+
+//     // Save issue details
+//     await issueModels.insertIssueDetails({
+//       book_id,
+//       issued_by,
+//       issue_date,
+//       return_date,
+//       status,
+//     });
+
+//     // ✅ Fetch all required data to re-render the form
+//     const students = await LMS.viewAllstudents();
+//     const categories = await LMS.getAllCategories();
+
+//     res.render("issueBook", {
+//       students: Array.isArray(students) ? students : [],
+//       categories: Array.isArray(categories) ? categories : []
+//     }, { msg: "Category Added Successfully", status: "success" });
+//   } catch (err) {
+//     console.error("Issue book failed:", err);
+
+//     // In case of failure, still fetch data to re-render form properly
+//     const students = await LMS.viewAllstudents();
+//     const categories = await LMS.getAllCategories();
+
+//     res.render("issueBook", {
+//       students: Array.isArray(students) ? students : [],
+//       categories: Array.isArray(categories) ? categories : []
+//     }, { msg: "Category could not be added.", status: "error" });
+//   }
+// };
+
 exports.issueBook = async (req, res) => {
   try {
     const { user, book_id, issue_date, return_date, status } = req.body;
 
-    // Extract email from "Name (email)" format
     const match = user.match(/\(([^)]+)\)/);
     const email = match ? match[1].trim() : null;
 
     if (!email) return res.status(400).send("Invalid user format");
 
-    // console.log("user email -------> " + email);
-
-    // Get user ID
     const userResult = await issueModels.findUserByNameOrEmail(email);
-
-    let issued_by = userResult.id;
-
-    console.log("Book ID -------> " + book_id);
-    console.log("issued_by (user id) ------->" + issued_by);
-    console.log("issue_date ------->" + issue_date);
-    console.log("return_date------->" + return_date);
-    console.log("status------->" + status);
-
     if (!userResult || userResult.length === 0) {
       return res.status(400).send("User not found");
     }
 
-    // Insert issue record
+    const issued_by = userResult.id;
+
     await issueModels.insertIssueDetails({
       book_id,
       issued_by,
       issue_date,
       return_date,
-      status
+      status,
     });
 
-    // res.redirect("/viewIssuedBooks");
-    res.render("adminDashboard");
+    const students = await LMS.viewAllstudents();
+    const categories = await LMS.getAllCategories();
+
+    res.render("issueBook", {
+      students: Array.isArray(students) ? students : [],
+      categories: Array.isArray(categories) ? categories : [],
+      msg: "Book issued successfully",
+      status: "success"
+    });
+
   } catch (err) {
     console.error("Issue book failed:", err);
-    res.render("error");
+
+    const students = await LMS.viewAllstudents();
+    const categories = await LMS.getAllCategories();
+
+    res.render("issueBook", {
+      students: Array.isArray(students) ? students : [],
+      categories: Array.isArray(categories) ? categories : [],
+      msg: "Book could not be issued",
+      status: "error"
+    });
   }
 };
-
 
 exports.viewIssuedBooks = async (req, res) => {
   try {

@@ -19,8 +19,8 @@ body {
 
 /* Sidebar */
 .fSidebar {
-  background-color: rgba(255, 255, 255, 0.03);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  /* background-color: rgba(255, 255, 255, 0.03); */
+  /* border-right: 1px solid rgba(255, 255, 255, 0.05); */
 }
 
 /* Main Content */

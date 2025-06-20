@@ -1,80 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Issue Book</title>
   <link rel="stylesheet" href="/css/issueBook.css" />
+  <script src="js/issueBook.js"></script>
 </head>
+
 <body>
   <%- include('adminNav.ejs') %>
-  <div class="Fcontiner">
-    <div class="fSidebar"><%- include('adminSidebar.ejs') %></div>
-    <div class="fMainContent">
-      <div class="form-wrapper dark-theme">
-        <h2 class="form-heading">📕 Issue Book Form</h2>
-        <form action="/issueBook" method="POST" class="book-form">
-          <!-- User -->
-          <div class="form-row">
-            <div class="form-group">
-              <label class="input-label">👤 Search User (Name or Email)</label>
-              <input type="text" name="user" placeholder="Enter name or email" list="userList" required>
-              <datalist id="userList">
-                <% students.forEach(u => { %>
-                  <option value="<%= `${u.name} (${u.email})` %>"></option>
-                <% }) %>
-              </datalist>
+    <div class="Fcontiner">
+      <div class="fSidebar"><%- include('adminSidebar.ejs') %></div>
+      <div class="fMainContent">
+        <div class="form-wrapper dark-theme">
+          <h2 class="form-heading">📕 Issue Book Form</h2>
+          <form action="/issueBook" method="POST" class="book-form">
+            <!-- User -->
+            <div class="form-row">
+              <div class="form-group">
+                <label class="input-label">👤 Search User (Name or Email)</label>
+                <input type="text" name="user" placeholder="Enter name or email" list="userList" required>
+                <datalist id="userList">
+                  <% students.forEach(u=> { %>
+                    <option value="<%= `${u.name} (${u.email})` %>"></option>
+                    <% }) %>
+                </datalist>
+              </div>
+              <!-- Category -->
+              <div class="form-group">
+                <label class="input-label">🔍 Search Category</label>
+                <input type="text" id="categoryInput" name="category" placeholder="Enter category" list="categoryList"
+                  required>
+                <datalist id="categoryList">
+                  <% categories.forEach(c=> { %>
+                    <option value="<%= c.name %>"></option>
+                    <% }) %>
+                </datalist>
+              </div>
             </div>
-            <!-- Category -->
-            <div class="form-group">
-              <label class="input-label">🔍 Search Category</label>
-              <input type="text" id="categoryInput" name="category" placeholder="Enter category" list="categoryList" required>
-              <datalist id="categoryList">
-                <% categories.forEach(c => { %>
-                  <option value="<%= c.name %>"></option>
-                <% }) %>
-              </datalist>
-            </div>
-          </div>
-          <!-- Book & Issue Date -->
-          <div class="form-row">
+            <!-- Book & Issue Date -->
+            <div class="form-row">
 
-            <div class="form-group">
-              <label class="input-label">📖 Select Book</label>
-              <select id="bookDropdown" name="book_id" required>
-                <option value="" name="">Select a book</option>
-              </select>
+              <div class="form-group">
+                <label class="input-label">📖 Select Book</label>
+                <select id="bookDropdown" name="book_id" required>
+                  <option value="" name="">Select a book</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label">📅 Issue Date</label>
+                <input type="date" id="issueDate" name="issue_date" required>
+              </div>
+            </div>
+            <!-- Return Date & Status -->
+            <div class="form-row">
+              <div class="form-group">
+                <label class="input-label">📅 Return Date</label>
+                <input type="date" id="returnDate" name="return_date" readonly required>
+              </div>
+              <div class="form-group">
+                <label class="input-label">📌 Status</label>
+                <select name="status" required>
+                  <option value="issued">issued</option>
+                  <option value="returned">returned</option>
+                  <option value="overdue">overdue</option>
+                </select>
+              </div>
+            </div>
+            <!-- Submit -->
+            <div class="form-row">
+              <button type="submit" class="btn-submit">Submit</button>
             </div>
 
-            <div class="form-group">
-              <label class="input-label">📅 Issue Date</label>
-              <input type="date" id="issueDate" name="issue_date" required>
-            </div>
-          </div>
-          <!-- Return Date & Status -->
-          <div class="form-row">
-            <div class="form-group">
-              <label class="input-label">📅 Return Date</label>
-              <input type="date" id="returnDate" name="return_date" readonly required>
-            </div>
-            <div class="form-group">
-              <label class="input-label">📌 Status</label>
-              <select name="status" required>
-                <option value="issued">issued</option>
-                <option value="returned">returned</option>
-                <option value="overdue">overdue</option>
-              </select>
-            </div>
-          </div>
-          <!-- Submit -->
-          <div class="form-row">
-            <button type="submit" class="btn-submit">Submit</button>
-          </div>
-          
-        </form>
+            <% if (msg) { %>
+              <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                <%= msg %>
+              </span>
+              <% } %>
+
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="/js/issueBook.js"></script>
+    <br>
 </body>
+
 </html>

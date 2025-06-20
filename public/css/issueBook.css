@@ -7,7 +7,7 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  /* height: 100vh; */
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #244452, #203a43);
 }
@@ -164,4 +164,32 @@ select {
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 5px;
+}
+
+
+.error {
+  padding-top: 5px;
+  display: flex;
+  color: red;
+  font-size: 13px;
+}
+
+.success-msg {
+  color: rgb(0, 255, 0);
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-msg {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -92,8 +92,14 @@
             <div class="form-row">
               <div class="custom-file-upload">
                 <label for="image">📁 Upload Book Image</label>
-                <input type="file" id="image" name="image" required>
+                <input type="file" id="image" name="image">
                 <span id="file-chosen">No file chosen</span>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label">📷 Current Image</label>
+                <img src="<%= book.image %>" alt="Book Image"
+                  style="max-width: 90px; border-radius: 5px; box-shadow: 0 0 6px #00e5ff;" />
               </div>
 
               <div class="form-group">
@@ -102,12 +108,6 @@
               </div>
             </div>
 
-            <!-- <div class="form-row">
-            <div class="form-group">
-              <label class="input-label">📷 Current Image</label><br>
-              <img src="<%= book.image %>" alt="Book Image" style="max-width: 100px; border-radius: 5px;" />
-            </div>
-          </div> -->
             <% if (msg) { %>
               <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
                 <%= msg %>

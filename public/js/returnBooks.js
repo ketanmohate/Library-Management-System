@@ -38,13 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // ✅ Search by Book Title and Email only
   document.getElementById("searchInput").addEventListener("keyup", function () {
     const keyword = this.value.toLowerCase();
-    filteredRows = rows.filter(row =>
-      Array.from(row.cells).some(cell =>
-        cell.textContent.toLowerCase().includes(keyword)
-      )
-    );
+
+    filteredRows = rows.filter(row => {
+      const bookTitle = row.cells[1]?.textContent.toLowerCase();
+      const email = row.cells[3]?.textContent.toLowerCase();
+      return bookTitle.includes(keyword) || email.includes(keyword);
+    });
+
     currentPage = 1;
     displayRows();
   });

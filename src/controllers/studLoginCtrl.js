@@ -10,7 +10,7 @@ exports.userProfile = async (req, res) => {
     try {
         // ✅ Check session before accessing email
         if (!req.session.user || !req.session.user.email) {
-            return res.redirect("");
+            return res.redirect("/logins");
         }
 
         const email = req.session.user.email;
@@ -43,7 +43,7 @@ exports.userViewBooks = async (req, res) => {
 exports.showStudIssuedBook = async (req, res) => {
   try {
     if (!req.session.user || !req.session.user.email) {
-      return res.redirect("/login"); // give valid redirect
+      return res.redirect("/logins"); // give valid redirect
     }
 
     const email = req.session.user.email;
@@ -72,7 +72,7 @@ exports.showStudIssuedBook = async (req, res) => {
 exports.userHistory = async(req, res)=>{
       try {
     if (!req.session.user || !req.session.user.email) {
-      return res.redirect("/login"); // give valid redirect
+      return res.redirect("/logins"); // give valid redirect
     }
 
     const email = req.session.user.email;
