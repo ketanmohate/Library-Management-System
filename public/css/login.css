@@ -6,19 +6,12 @@
 }
 
 body {
-<<<<<<< HEAD
-  /* color: white; */
-  /* background-color: rgb(82, 78, 78); */
-  background-size: cover;
-  background-repeat: no-repeat;
-=======
   background: linear-gradient(to right, #141e30, #243b55);
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
->>>>>>> 4cc8bfcb604ea11be7b043bbcb4a13610e296442
 }
 
 /* Login Box */
@@ -104,5 +97,4 @@ button:hover {
 .spanmsg{
   color: red;
 }
-
 
