@@ -9,51 +9,56 @@
 </head>
 
 <body>
-  <div class="ContainerF">
-    <div class="fixnav">
-      <%-include('adminNav.ejs') %>
-    </div>
-    <div class="hero">
+  <%- include('adminNav.ejs') %>
 
-      <div class="sidebarF">
-        <%-include('adminSidebar.ejs') %>
+    <div class="Fcontiner">
+      <div class="fSidebar">
+        <%- include('adminSidebar.ejs') %>
       </div>
-      <div class="fixcontentF">
-        <div class="form-container">
-          <h2>Student Form</h2>
-          <form action="/addStudent" method="post">
+
+      <div class="fMainContent">
+        <div class="form-wrapper">
+          <h2 class="form-heading">Student Registration</h2>
+          <form action="/addStudent" method="post" class="student-form" autocomplete="off">
+
             <div class="form-group">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" name="student_name" required placeholder="Enter Name" />
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" name="student_name" required />
+              <span id="fullNameError" class="error-msg"></span>
             </div>
 
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="student_email" required placeholder="Enter Email" />
+              <input type="email" id="email" name="student_email" required />
+              <span id="emailError" class="error-msg"></span>
             </div>
 
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" id="password" name="student_password" required placeholder="Enter Password" />
+              <input type="password" id="password" name="student_password" required />
+              <span id="passwordError" class="error-msg"></span>
             </div>
 
             <div class="form-group">
-              <label for="confirm-password">Confirm Password</label>
-              <input type="password" id="confirm-password" name="confirm_password" required
-                placeholder="Enter Confirm Password" />
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirm_password" required />
+              <span id="confirmPasswordError" class="error-msg"></span>
             </div>
 
-            <button type="submit" class="submit-btn">Submit</button>
+            <button type="submit" class="submit-btn">Register</button>
+
+            <% if (msg) { %>
+              <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                <%= msg %>
+              </span>
+              <% } %>
+
+
           </form>
-          <br>
-          <span>
-            <%= msg%>
-          </span>
         </div>
       </div>
-
     </div>
-  </div>
+    <script src="/js/addStudentForm.js"></script>
 </body>
 
 </html>

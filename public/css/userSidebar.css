@@ -1,0 +1,73 @@
+body{
+  background: linear-gradient(to bottom, #01141c, #1d4a5a);
+}
+
+.sidebar {
+  width: 260px;
+  /* height:80vh; */
+  background: linear-gradient(to right, #0f2027, #203a43);
+  color: white;
+  padding: 20px 15px;
+  /* border: solid red; */
+  margin: 10px;
+  height: 85vh;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2fdaf8;
+  margin-bottom: 20px;
+  padding-left: 5px;
+  border-bottom: 1px solid #fff;
+}
+
+.accordion-item {
+  background-color: transparent !important;
+  border: none;
+}
+
+.accordion-button {
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.accordion-button::after {
+  filter: invert(1);
+}
+
+.accordion-collapse {
+  background-color: transparent !important;
+}
+
+.accordion-body {
+  background-color: transparent !important;
+  padding-left: 20px;
+}
+
+.dropdown-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 0 20px 20px 0;
+  transition: background-color 0.3s;
+}
+
+.dropdown-link:hover {
+  background-color: #1f4e63;
+  color: white;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}

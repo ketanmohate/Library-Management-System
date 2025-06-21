@@ -4,121 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            padding: 0%;
-            margin: 0%;
-        }
-
-        body {
-            /* color: white; */
-            /* background-color: rgb(82, 78, 78); */
-            /* background-image: url("/images/university-6699377.jpg"); */
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-
-        .container {
-            /* background-color: rgb(82, 78, 78); */
-            /* border: solid black; */
-            display: grid;
-            grid-template-columns: auto;
-            justify-content: center;
-            align-items: center;
-            gap: 1em;
-            width: 50%;
-            margin: 10px auto;
-            min-height: 80vh;
-        }
-
-        .container .heading {
-            /* border:solid white; */
-            text-align: center;
-            color: #7965C1;
-            padding: 10px;
-            /* font-size: large; */
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
-
-        .container form {
-            background-color: rgba(255, 255, 255, 0.619);
-            /* border: solid wheat; */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.349);
-            padding: 20px;
-        }
-
-        .container form input {
-            height: 35px;
-            width: 350px;
-            margin: 10px 0px 10px 0px;
-            /* background-color: rgba(201, 199, 199, 0.842); */
-            /* border: none; */
-            border: solid 1px black;
-            outline: none;
-            border-radius: 5px;
-            padding: 5px 5px 5px 15px;
-            /* font-size: larger; */
-            /* font-family:Verdana, Geneva, Tahoma, sans-serif */
-        }
-
-        .container form input:hover {
-            border: solid blue;
-        }
-
-
-        .container form {
-            color: black;
-        }
-
-        .container form .btn {
-            height: 30px;
-            width: 200px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #007bff;
-            border: none;
-            border-radius: 15px;
-            color: aliceblue;
-            font-size: large;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        .container form .btn:hover {
-            background-color: bisque;
-            color: black;
-            cursor: pointer;
-        }
-
-        .container form .signUp {
-            padding-top: 10px;
-            text-align: center;
-        }
-
-        .container form .signUp a {
-            color: #7965C1;
-            text-decoration: none;
-        }
-    </style>
+    <title>update Category</title>
+    <link rel="stylesheet" href="/css/updateCategories.css">
+    <script src="/js/updateCategories.js"></script>
 </head>
 
 <body>
-    <div class="container">
-    <% if (cat && cat.length > 0) { %>
-        <form action="/afterUpdateCat" method="POST">
-            <input type="hidden" name="id" value="<%= cat[0].id %>">
+    <!-- Navigation Bar -->
+    <%- include('adminNav.ejs') %>
 
-            <input type="text" id="name" name="name" value="<%= cat[0].name %>" placeholder="Enter Category Name">
-            <button class="btn" type="submit">Update Category</button>
-        </form>
-        <%}%>
-    
-</div>
+        <!-- Main Grid Layout -->
+        <div class="Fcontiner">
 
+            <!-- Sidebar -->
+            <div class="fSidebar">
+                <%- include('adminSidebar.ejs') %>
+            </div>
+
+            <!-- Main Content -->
+            <div class="fMainContent">
+                <div class="form-wrapper">
+                    <h2 class="form-heading">Update Category</h2>
+                    <form action="/afterUpdateCat" method="POST" class="category-form">
+
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="<%=cat[0].id %>">
+                            <input type="text" id="name" name="name" value="<%=cat[0].name %>"
+                                placeholder="Enter Category Name" required />
+                        </div>
+
+                        <button class="submit-btn" type="submit">Update Category</button>
+
+                        <% if (msg) { %>
+                            <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                                <%= msg %>
+                            </span>
+                            <% } %>
+
+                    </form>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>

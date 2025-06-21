@@ -1,0 +1,197 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #244452, #203a43);
+  color: #e0f0f3;
+}
+
+/* Grid Layout */
+.Fcontiner {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+/* Main Content */
+.fMainContent {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+/* Form Wrapper Box */
+.form-wrapper {
+  width: 100%;
+  max-width: 900px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+}
+
+/* Heading */
+.form-heading {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #00d9ff;
+}
+
+/* Search Box */
+.search-box {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #00e5ff;
+  border-radius: 6px;
+  background-color: #112e3a;
+  color: #e0f0f3;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-box::placeholder {
+  color: #81d4fa;
+}
+
+/* Table */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.custom-table thead {
+  background-color: #0d3b4f;
+}
+
+.custom-table thead th {
+  color: #00e5ff;
+  padding: 12px;
+  text-align: left;
+}
+
+.custom-table tbody td {
+  padding: 12px;
+  color: #e0f0f3;
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #123b4d;
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #0f2f40;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #14556b;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #f8d7da;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Update Button */
+.btn-update {
+  background-color: #00bcd4;
+  color: #002b36;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-update:hover {
+  background-color: #00e5ff;
+  color: #fff;
+}
+
+/* Delete Button */
+.btn-delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+}
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination-controls button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #00d9ff;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #00d9ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #00d9ff;
+  color: #0f2027;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: #888;
+  color: #ccc;
+}
+
+.pagination-controls #pageCount {
+  font-size: 14px;
+  font-weight: 600;
+  color: #00d9ff;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .Fcontiner {
+    grid-template-columns: 1fr;
+  }
+
+  .fSidebar {
+    display: none;
+  }
+
+  .fMainContent {
+    padding: 1rem;
+  }
+
+  .form-wrapper {
+    padding: 1rem;
+  }
+}

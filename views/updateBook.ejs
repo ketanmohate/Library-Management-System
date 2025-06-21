@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Book</title>
+  <link rel="stylesheet" href="/css/addBookForm.css" />
+  <script src="/js/updateBook.js" defer></script>
+</head>
+
+<body>
+  <%- include('adminNav.ejs') %>
+
+    <div class="Fcontiner">
+      <div class="fSidebar">
+        <%- include('adminSidebar.ejs') %>
+      </div>
+
+      <div class="fMainContent">
+        <div class="form-wrapper dark-theme">
+          <h2 class="form-heading">📘 Update Book</h2>
+
+          <form action="/afterUpdateBook" method="POST" enctype="multipart/form-data" class="book-form">
+            <input type="hidden" name="id" value="<%= book.id %>">
+            <input type="hidden" name="oldImage" value="<%= book.image %>">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="input-label">📘 Title</label>
+                <input type="text" name="title" id="title" value="<%= book.title %>" required placeholder="Enter title">
+                <span id="titleError" class="error-msg"></span>
+              </div>
+              <div class="form-group">
+                <label class="input-label">✍️ Author</label>
+                <input type="text" name="author" id="author" value="<%= book.author %>" required
+                  placeholder="Enter author">
+                <span id="authorError" class="error-msg"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="input-label">🏢 Publisher</label>
+                <input type="text" name="publisher" id="publisher" value="<%= book.publisher %>" required
+                  placeholder="Enter publisher">
+                <span id="publisherError" class="error-msg"></span>
+              </div>
+              <div class="form-group">
+                <label class="input-label">🔢 ISBN</label>
+                <input type="text" name="isbn" id="isbn" value="<%= book.isbn %>" required placeholder="Enter ISBN">
+                <span id="isbnError" class="error-msg"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="input-label">📂 Category</label>
+                <select name="category" id="category" required>
+                  <option value="">Select Category</option>
+                  <% categories.forEach(item=> { %>
+                    <option value="<%= item.id %>" <%=item.id===book.category_id ? 'selected' : '' %>><%= item.name %>
+                    </option>
+                    <% }) %>
+                </select>
+                <span id="categoryError" class="error-msg"></span>
+              </div>
+              <div class="form-group">
+                <label class="input-label">📦 Total Copies</label>
+                <input type="number" name="total_copies" id="total_copies" value="<%= book.total_copies %>" required>
+                <span id="total_copiesError" class="error-msg"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="input-label">📚 Available Copies</label>
+                <input type="number" name="available_copies" id="available_copies" value="<%= book.available_copies %>"
+                  required>
+                <span id="available_copiesError" class="error-msg"></span>
+              </div>
+              <div class="form-group">
+                <label class="input-label">📌 Status</label>
+                <select name="status" id="status" required>
+                  <option value="available" <%=book.status==='available' ? 'selected' : '' %>>Available</option>
+                  <option value="unavailable" <%=book.status==='unavailable' ? 'selected' : '' %>>Unavailable</option>
+                </select>
+                <span id="statusError" class="error-msg"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="custom-file-upload">
+                <label for="image">📁 Upload Book Image</label>
+                <input type="file" id="image" name="image">
+                <span id="file-chosen">No file chosen</span>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label">📷 Current Image</label>
+                <img src="<%= book.image %>" alt="Book Image"
+                  style="max-width: 90px; border-radius: 5px; box-shadow: 0 0 6px #00e5ff;" />
+              </div>
+
+              <div class="form-group">
+                <label class="input-label" style="opacity: 0;">Submit</label>
+                <button type="submit" class="btn-submit">Update Book</button>
+              </div>
+            </div>
+
+            <% if (msg) { %>
+              <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                <%= msg %>
+              </span>
+              <% } %>
+          </form>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
