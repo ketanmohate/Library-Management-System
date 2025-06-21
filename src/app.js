@@ -25,7 +25,7 @@ app.use(session({
   secret: 'abc123',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false }
+  cookie: { secure: false } // use true if HTTPS
 }));
 
 app.set('view engine', 'ejs');

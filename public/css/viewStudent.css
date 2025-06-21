@@ -188,3 +188,54 @@ body {
   font-weight: 600;
   color: #00d9ff;
 }
+
+/* 🔄 Wrapper to allow horizontal scroll */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+}
+
+/* 🎯 Force minimum width for table to avoid squishing */
+.table-responsive .custom-table {
+  min-width: 700px; /* Adjust based on how many columns you have */
+}
+
+/* 🔍 Adjust table font and padding for small devices */
+@media (max-width: 575.98px) {
+  .custom-table th,
+  .custom-table td {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .btn-update,
+  .btn-delete {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-box {
+    font-size: 14px;
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+/* Tablet tweaks (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .custom-table th,
+  .custom-table td {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  .search-box {
+    font-size: 15px;
+  }
+}

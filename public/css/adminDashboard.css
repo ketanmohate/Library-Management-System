@@ -75,3 +75,64 @@ form .form-control:focus {
 .text-white {
   color: #ffffff !important;
 }
+/* Extra Small Devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .Fcontiner {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-container {
+    margin-top: 5vh;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .welcome-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .subheading {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Devices (portrait tablets and large phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .Fcontiner {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-container h1 {
+    font-size: 1.75rem;
+  }
+
+  .subheading {
+    font-size: 1rem;
+  }
+}
+
+/* Medium Devices (landscape tablets and small laptops, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .Fcontiner {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .welcome-container h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Large Devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .Fcontiner {
+    grid-template-columns: 250px 1fr;
+  }
+}
+
+/* Extra Large Devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .Fcontiner {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
