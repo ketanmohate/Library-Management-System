@@ -26,8 +26,6 @@ router.post("/addStudent",homectrl.addStudent);
 
 router.get("/addSudentPage",homectrl.addSudentPage);
 
-router.post("/addStudent",homectrl.addStudent);
-
 router.get("/viewstud",homectrl.Viewstudent);
 
 router.get("/searchStudent",homectrl.searchStud);
@@ -99,9 +97,4 @@ router.get("/userHistory",studLoginCtrl.userHistory);
 
 
 
-router.get("/deletebook",homectrl.deleteBook);
-
-router.get("/beforeUpdateBook",homectrl.beforeupdateBook);
-
-router.post("/afterUpdateBook",homectrl.afterupdateBook);
 module.exports = router;
