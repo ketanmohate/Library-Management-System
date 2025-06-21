@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Books</title>
+  <link rel="stylesheet" href="/css/userViewBook.css" />
+</head>
+
+<body>
+  <%- include('userNavbar.ejs') %>
+
+  <div class="Fcontiner">
+    <div class="fSidebar">
+      <%- include('userSidebar.ejs') %>
+    </div>
+
+    <div class="fMainContent">
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <input
+          type="text"
+          class="search-box"
+          id="Name"
+          placeholder="🔍 Search by Title, Author, ISBN, Publisher, Category" />
+      </div>
+
+      <!-- Books -->
+      <div id="bookContainer" class="book-container">
+        <% books.forEach((book) => { %>
+          <div class="book-card book-item">
+            <img src="<%= book.image %>" alt="Book Image" />
+            <div class="book-details">
+              <div class="book-title"><%= book.title %></div>
+              <div class="book-author"><strong>Author:</strong> <%= book.author %></div>
+              <div class="book-publisher"><strong>Publisher:</strong> <%= book.publisher %></div>
+              <div class="book-isbn"><strong>ISBN:</strong> <%= book.isbn %></div>
+              <div class="book-category"><strong>Category:</strong> <%= book.category_name %></div>
+              <div class="book-status"><strong>Status:</strong> <%= book.status %></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button id="prevBtn" class="btn-nav">Previous</button>
+        <span id="pageIndicator">Page 1</span>
+        <button id="nextBtn" class="btn-nav">Next</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/userViewBook.js"></script>
+</body>
+
+</html>

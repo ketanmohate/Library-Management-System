@@ -5,52 +5,41 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #244452, #203a43);
 }
 
-/* Main Grid Layout */
 .Fcontiner {
   display: grid;
-  grid-template-columns: 250px 1fr;
-  min-height: 100vh;
+  grid-template-columns: auto 1fr;
 }
 
-/* Sidebar */
 .fSidebar {
-  background-color: #1c313a;
-  padding: 1rem;
-  color: white;
+  /* Optional styling for sidebar */
 }
 
-/* Main Content */
 .fMainContent {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.02);
+  /* border: solid red; */
 }
 
-/* Form Wrapper */
 .form-wrapper {
   max-width: 500px;
-  width: 100%;
-  padding: 2rem;
+  margin: 20px auto;
+  padding: 1rem;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
   color: #e0f0f3;
 }
 
-/* Heading */
 .form-heading {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: #00d9ff;
 }
 
-/* Form Group */
 .student-form .form-group {
   margin-bottom: 1rem;
   display: flex;
@@ -65,7 +54,7 @@ body {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #44556a;
+  background: #0b1824;
   color: #fff;
 }
 
@@ -75,7 +64,6 @@ body {
   box-shadow: 0 0 5px rgba(0, 217, 255, 0.3);
 }
 
-/* Submit Button */
 .submit-btn {
   background-color: #00d9ff;
   color: #000;
@@ -92,12 +80,23 @@ body {
   color: white;
 }
 
-/* Error Message (Optional) */
 .error {
   padding-top: 5px;
   display: flex;
   color: red;
-  font-size: small;
-  justify-content: center;
-  align-items: center;
+  font-size: 13px;  
+}
+
+.success-msg {
+  color: rgb(0, 255, 0);
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+}
+
+.error-msg {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
 }

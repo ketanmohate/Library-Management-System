@@ -11,43 +11,54 @@
 <body>
   <%- include('adminNav.ejs') %>
 
-  <div class="Fcontiner">
-    <div class="fSidebar">
-      <%- include('adminSidebar.ejs') %>
-    </div>
+    <div class="Fcontiner">
+      <div class="fSidebar">
+        <%- include('adminSidebar.ejs') %>
+      </div>
 
-    <div class="fMainContent">
-      <div class="form-wrapper">
-        <h2 class="form-heading">Student Registration</h2>
-        <form action="/addStudent" method="post" class="student-form">
-          <div class="form-group">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="student_name" required />
-          </div>
+      <div class="fMainContent">
+        <div class="form-wrapper">
+          <h2 class="form-heading">Student Registration</h2>
+          <form action="/addStudent" method="post" class="student-form" autocomplete="off">
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="student_email" required />
-          </div>
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" name="student_name" required />
+              <span id="fullNameError" class="error-msg"></span>
+            </div>
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="student_password" required />
-          </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="student_email" required />
+              <span id="emailError" class="error-msg"></span>
+            </div>
 
-          <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirm_password" required />
-          </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="student_password" required />
+              <span id="passwordError" class="error-msg"></span>
+            </div>
 
-          <button type="submit" class="submit-btn">Register</button>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirm_password" required />
+              <span id="confirmPasswordError" class="error-msg"></span>
+            </div>
 
-          <samp class="error"><%=msg%></samp>
+            <button type="submit" class="submit-btn">Register</button>
 
-        </form>
+            <% if (msg) { %>
+              <span class="<%= status === 'success' ? 'success-msg' : 'error-msg' %>">
+                <%= msg %>
+              </span>
+              <% } %>
+
+
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+    <script src="/js/addStudentForm.js"></script>
 </body>
 
 </html>

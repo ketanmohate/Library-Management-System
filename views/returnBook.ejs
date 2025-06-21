@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Return Book</title>
+    <link rel="stylesheet" href="/css/returnBook.css" />
+</head>
+
+<body>
+    <%- include('adminNav.ejs') %>
+
+        <div class="Fcontiner">
+            <div class="fSidebar">
+                <%- include('adminSidebar.ejs') %>
+            </div>
+
+            <div class="fMainContent">
+                <h2 class="page-title">📥 Return Book</h2>
+
+                <div class="search-bar">
+                    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search Return Books">
+                </div>
+
+                <table class="return-table">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                            <th>Book Title</th>
+                            <th>Issued To</th>
+                            <th>Email</th>
+                            <th>Issue Date</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returnList">
+                        <% issuedBooks.forEach((book, index)=> { %>
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <%= book.book_title %>
+                                </td>
+                                <td>
+                                    <%= book.user_name %>
+                                </td>
+                                <td>
+                                    <%= book.email %>
+                                </td>
+                                <td>
+                                    <%= book.issue_date.toISOString().split('T')[0] %>
+                                </td>
+                                <td>
+                                    <%= book.return_date.toISOString().split('T')[0] %>
+                                </td>
+                                <td>
+                                    <%= book.status %>
+                                </td>
+                                <td>
+                                    <% if (book.status==='issued' ) { %>
+                                        <form action="/markReturned" method="POST">
+                                            <input type="hidden" name="issue_id" value="<%= book.issue_id %>">
+                                            <button type="submit" class="btn-return">Mark Returned</button>
+                                        </form>
+                                        <% } else { %>
+                                            <span class="returned-text">✔ Returned</span>
+                                            <% } %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a id="prevBtn" onclick="prevPage()">⬅ Prev</a>
+                    <a id="pageInfo" class="active">Page 1</a>
+                    <a id="nextBtn" onclick="nextPage()">Next ➡</a>
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/returnBooks.js"></script>
+</body>
+
+</html>

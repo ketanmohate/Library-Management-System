@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Issued Books</title>
+    <link rel="stylesheet" href="/css/viewIssuedBooks.css" />
+    <script src="/js/viewIssuedBooks.js"></script>
+</head>
+
+<body>
+    <%- include('adminNav.ejs') %>
+
+        <div class="Fcontiner">
+            <div class="fSidebar">
+                <%- include('adminSidebar.ejs') %>
+            </div>
+
+            <div class="fMainContent">
+
+                <div class="form-wrapper">
+
+                    <h2 class="page-title">📚 List of Issued Books</h2>
+
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search Issued Books">
+                    </div>
+
+                    <!-- Table -->
+                    <table class="issued-books-table" id="issuedBooksTable">
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Book Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Issued To</th>
+                                <th>Email</th>
+                                <th>Issue Date</th>
+                                <th>Return Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <% issuedBooks.forEach((issue, index)=> { %>
+                                <tr>
+                                    <td>
+                                        <%= index + 1 %>
+                                    </td>
+                                    <td>
+                                        <%= issue.book_title %>
+                                    </td>
+                                    <td>
+                                        <%= issue.author %>
+                                    </td>
+                                    <td>
+                                        <%= issue.category_name %>
+                                    </td>
+                                    <td>
+                                        <%= issue.user_name %>
+                                    </td>
+                                    <td>
+                                        <%= issue.email %>
+                                    </td>
+                                    <td>
+                                        <%= issue.issue_date.toISOString().split('T')[0] %>
+                                    </td>
+                                    <td>
+                                        <%= issue.return_date.toISOString().split('T')[0] %>
+                                    </td>
+                                    <td>
+                                        <form action="/updateIssueStatus" method="POST" class="status-update-form">
+                                            <input type="hidden" name="issue_id" value="<%= issue.issue_id %>">
+
+                                            <select name="status">
+                                                <option value="issued" <%=issue.status==="issued" ? "selected" : "" %>
+                                                    >Issued</option>
+                                                <option value="returned" <%=issue.status==="returned" ? "selected" : ""
+                                                    %>
+                                                    >Returned</option>
+                                                <option value="overdue" <%=issue.status==="overdue" ? "selected" : "" %>
+                                                    >Overdue</option>
+                                            </select>
+
+                                            <button type="submit">Update</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination Controls -->
+                    <div class="pagination">
+                        <a id="prevBtn" onclick="prevPage()">⬅ Prev</a>
+                        <a id="pageInfo" class="active">Page 1</a>
+                        <a id="nextBtn" onclick="nextPage()">Next ➡</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

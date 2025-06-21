@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issued Books</title>
+    <!-- <link rel="stylesheet" href="/css/userIssuedBooks.css"/> -->
+    <link rel="stylesheet" href="/public/css/userHistory.css" />
+</head>
+
+<body>
+    <%-include('userNavbar.ejs') %>
+
+        <div class="Fcontiner">
+
+            <div class="fSidebar">
+                <%-include('userSidebar.ejs') %>
+            </div>
+            <div class="fMainContent">
+
+
+
+                <h2 class="page-title">📚 List of Issued Books</h2>
+
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search Issued Books">
+                </div>
+
+                <!-- Table -->
+                <table class="issued-books-table" id="issuedBooksTable">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                            <th>Book Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Issue Date</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <% issuedBooks.forEach((issue, index)=> { %>
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <%= issue.bookName %>
+                                </td>
+                                <td>
+                                    <%= issue.authorName %>
+                                </td>
+                                <td>
+                                    <%= issue.categoryName %>
+                                </td>
+                                <td>
+                                    <%= issue.issue_date.toISOString().split('T')[0] %>
+                                </td>
+                                <td>
+                                    <%= issue.return_date.toISOString().split('T')[0] %>
+                                </td>
+                                <td>
+                                    <%= issue.status%>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+
+                <!-- Pagination Controls -->
+                <div class="pagination">
+                    <a id="prevBtn" onclick="prevPage()">⬅ Prev</a>
+                    <a id="pageInfo" class="active">Page 1</a>
+                    <a id="nextBtn" onclick="nextPage()">Next ➡</a>
+                </div>
+
+
+            </div>
+        </div>
+
+</body>
+
+</html>

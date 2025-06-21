@@ -54,7 +54,7 @@ body {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #44556a;
+  background: #0b1824;
   color: #fff;
 }
 
@@ -80,11 +80,102 @@ body {
   color: white;
 }
 
-.error{
+.error {
   padding-top: 5px;
   display: flex;
   color: red;
-  font-size: small;
-  justify-content: center;
-  align-items: center;
+  font-size: 13px;  
 }
+
+.success-msg {
+  color: rgb(0, 255, 0);
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+}
+
+.error-msg {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+}
+
+/* Extra small devices (phones, up to 575px) */
+@media (max-width: 575.98px) {
+  .Fcontiner {
+    grid-template-columns: 1fr;
+  }
+
+  .form-wrapper {
+    margin: 10px;
+    padding: 1rem;
+    width: 90%;
+  }
+
+  .form-heading {
+    font-size: 1.4rem;
+  }
+
+  .student-form .form-group input {
+    font-size: 14px;
+    padding: 0.4rem;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+}
+
+/* Small devices (phones to tablets: 576px - 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .Fcontiner {
+    grid-template-columns: 1fr;
+  }
+
+  .form-wrapper {
+    width: 85%;
+    margin: 15px auto;
+  }
+
+  .form-heading {
+    font-size: 1.6rem;
+  }
+}
+
+/* Medium devices (tablets to small laptops: 768px - 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .Fcontiner {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .form-wrapper {
+    width: 70%;
+    margin: 20px auto;
+  }
+}
+
+/* Large devices (desktops: 992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .Fcontiner {
+    grid-template-columns: 250px 1fr;
+  }
+
+  .form-wrapper {
+    width: 60%;
+  }
+}
+
+/* Extra large devices (large desktops: 1200px and up) */
+@media (min-width: 1200px) {
+  .Fcontiner {
+    grid-template-columns: 300px 1fr;
+  }
+
+  .form-wrapper {
+    width: 500px;
+  }
+}
+
+

@@ -9,6 +9,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #244452, #203a43);
+  height: 100vh;
 }
 
 .Fcontiner {
@@ -40,25 +41,25 @@ body {
   color: #00d9ff;
 }
 
-.student-form .form-group {
+.form-wrapper .form-group {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 }
 
-.student-form .form-group label {
+.form-wrapper .form-group label {
   margin-bottom: 0.5rem;
 }
 
-.student-form .form-group input {
+.form-wrapper .form-group input {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #44556a;
+  background: #0b1824;
   color: #fff;
 }
 
-.student-form .form-group input:focus {
+.form-wrapper .form-group input:focus {
   border-color: #00d9ff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 217, 255, 0.3);
@@ -145,11 +146,31 @@ body {
 }
 
 /* Error Message */
+
 .error {
   padding-top: 5px;
   display: flex;
   color: red;
-  font-size: small;
+  font-size: 13px;
+}
+
+.success-msg {
+  color: rgb(0, 255, 0);
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.error-msg {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

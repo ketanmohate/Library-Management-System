@@ -63,11 +63,50 @@
         </h2>
         <div id="booksMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
           <div class="accordion-body">
-            <a href="#" class="dropdown-link"><i class="bi bi-plus-circle me-2"></i>Add Book</a>
-            <a href="#" class="dropdown-link"><i class="bi bi-journals me-2"></i>View Books</a>
+            <a href="/addBookForm" class="dropdown-link"><i class="bi bi-plus-circle me-2"></i>Add Book</a>
+            <a href="/viewBooks" class="dropdown-link"><i class="bi bi-journals me-2"></i>View Books</a>
           </div>
         </div>
       </div>
+
+      <!-- issue Book -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#issueBookMenu">
+            <i class="bi bi-journal-arrow-up me-2"></i> Issue Book
+          </button>
+        </h2>
+        <div id="issueBookMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+          <div class="accordion-body">
+            <a href="/issueBookForm" class="dropdown-link"><i class="bi bi-plus-circle me-2"></i>Issue Book</a>
+            <a href="/viewIssuedBooks" class="dropdown-link"><i class="bi bi-card-list me-2"></i>View Issued Books</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Return Book -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#returnBookMenu">
+            <i class="bi bi-journal-arrow-down me-2"></i> Return Book
+          </button>
+        </h2>
+        <div id="returnBookMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+          <div class="accordion-body">
+            <a href="/returnBookPage" class="dropdown-link">
+              <i class="bi bi-arrow-counterclockwise me-2"></i>Return Book
+            </a>
+            <a href="/viewReturnedBooks" class="dropdown-link">
+              <i class="bi bi-card-checklist me-2"></i>View Returned Books
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   </div>
 

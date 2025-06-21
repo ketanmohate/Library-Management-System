@@ -1,5 +1,10 @@
 let routers = require("express");
-let homectrl = require("../controllers/homeCtrl");
+let upload = require("../middleware/multer.js")
+let homectrl = require("../controllers/homeCtrl.js");
+const issueCtrl = require("../controllers/issueCtrl.js");
+// const { getStudLogin } = require("../models/studLoginModels.js");
+
+const studLoginCtrl = require("../controllers/studLoginCtrl.js");
 
 let router = routers.Router();
 
@@ -11,49 +16,85 @@ router.get("/about",homectrl.about);
 
 router.post("/userLogin",homectrl.userLogin);
 
-router.get("/viewAllBooks",homectrl.viewAllBooks);
+router.get("/dashbord",homectrl.dashbord);
 
-router.get("/addSudentPage",homectrl.addSudentPage);
+
+
+// Start Student
 
 router.post("/addStudent",homectrl.addStudent);
 
-
-
-router.get("/dashbord",homectrl.dashbord);
-
-// for Student
 router.get("/addSudentPage",homectrl.addSudentPage);
 
 router.get("/viewstud",homectrl.Viewstudent);
 
 router.get("/searchStudent",homectrl.searchStud);
 
-router.get("/deleteStudent",homectrl.deleteStud);
+router.get("/deleteStudent", homectrl.deleteStud);
 
 router.get("/beforeUpdateStud",homectrl.beforeupdateStud);
 
 router.post("/afterUpdateStud",homectrl.afterupdateStud);
 
-// for Categorie
+// End studet
+
+
+
+
+// Start Categorie
 router.get("/categorie",homectrl.categories);
 
 router.post('/addcategorie', homectrl.addcategories);
 
-router.get('/viewcategorie',homectrl.Viewcategorie)
+router.get('/viewcategorie',homectrl.Viewcategorie);
+
+router.get("/beforeUpdateCat",homectrl.beforeUpdateCat);
+
+router.post("/afterUpdateCat",homectrl.afterUpdateCat);
 
 router.get("/deleteCategores",homectrl.deleteCat);
 
+router.get("/getCategories",homectrl.getCategories);
 
-router.get("/beforeUpdateCat",homectrl.beforeupdateCat);
-
-// router.post("/afterUpdateStud",homectrl.afterupdateStud);
+// End Categorie
 
 
-// for books
-router.get("/books", async (req, res) => {
-  const search = req.query.search || "";
-  const books = await LMSmodels.getFilteredBooks(search);
-  res.render("about.ejs", { books });
-});
+
+// Start Books
+
+router.get("/addBookForm",homectrl.addBookForm);
+
+router.post("/addBook", upload.single("image"), homectrl.addBook);
+
+router.get("/viewBooks",homectrl.viewBooks);
+
+router.post("/deleteBook", homectrl.deleteBook);
+
+router.get("/beforeUpdateBook",homectrl.beforeUpdateBook);
+
+router.post("/afterUpdateBook", upload.single("image"), homectrl.afterUpdateBook);
+
+router.get("/searchBooks",homectrl.searchBooks);
+
+// End Books
+
+
+// Start User Student
+
+router.get("/userDashboard",studLoginCtrl.userDashboard);
+
+router.get("/userProfile",studLoginCtrl.userProfile);
+
+router.get("/userViewBooks",studLoginCtrl.userViewBooks);
+
+router.get("/showStudIssuedBook",studLoginCtrl.showStudIssuedBook);
+
+router.get("/userHistory",studLoginCtrl.userHistory);
+
+// End User Student
+
+
+
+
 
 module.exports = router;
